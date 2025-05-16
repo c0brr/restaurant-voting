@@ -22,14 +22,11 @@ public class Menu extends AbstractBaseEntity {
     private LocalDate date = LocalDate.now();
 
     @OneToMany
+    @JoinColumn(name = "menu_id")
     private List<Dish> dishes;
 
     @ManyToOne
     private Restaurant restaurant;
-
-    public Menu(Integer id) {
-        super(id);
-    }
 
     public String toString() {
         return "Menu:" + id;

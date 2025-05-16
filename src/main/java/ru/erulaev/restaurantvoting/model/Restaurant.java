@@ -1,9 +1,6 @@
 package ru.erulaev.restaurantvoting.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +17,15 @@ import java.util.Set;
 public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany
+    @JoinColumn(name = "restaurant_id")
     private List<Menu> menus;
 
     @OneToMany
+    @JoinColumn(name = "restaurant_id")
     private Set<Vote> votes;
 
-    public Restaurant(Integer id, String name) {
-        super(id, name);
+    public Restaurant(String name) {
+        super(name);
         this.name = name;
 
     }

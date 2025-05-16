@@ -4,13 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
@@ -19,11 +17,6 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     @NotBlank
     @Size(max = 128)
     protected String name;
-
-    protected AbstractNamedEntity(Integer id, String name) {
-        super(id);
-        this.name = name;
-    }
 
     @Override
     public String toString() {

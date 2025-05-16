@@ -46,10 +46,11 @@ public class User extends AbstractNamedEntity {
     private Set<Role> roles = EnumSet.noneOf(Role.class);
 
     @OneToMany
+    @JoinColumn(name = "user_id")
     private Set<Vote> votes = new HashSet<>();
 
-    public User(Integer id, String name, String email, String password, Set<Role> roles) {
-        super(id, name);
+    public User(String name, String email, String password, Set<Role> roles) {
+        super(name);
         this.email = email;
         this.password = password;
         this.roles = roles;

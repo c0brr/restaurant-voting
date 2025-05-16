@@ -1,18 +1,16 @@
 package ru.erulaev.restaurantvoting.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "dish")
-@NoArgsConstructor
+@Table(name = "dish", uniqueConstraints = @UniqueConstraint(columnNames = {"menu_id", "name"}))
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Dish extends AbstractNamedEntity {
@@ -25,8 +23,9 @@ public class Dish extends AbstractNamedEntity {
     @ManyToOne
     private Menu menu;
 
-    public Dish(Integer id, String name) {
-        super(id, name);
+    public Dish(String name, int price) {
+        super(name);
+        this.price = price;
     }
 
     @Override
