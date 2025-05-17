@@ -36,7 +36,7 @@ public class User extends AbstractNamedEntity implements Serializable {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @NotBlank
+//    @NotBlank
     @Size(max = 128)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

@@ -26,7 +26,6 @@ public class Vote extends AbstractBaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     private Restaurant restaurant;
 
     public String toString() {
