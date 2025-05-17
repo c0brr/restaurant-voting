@@ -27,7 +27,6 @@ public class Restaurant extends AbstractNamedEntity {
     public Restaurant(String name) {
         super(name);
         this.name = name;
-
     }
 
     public String toString() {

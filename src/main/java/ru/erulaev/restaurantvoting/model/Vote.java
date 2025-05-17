@@ -1,5 +1,6 @@
 package ru.erulaev.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -16,14 +17,16 @@ import java.time.LocalDateTime;
 @Setter
 public class Vote extends AbstractBaseEntity {
 
-    @Column(name = "registered", nullable = false)
+    @Column(name = "registered", nullable = false, columnDefinition = "datetime default now()")
     @NotNull
     private LocalDateTime registered = LocalDateTime.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Restaurant restaurant;
 
     public String toString() {

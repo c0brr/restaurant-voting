@@ -1,6 +1,6 @@
 package ru.erulaev.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -48,7 +48,7 @@ public class User extends AbstractNamedEntity {
 
     @OneToMany
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    @JsonManagedReference
     private Set<Vote> votes = new HashSet<>();
 
     public User(String name, String email, String password, Set<Role> roles) {
