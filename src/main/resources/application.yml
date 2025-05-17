@@ -23,3 +23,7 @@ spring:
     visibility.setter: none
     visibility.is-getter: none
     default-property-inclusion: non_empty
+logging:
+  level:
+    root: WARN
+    ru.erulaev.restaurantvoting: DEBUG
