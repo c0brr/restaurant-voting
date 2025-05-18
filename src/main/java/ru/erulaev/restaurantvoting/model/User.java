@@ -2,6 +2,7 @@ package ru.erulaev.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -56,6 +57,7 @@ public class User extends AbstractNamedEntity implements Serializable {
     @OneToMany
     @JoinColumn(name = "user_id")
     @JsonManagedReference
+    @Schema(hidden = true)
     private Set<Vote> votes = new HashSet<>();
 
     public User(String name, String email, String password, Set<Role> roles) {

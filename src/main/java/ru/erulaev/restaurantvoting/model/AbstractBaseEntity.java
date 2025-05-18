@@ -1,5 +1,6 @@
 package ru.erulaev.restaurantvoting.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.domain.Persistable;
@@ -25,6 +26,7 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     }
 
     @Override
+    @Schema(hidden = true)
     public boolean isNew() {
         return id == null;
     }
