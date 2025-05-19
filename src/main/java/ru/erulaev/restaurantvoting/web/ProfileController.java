@@ -2,7 +2,6 @@ package ru.erulaev.restaurantvoting.web;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.model.Role;
 import ru.erulaev.restaurantvoting.model.User;
-import ru.erulaev.restaurantvoting.repository.UserRepository;
 
 import java.net.URI;
 import java.util.Set;
@@ -22,11 +20,9 @@ import static ru.erulaev.restaurantvoting.util.ValidationUtil.checkIsNew;
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
-@Slf4j
-public class ProfileController {
+public class ProfileController extends AbstractUserController {
 
     static final String REST_URL = "/api/profile";
-    private final UserRepository userRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@AuthenticationPrincipal AuthUser authUser) {
@@ -37,8 +33,7 @@ public class ProfileController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
-        log.info("delete {}", authUser);
-        userRepository.deleteById(authUser.id());
+        super.delete(authUser.id());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
