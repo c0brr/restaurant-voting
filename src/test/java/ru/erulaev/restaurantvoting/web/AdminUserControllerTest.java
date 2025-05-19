@@ -5,11 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.erulaev.restaurantvoting.UserTestUtil;
+import ru.erulaev.restaurantvoting.model.User;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.erulaev.restaurantvoting.UserTestUtil.*;
+import static ru.erulaev.restaurantvoting.util.JsonUtil.writeValue;
 import static ru.erulaev.restaurantvoting.web.AdminUserController.REST_URL;
 
 public class AdminUserControllerTest extends AbstractControllerTest {
@@ -22,16 +27,18 @@ public class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + USER_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonMatcher(user, UserTestUtil::assertEquals));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
+        List<User> actualUsers = asList(perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)).andReturn());
+        assertEquals(actualUsers, admin, guest, user);
     }
 
     @Test
@@ -40,7 +47,8 @@ public class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/by-email?email=" + ADMIN_MAIL))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonMatcher(admin, UserTestUtil::assertEquals));
     }
 
     @Test
@@ -57,5 +65,30 @@ public class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         Assertions.assertFalse(userRepository.findById(USER_ID).isPresent());
         Assertions.assertTrue(userRepository.findById(ADMIN_ID).isPresent());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void create() throws Exception {
+        User newUser = UserTestUtil.getNew();
+        User created = asUser(perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(newUser)))
+                .andExpect(status().isCreated()).andReturn());
+        int newId = created.id();
+        newUser.setId(newId);
+        UserTestUtil.assertEquals(created, newUser);
+        UserTestUtil.assertEquals(created, userRepository.findById(newId).orElseThrow());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void update() throws Exception {
+        User updated = UserTestUtil.getUpdated();
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(updated)))
+                .andExpect(status().isNoContent());
+        UserTestUtil.assertEquals(updated, userRepository.findById(USER_ID).orElseThrow());
     }
 }

@@ -1,5 +1,7 @@
 package ru.erulaev.restaurantvoting.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import ru.erulaev.restaurantvoting.model.Role;
 import ru.erulaev.restaurantvoting.model.User;
 import ru.erulaev.restaurantvoting.repository.UserRepository;
+import ru.erulaev.restaurantvoting.util.JsonUtil;
 import ru.erulaev.restaurantvoting.web.AuthUser;
 
 import java.util.Optional;
@@ -31,6 +34,12 @@ public class SecurityConfig {
 
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
+
+    @PostConstruct
+    void setMapper() {
+        JsonUtil.setObjectMapper(objectMapper);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

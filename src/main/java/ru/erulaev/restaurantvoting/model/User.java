@@ -1,7 +1,6 @@
 package ru.erulaev.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -15,10 +14,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -39,7 +35,7 @@ public class User extends AbstractNamedEntity implements Serializable {
     @Column(name = "password", nullable = false)
 //    @NotBlank
     @Size(max = 128)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
@@ -60,11 +56,20 @@ public class User extends AbstractNamedEntity implements Serializable {
     @Schema(hidden = true)
     private Set<Vote> votes = new HashSet<>();
 
-    public User(String name, String email, String password, Set<Role> roles) {
+    public User(String name, String email, String password, Collection<Role> roles) {
         super(name);
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        setRoles(roles);
+    }
+
+    public User(Integer id, String name, String email, String password, Role... roles) {
+        this(name, email, password, Arrays.asList(roles));
+        this.id = id;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles.isEmpty() ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     @Override
