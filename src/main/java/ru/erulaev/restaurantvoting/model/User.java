@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.erulaev.restaurantvoting.util.validation.NoHtml;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -30,6 +31,7 @@ public class User extends AbstractNamedEntity implements Serializable {
     @Email
     @NotBlank
     @Size(max = 128)
+    @NoHtml   // https://stackoverflow.com/questions/17480809
     private String email;
 
     @Column(name = "password", nullable = false)
