@@ -1,10 +1,7 @@
 package ru.erulaev.restaurantvoting.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.domain.Persistable;
-import org.springframework.util.Assert;
 
 import static ru.erulaev.restaurantvoting.util.HibernateProxyHelper.getClassWithoutInitializingProxy;
 
@@ -14,22 +11,11 @@ import static ru.erulaev.restaurantvoting.util.HibernateProxyHelper.getClassWith
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public abstract class AbstractBaseEntity implements Persistable<Integer> {
+public abstract class AbstractBaseEntity implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
-
-    public int id() {
-        Assert.notNull(id, "Entity must have id");
-        return id;
-    }
-
-    @Override
-    @Schema(hidden = true)
-    public boolean isNew() {
-        return id == null;
-    }
 
     //    https://stackoverflow.com/questions/1638723
     @Override

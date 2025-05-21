@@ -22,7 +22,7 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class User extends AbstractNamedEntity implements Serializable {
+public class User extends AbstractNamedEntity implements HasIdAndEmail, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
