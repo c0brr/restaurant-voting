@@ -2,6 +2,7 @@ spring:
   application:
     name: restaurant-voting
   jpa:
+    # https://stackoverflow.com/a/67678945/548473
     defer-datasource-initialization: true
     show-sql: true
     open-in-view: false
@@ -23,6 +24,9 @@ spring:
     visibility.setter: none
     visibility.is-getter: none
     default-property-inclusion: non_empty
+  cache:
+    cache-names: users
+    caffeine.spec: maximumSize=5000,expireAfterAccess=60s
 logging:
   level:
     root: WARN
@@ -32,3 +36,4 @@ server.servlet:
     charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
     enabled: true # Enable http encoding support
     force: true
+springdoc.swagger-ui.path: /
