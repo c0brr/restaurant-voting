@@ -36,11 +36,6 @@ public class SecurityConfig {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private void setMapper(ObjectMapper objectMapper) {
-        JsonUtil.setMapper(objectMapper);
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PASSWORD_ENCODER;
