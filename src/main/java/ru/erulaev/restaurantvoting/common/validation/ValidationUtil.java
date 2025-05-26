@@ -7,7 +7,7 @@ import ru.erulaev.restaurantvoting.common.error.IllegalRequestDataException;
 @UtilityClass
 public class ValidationUtil {
 
-    public static void checkIsNew(HasId bean) {
+    public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
             throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be new (id=null)");
         }

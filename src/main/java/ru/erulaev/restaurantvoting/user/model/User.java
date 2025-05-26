@@ -11,6 +11,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.lang.NonNull;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
@@ -57,6 +59,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     @Schema(hidden = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Vote> votes = new HashSet<>();
 
     public User(User u) {

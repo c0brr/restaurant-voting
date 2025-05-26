@@ -7,15 +7,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.User;
 
 import java.net.URI;
 import java.util.List;
 
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.assureIdConsistent;
-import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkIsNew;
+import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +41,7 @@ public class AdminUserController extends AbstractUserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         log.info("create {}", user);
-        checkIsNew(user);
+        checkNew(user);
         user = userRepository.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -68,5 +70,15 @@ public class AdminUserController extends AbstractUserController {
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
         log.info("getByEmail {}", email);
         return ResponseEntity.of(userRepository.findByEmailIgnoreCase(email));
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
+        log.info(enabled ? "enable {}" : "disable {}", id);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Entity with id=" + id + " not found"));
+        user.setEnabled(enabled);
     }
 }

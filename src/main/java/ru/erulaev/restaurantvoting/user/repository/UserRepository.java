@@ -2,8 +2,10 @@ package ru.erulaev.restaurantvoting.user.repository;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.User;
 
 import java.util.Optional;
@@ -16,6 +18,19 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     @Cacheable("users")
     Optional<User> findByEmailIgnoreCase(String email);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM User u WHERE u.id=:id")
+    int delete(int id);
+
+    //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)
+    @SuppressWarnings("all") // transaction invoked
+    default void deleteExisted(int id) {
+        if (delete(id) == 0) {
+            throw new NotFoundException("Entity with id=" + id + " not found");
+        }
+    }
 
     @Transactional
     default User prepareAndSave(User user) {

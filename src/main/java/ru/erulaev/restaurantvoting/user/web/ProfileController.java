@@ -7,17 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
-import ru.erulaev.restaurantvoting.user.model.Role;
+import ru.erulaev.restaurantvoting.user.UsersUtil;
 import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.to.UserTo;
 
 import java.net.URI;
-import java.util.Set;
 
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.assureIdConsistent;
-import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkIsNew;
+import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,28 +42,23 @@ public class ProfileController extends AbstractUserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<User> register(@Valid @RequestBody User user) {
-        log.info("register {}", user);
-        checkIsNew(user);
-        user.setRoles(Set.of(Role.USER));
-        user = userRepository.prepareAndSave(user);
+    public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
+        log.info("register {}", userTo);
+        checkNew(userTo);
+        User created = userRepository.prepareAndSave(UsersUtil.createNewFromTo(userTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL)
-                .build().toUri();
-        return ResponseEntity.created(uriOfNewResource).body(user);
+                .path(REST_URL).build().toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", key = "#authUser.username")
-    public void update(@Valid @RequestBody User user, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("update {} to {}", authUser, user);
-        User oldUser = authUser.getUser();
-        assureIdConsistent(user, oldUser.id());
-        user.setRoles(oldUser.getRoles());
-        if (user.getPassword() == null) {
-            user.setPassword(oldUser.getPassword());
-        }
-        userRepository.prepareAndSave(user);
+    @Transactional
+    public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
+        log.info("update {} with id={}", userTo, authUser.id());
+        assureIdConsistent(userTo, authUser.id());
+        User user = authUser.getUser();
+        userRepository.prepareAndSave(UsersUtil.updateFromTo(user, userTo));
     }
 }
