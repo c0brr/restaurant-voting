@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
-import ru.erulaev.restaurantvoting.common.model.AbstractNamedEntity;
+import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 import java.util.*;
@@ -22,7 +22,7 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class User extends AbstractNamedEntity implements HasIdAndEmail {
+public class User extends NamedEntity implements HasIdAndEmail {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email

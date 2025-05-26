@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.erulaev.restaurantvoting.common.model.AbstractNamedEntity;
+import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
 import java.util.List;
 import java.util.Set;
@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class Restaurant extends AbstractNamedEntity {
+public class Restaurant extends NamedEntity {
 
     @OneToMany
     @JoinColumn(name = "restaurant_id")

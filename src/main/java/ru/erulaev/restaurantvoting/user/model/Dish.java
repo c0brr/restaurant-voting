@@ -7,14 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
-import ru.erulaev.restaurantvoting.common.model.AbstractNamedEntity;
+import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
 @Entity
 @Table(name = "dish", uniqueConstraints = @UniqueConstraint(columnNames = {"menu_id", "name"}))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class Dish extends AbstractNamedEntity {
+public class Dish extends NamedEntity {
 
     @Column(name = "price", nullable = false)
     @Range(min = 1, max = 100000)

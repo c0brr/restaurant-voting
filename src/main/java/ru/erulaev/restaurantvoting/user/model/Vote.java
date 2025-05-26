@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.erulaev.restaurantvoting.common.model.AbstractBaseEntity;
+import ru.erulaev.restaurantvoting.common.model.BaseEntity;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class Vote extends AbstractBaseEntity {
+public class Vote extends BaseEntity {
 
     @Column(name = "registered", nullable = false, columnDefinition = "datetime default now()")
     @NotNull

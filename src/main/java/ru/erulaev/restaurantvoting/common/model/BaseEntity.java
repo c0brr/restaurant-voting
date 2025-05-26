@@ -13,7 +13,7 @@ import static ru.erulaev.restaurantvoting.common.util.HibernateProxyHelper.getCl
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public abstract class AbstractBaseEntity implements HasId {
+public abstract class BaseEntity implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public abstract class AbstractBaseEntity implements HasId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClassWithoutInitializingProxy(this) != getClassWithoutInitializingProxy(o)) return false;
-        return getId() != null && getId().equals(((AbstractBaseEntity) o).getId());
+        return getId() != null && getId().equals(((BaseEntity) o).getId());
     }
 
     @Override

@@ -12,13 +12,18 @@ import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public abstract class AbstractNamedEntity extends AbstractBaseEntity {
+public abstract class NamedEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     @NotBlank
     @Size(max = 128)
     @NoHtml   // https://stackoverflow.com/questions/17480809
     protected String name;
+
+    public NamedEntity(Integer id, String name) {
+        super(id);
+        this.name = name;
+    }
 
     @Override
     public String toString() {
