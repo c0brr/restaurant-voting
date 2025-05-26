@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
@@ -37,6 +38,9 @@ public class User extends NamedEntity implements HasIdAndEmail {
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
     private Date registered = new Date();
@@ -55,20 +59,29 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @Schema(hidden = true)
     private Set<Vote> votes = new HashSet<>();
 
-    public User(String name, String email, String password, Collection<Role> roles) {
-        super(name);
-        this.email = email;
-        this.password = password;
-        setRoles(roles);
+    public User(User u) {
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
     public User(Integer id, String name, String email, String password, Role... roles) {
-        this(name, email, password, Arrays.asList(roles));
-        this.id = id;
+        this(id, name, email, password, true, new Date(), Arrays.asList(roles));
+    }
+
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, @NonNull Collection<Role> roles) {
+        super(id, name);
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+        this.registered = registered;
+        setRoles(roles);
     }
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles.isEmpty() ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
+
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
     }
 
     @Override

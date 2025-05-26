@@ -6,9 +6,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import ru.erulaev.restaurantvoting.app.AuthUtil;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
-import ru.erulaev.restaurantvoting.app.SecurityUtil;
 
 @Component
 @AllArgsConstructor
@@ -39,7 +39,7 @@ public class UniqueMailValidator implements org.springframework.validation.Valid
                             // Workaround for update with user.id=null in request body
                             // ValidationUtil.assureIdConsistent called after this validation
                             String requestURI = request.getRequestURI();
-                            if (requestURI.endsWith("/" + dbId) || (dbId == SecurityUtil.authId() && requestURI.contains("/profile")))
+                            if (requestURI.endsWith("/" + dbId) || (dbId == AuthUtil.get().id() && requestURI.contains("/profile")))
                                 return;
                         }
                         errors.rejectValue("email", "", EXCEPTION_DUPLICATE_EMAIL);
