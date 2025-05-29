@@ -42,6 +42,7 @@ import static ru.erulaev.restaurantvoting.common.error.ErrorType.*;
 @Getter
 @Slf4j
 public class RestExceptionHandler {
+
     public static final String ERR_PFX = "ERR# ";
 
     private final MessageSource messageSource;

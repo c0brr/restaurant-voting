@@ -1,7 +1,6 @@
 package ru.erulaev.restaurantvoting.user.web;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +21,6 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.check
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor
 public class ProfileController extends AbstractUserController {
 
     static final String REST_URL = "/api/profile";

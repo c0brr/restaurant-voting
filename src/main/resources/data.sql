@@ -1,16 +1,21 @@
 INSERT INTO USERS (email, name, password)
-VALUES ('user@gmail.com', 'User_First', '{noop}password'),
-       ('admin@yandex.ru', 'Admin_First', '{noop}admin'),
-       ('guest@gmail.com', 'Guest_First', '{noop}guest');
+VALUES ('user1@gmail.com', 'First_User', '{noop}password'),
+       ('user2@gmail.com', 'Second_User', '{noop}password2'),
+       ('user3@yandex.ru', 'Third_User', '{noop}password3'),
+       ('admin@yandex.ru', 'First_Admin', '{noop}admin'),
+       ('guest@gmail.com', 'First_Guest', '{noop}guest');
 
 INSERT INTO USER_ROLE (role, user_id)
 VALUES ('USER', 1),
-       ('ADMIN', 2),
-       ('USER', 2);
+       ('USER', 2),
+       ('USER', 3),
+       ('USER', 4),
+       ('ADMIN', 4);
 
 INSERT INTO RESTAURANT (name)
-VALUES ('Restaurant_First'),
-       ('Restaurant_Second');
+VALUES ('First_Restaurant'),
+       ('Second_Restaurant'),
+       ('Third_Restaurant');
 
 INSERT INTO VOTE (restaurant_id, user_id)
 VALUES (1, 2),

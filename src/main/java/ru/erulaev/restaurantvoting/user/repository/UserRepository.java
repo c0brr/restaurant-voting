@@ -1,6 +1,7 @@
 package ru.erulaev.restaurantvoting.user.repository;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,12 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 import static ru.erulaev.restaurantvoting.app.config.SecurityConfig.PASSWORD_ENCODER;
 
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Integer> {
+
+    List<User> findByNameContainingIgnoreCase(String name, Sort sort);
 
     @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     @Cacheable("users")

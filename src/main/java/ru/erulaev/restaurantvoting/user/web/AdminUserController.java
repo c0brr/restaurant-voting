@@ -1,7 +1,6 @@
 package ru.erulaev.restaurantvoting.user.web;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -21,15 +20,15 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.check
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor
 public class AdminUserController extends AbstractUserController {
 
+    private static final Sort SORT = Sort.by(Sort.Direction.ASC, "name", "email");
     static final String REST_URL = "/api/admin/users";
 
     @GetMapping
     public List<User> getAll() {
         log.info("getAll");
-        return userRepository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
+        return userRepository.findAll(SORT);
     }
 
     @GetMapping("/{id}")
@@ -70,6 +69,12 @@ public class AdminUserController extends AbstractUserController {
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
         log.info("getByEmail {}", email);
         return ResponseEntity.of(userRepository.findByEmailIgnoreCase(email));
+    }
+
+    @GetMapping("/contains-name")
+    public List<User> getByContainingName(@RequestParam String name) {
+        log.info("getByContainingName {}", name);
+        return userRepository.findByNameContainingIgnoreCase(name, SORT);
     }
 
     @PatchMapping("/{id}")

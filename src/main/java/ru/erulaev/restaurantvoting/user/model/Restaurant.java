@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
 import java.util.List;
@@ -19,10 +21,13 @@ public class Restaurant extends NamedEntity {
 
     @OneToMany
     @JoinColumn(name = "restaurant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OrderBy("date DESC")
     private List<Menu> menus;
 
     @OneToMany
     @JoinColumn(name = "restaurant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Vote> votes;
 
     public Restaurant(String name) {
