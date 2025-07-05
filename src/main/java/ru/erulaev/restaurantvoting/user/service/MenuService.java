@@ -1,0 +1,50 @@
+package ru.erulaev.restaurantvoting.user.service;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.erulaev.restaurantvoting.common.error.NotFoundException;
+import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.model.Restaurant;
+import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
+import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
+import ru.erulaev.restaurantvoting.user.to.MenuTo;
+import ru.erulaev.restaurantvoting.user.util.MenusUtil;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class MenuService {
+
+    private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
+
+    @Transactional
+    public List<MenuTo> getAll(long restaurantId) {
+        List<Menu> menus = menuRepository.getAll(restaurantId);
+        if (menus.isEmpty() && !restaurantRepository.existsById(restaurantId)) {
+            throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
+        }
+        return menus.stream()
+                .map(menu -> MenusUtil.createTo(menu, restaurantId))
+                .toList();
+    }
+
+    public Optional<MenuTo> get(long id, long restaurantId) {
+        return menuRepository.getById(id, restaurantId).map(menu -> MenusUtil.createTo(menu, restaurantId));
+    }
+
+    @Transactional
+    public MenuTo save(Menu menu, long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
+                new NotFoundException("Restaurant with id=" + restaurantId + " not found"));
+        menu.setRestaurant(restaurant);
+        return MenusUtil.createTo(menuRepository.save(menu), restaurantId);
+    }
+
+    public void delete(long id, long restaurantId) {
+        menuRepository.deleteExisted(id, restaurantId);
+    }
+}

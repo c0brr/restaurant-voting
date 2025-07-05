@@ -15,24 +15,23 @@ import java.util.Optional;
 import static ru.erulaev.restaurantvoting.app.config.SecurityConfig.PASSWORD_ENCODER;
 
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByNameContainingIgnoreCase(String name, Sort sort);
 
-    @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     @Cacheable("users")
     Optional<User> findByEmailIgnoreCase(String email);
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
-    int delete(int id);
+    @Query("DELETE FROM User u WHERE u.id = :id")
+    int delete(long id);
 
     //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)
     @SuppressWarnings("all") // transaction invoked
-    default void deleteExisted(int id) {
+    default void deleteExisted(long id) {
         if (delete(id) == 0) {
-            throw new NotFoundException("Entity with id=" + id + " not found");
+            throw new NotFoundException("User with id=" + id + " not found");
         }
     }
 

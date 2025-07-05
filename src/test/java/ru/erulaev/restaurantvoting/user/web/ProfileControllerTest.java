@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
-import ru.erulaev.restaurantvoting.user.UsersUtil;
+import ru.erulaev.restaurantvoting.user.util.UsersUtil;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
 
@@ -54,7 +54,7 @@ class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated());
 
         User created = USER_MATCHER.readFromJson(action);
-        int newId = created.id();
+        long newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
         USER_MATCHER.assertMatch(userRepository.findById(newId)

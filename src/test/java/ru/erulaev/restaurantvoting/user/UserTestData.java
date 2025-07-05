@@ -12,14 +12,14 @@ import java.util.List;
 public class UserTestData {
 
     public static final MatcherFactory.Matcher<User> USER_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password", "votes");
+            MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password");
 
-    public static final int USER_1_ID = 1;
-    public static final int USER_2_ID = 2;
-    public static final int USER_3_ID = 3;
-    public static final int ADMIN_ID = 4;
-    public static final int GUEST_ID = 5;
-    public static final int NOT_FOUND = 100;
+    public static final long USER_1_ID = 1L;
+    public static final long USER_2_ID = 2L;
+    public static final long USER_3_ID = 3L;
+    public static final long ADMIN_ID = 4L;
+    public static final long GUEST_ID = 5L;
+    public static final long NOT_FOUND = 100L;
     public static final String USER_1_MAIL = "user1@gmail.com";
     public static final String ADMIN_MAIL = "admin@yandex.ru";
     public static final String GUEST_MAIL = "guest@gmail.com";

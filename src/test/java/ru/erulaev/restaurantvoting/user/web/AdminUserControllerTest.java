@@ -116,7 +116,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated());
 
         User created = USER_MATCHER.readFromJson(action);
-        int newId = created.id();
+        long newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
         USER_MATCHER.assertMatch(userRepository.findById(newId).orElseThrow(() ->
@@ -208,7 +208,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getAllContainingName() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/contains-name?name=d"))
+        perform(MockMvcRequestBuilders.get(REST_URL + "/by-containing-name?name=d"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(admin, user2, user3));

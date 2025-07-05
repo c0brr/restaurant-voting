@@ -1,8 +1,6 @@
 package ru.erulaev.restaurantvoting.user.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,6 +40,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    @NotNull
     private boolean enabled = true;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
@@ -58,22 +57,16 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles = EnumSet.noneOf(Role.class);
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference
-    @Schema(hidden = true)
-    private Set<Vote> votes = new HashSet<>();
-
     public User(User u) {
         this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
-    public User(Integer id, String name, String email, String password, Role... roles) {
+    public User(Long id, String name, String email, String password, Role... roles) {
         this(id, name, email, password, true, new Date(), Arrays.asList(roles));
     }
 
-    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, @NonNull Collection<Role> roles) {
+    public User(Long id, String name, String email, String password,
+                boolean enabled, Date registered, @NonNull Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;

@@ -20,7 +20,7 @@ public abstract class NamedEntity extends BaseEntity {
     @NoHtml   // https://stackoverflow.com/questions/17480809
     protected String name;
 
-    public NamedEntity(Integer id, String name) {
+    public NamedEntity(Long id, String name) {
         super(id);
         this.name = name;
     }

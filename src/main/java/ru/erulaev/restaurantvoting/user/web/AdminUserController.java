@@ -32,7 +32,7 @@ public class AdminUserController extends AbstractUserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable int id) {
+    public ResponseEntity<User> get(@PathVariable long id) {
         log.info("get {}", id);
         return ResponseEntity.of(userRepository.findById(id));
     }
@@ -52,14 +52,14 @@ public class AdminUserController extends AbstractUserController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", allEntries = true)
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable long id) {
         super.delete(id);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", key = "#user.email")
-    public void update(@Valid @RequestBody User user, @PathVariable int id) {
+    public void update(@Valid @RequestBody User user, @PathVariable long id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         userRepository.prepareAndSave(user);
@@ -71,7 +71,7 @@ public class AdminUserController extends AbstractUserController {
         return ResponseEntity.of(userRepository.findByEmailIgnoreCase(email));
     }
 
-    @GetMapping("/contains-name")
+    @GetMapping("/by-containing-name")
     public List<User> getByContainingName(@RequestParam String name) {
         log.info("getByContainingName {}", name);
         return userRepository.findByNameContainingIgnoreCase(name, SORT);
@@ -80,10 +80,10 @@ public class AdminUserController extends AbstractUserController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
+    public void enable(@PathVariable long id, @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
         User user = userRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("Entity with id=" + id + " not found"));
+                new NotFoundException("User with id=" + id + " not found"));
         user.setEnabled(enabled);
     }
 }

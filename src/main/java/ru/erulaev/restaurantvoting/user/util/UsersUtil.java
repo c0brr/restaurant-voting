@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user;
+package ru.erulaev.restaurantvoting.user.util;
 
 import lombok.experimental.UtilityClass;
 import ru.erulaev.restaurantvoting.user.model.Role;

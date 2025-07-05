@@ -19,12 +19,11 @@ public class UserTo extends NamedTo implements HasIdAndEmail {
     @NoHtml   // https://stackoverflow.com/questions/17480809
     String email;
 
-    //    @NotBlank
+    @NotBlank
     @Size(max = 128)
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String password;
 
-    public UserTo(Integer id, String name, String email, String password) {
+    public UserTo(Long id, String name, String email, String password) {
         super(id, name);
         this.email = email;
         this.password = password;

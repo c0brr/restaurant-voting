@@ -31,7 +31,7 @@ public class UniqueMailValidator implements org.springframework.validation.Valid
             userRepository.findByEmailIgnoreCase(user.getEmail())
                     .ifPresent(dbUser -> {
                         if (request.getMethod().equals("PUT")) {  // UPDATE
-                            int dbId = dbUser.id();
+                            long dbId = dbUser.id();
 
                             // it is ok, if update by ourselves
                             if (user.getId() != null && dbId == user.id()) {

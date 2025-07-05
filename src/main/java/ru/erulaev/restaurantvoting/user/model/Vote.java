@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.erulaev.restaurantvoting.common.model.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -23,7 +25,8 @@ public class Vote extends BaseEntity {
     private LocalDateTime registered = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

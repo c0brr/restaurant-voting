@@ -5,6 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.user.model.Dish;
 
 @Transactional(readOnly = true)
-public interface DishRepository extends JpaRepository<Dish, Integer> {
+public interface DishRepository extends JpaRepository<Dish, Long> {
 
 }

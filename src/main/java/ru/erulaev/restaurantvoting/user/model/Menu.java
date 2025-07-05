@@ -1,32 +1,46 @@
 package ru.erulaev.restaurantvoting.user.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.erulaev.restaurantvoting.common.model.BaseEntity;
 
 import java.time.LocalDate;
-import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = Menu.GET_ALL, query =
+                "SELECT m FROM Menu m WHERE m.restaurant.id = :restaurantId ORDER BY m.date DESC"),
+        @NamedQuery(name = Menu.GET, query =
+                "SELECT m FROM Menu m WHERE m.id = :id AND m.restaurant.id = :restaurantId"),
+        @NamedQuery(name = Menu.DELETE, query =
+                "DELETE FROM Menu m WHERE m.id = :id AND m.restaurant.id = :restaurantId")
+})
 @Entity
-@Table(name = "menu", uniqueConstraints = @UniqueConstraint(columnNames = {"restaurant_id", "date"}))
+@Table(name = "menu",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "uk_restaurant_menu_date"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Menu extends BaseEntity {
 
-    @Column(name = "date", nullable = false, columnDefinition = "date default now()")
+    public static final String GET_ALL = "Menu.getAll";
+    public static final String GET = "Menu.getById";
+    public static final String DELETE = "Menu.delete";
+
+    @Column(name = "date", nullable = false, columnDefinition = "date default now()", updatable = false)
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate date = LocalDate.now();
 
-    @OneToMany
-    @JoinColumn(name = "menu_id")
-    private List<Dish> dishes;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     public String toString() {

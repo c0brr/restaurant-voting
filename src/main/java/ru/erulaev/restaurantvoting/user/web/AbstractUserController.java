@@ -23,7 +23,7 @@ public abstract class AbstractUserController {
         binder.addValidators(emailValidator);
     }
 
-    public void delete(int id) {
+    protected void delete(long id) {
         log.info("delete {}", id);
         userRepository.deleteExisted(id);
     }
