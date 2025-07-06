@@ -1,5 +1,6 @@
 package ru.erulaev.restaurantvoting.user.repository;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +14,10 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+
+    @Cacheable("restaurants")
+    @Query("SELECT r From Restaurant r ORDER BY r.name")
+    List<Restaurant> getAll();
 
     List<Restaurant> findByNameContainingIgnoreCase(String name, Sort sort);
 

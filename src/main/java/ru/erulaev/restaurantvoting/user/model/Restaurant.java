@@ -1,39 +1,30 @@
 package ru.erulaev.restaurantvoting.user.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
-@Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "uk_restaurant_name"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Restaurant extends NamedEntity {
 
-    @OneToMany
-    @JoinColumn(name = "restaurant_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @OrderBy("date DESC")
-    private List<Menu> menus;
-
-    @OneToMany
-    @JoinColumn(name = "restaurant_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Vote> votes;
-
-    public Restaurant(String name) {
-        super(name);
-        this.name = name;
-    }
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Date registered = new Date();
 
     public String toString() {
         return "Restaurant:" + id + '[' + name + ']';

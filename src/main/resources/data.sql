@@ -15,11 +15,14 @@ VALUES ('USER', 1),
 INSERT INTO RESTAURANT (name)
 VALUES ('first_restaurant'),
        ('second_restaurant'),
-       ('third_restaurant');
+       ('third_restaurant'),
+       ('fourth_restaurant');
 
 INSERT INTO VOTE (restaurant_id, user_id)
 VALUES (1, 2),
-       (2, 1);
+       (2, 1),
+       (1, 3),
+       (1, 4);
 
 INSERT INTO MENU (restaurant_id)
 VALUES (1),
