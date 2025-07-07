@@ -35,9 +35,9 @@ public class AdminDishController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DishTo> get(@PathVariable long id, @PathVariable long menuId) {
+    public DishTo get(@PathVariable long id, @PathVariable long menuId) {
         log.info("get {} from menu {}", id, menuId);
-        return ResponseEntity.of(dishService.get(id, menuId));
+        return dishService.get(id, menuId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -19,17 +19,12 @@ import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 import java.util.*;
 
-@NamedQueries({
-        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id = :id")
-})
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class User extends NamedEntity implements HasIdAndEmail {
-
-    public static final String DELETE = "User.delete";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -62,6 +57,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles = EnumSet.noneOf(Role.class);
 
+    @SuppressWarnings("all")
     public User(User u) {
         this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }

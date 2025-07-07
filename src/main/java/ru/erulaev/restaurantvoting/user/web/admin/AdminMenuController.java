@@ -34,9 +34,9 @@ public class AdminMenuController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MenuTo> get(@PathVariable long id, @PathVariable long restaurantId) {
+    public MenuTo get(@PathVariable long id, @PathVariable long restaurantId) {
         log.info("get {} from restaurant {}", id, restaurantId);
-        return ResponseEntity.of(menuService.get(id, restaurantId));
+        return menuService.get(id, restaurantId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

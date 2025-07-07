@@ -12,7 +12,6 @@ import ru.erulaev.restaurantvoting.user.to.MenuTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,15 +31,15 @@ public class MenuService {
                 .toList();
     }
 
-    public Optional<MenuTo> get(long id, long restaurantId) {
-        return menuRepository.get(id, restaurantId).map(menu -> ToConverter.createTo(menu, restaurantId));
+    public MenuTo get(long id, long restaurantId) {
+        return ToConverter.createTo(menuRepository.getExisted(id, restaurantId), restaurantId);
     }
 
     @Transactional
     public MenuTo save(Menu menu, long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
                 new NotFoundException("Restaurant with id=" + restaurantId + " not found"));
-        menu.setRestaurant(restaurant);
+        menu.setParentEntity(restaurant);
         return ToConverter.createTo(menuRepository.save(menu), restaurantId);
     }
 

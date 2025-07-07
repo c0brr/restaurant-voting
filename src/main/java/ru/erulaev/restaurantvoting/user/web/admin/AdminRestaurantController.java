@@ -37,9 +37,9 @@ public class AdminRestaurantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> get(@PathVariable long id) {
+    public Restaurant get(@PathVariable long id) {
         log.info("get {}", id);
-        return ResponseEntity.of(restaurantRepository.findById(id));
+        return restaurantRepository.getExisted(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

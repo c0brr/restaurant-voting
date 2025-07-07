@@ -58,8 +58,4 @@ public class Vote extends BaseEntity {
     public long getRestaurantId() {
         return restaurant.getId();
     }
-
-    public String toString() {
-        return "Vote:" + id;
-    }
 }

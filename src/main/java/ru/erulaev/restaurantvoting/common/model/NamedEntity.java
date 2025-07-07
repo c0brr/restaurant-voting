@@ -9,7 +9,6 @@ import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public abstract class NamedEntity extends BaseEntity {

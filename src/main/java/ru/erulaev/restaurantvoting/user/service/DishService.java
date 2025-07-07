@@ -32,15 +32,15 @@ public class DishService {
                 .toList();
     }
 
-    public Optional<DishTo> get(long id, long menuId) {
-        return dishRepository.get(id, menuId).map(dish -> ToConverter.createTo(dish, menuId));
+    public DishTo get(long id, long menuId) {
+        return ToConverter.createTo(dishRepository.getExisted(id, menuId), menuId);
     }
 
     @Transactional
     public DishTo save(Dish dish, long menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(() ->
                 new NotFoundException("Menu with id=" + menuId + " not found"));
-        dish.setMenu(menu);
+        dish.setParentEntity(menu);
         return ToConverter.createTo(dishRepository.prepareAndSave(dish), menuId);
     }
 

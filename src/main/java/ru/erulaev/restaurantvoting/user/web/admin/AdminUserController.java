@@ -33,9 +33,9 @@ public class AdminUserController extends AbstractUserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable long id) {
+    public User get(@PathVariable long id) {
         log.info("get {}", id);
-        return ResponseEntity.of(userRepository.findById(id));
+        return userRepository.getExisted(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

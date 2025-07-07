@@ -15,11 +15,7 @@ import java.time.LocalDate;
 
 @NamedQueries({
         @NamedQuery(name = Menu.GET_ALL, query =
-                "SELECT m FROM Menu m WHERE m.restaurant.id = :restaurantId ORDER BY m.created DESC"),
-        @NamedQuery(name = Menu.GET, query =
-                "SELECT m FROM Menu m WHERE m.id = :id AND m.restaurant.id = :restaurantId"),
-        @NamedQuery(name = Menu.DELETE, query =
-                "DELETE FROM Menu m WHERE m.id = :id AND m.restaurant.id = :restaurantId")
+                "SELECT m FROM Menu m WHERE m.parentEntity.id = :restaurantId ORDER BY m.created DESC")
 })
 @Entity
 @Table(name = "menu",
@@ -30,8 +26,6 @@ import java.time.LocalDate;
 public class Menu extends BaseEntity {
 
     public static final String GET_ALL = "Menu.getAllByRestaurantId";
-    public static final String GET = "Menu.get";
-    public static final String DELETE = "Menu.delete";
 
     @Column(name = "created", nullable = false, columnDefinition = "date default current_date", updatable = false)
     @NotNull
@@ -39,11 +33,7 @@ public class Menu extends BaseEntity {
     private LocalDate created = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Restaurant restaurant;
-
-    public String toString() {
-        return "Menu:" + id;
-    }
+    private Restaurant parentEntity;
 }

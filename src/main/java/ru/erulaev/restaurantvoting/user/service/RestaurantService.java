@@ -38,8 +38,7 @@ public class RestaurantService {
 
     @Transactional
     public RestaurantTo get(long id) {
-        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Restaurant with id=" + id + " not found"));
+        Restaurant restaurant = restaurantRepository.getExisted(id);
         return ToConverter.createTo(restaurant,
                 voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), id));
     }
