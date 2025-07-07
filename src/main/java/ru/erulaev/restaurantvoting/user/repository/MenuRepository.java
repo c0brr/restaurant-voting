@@ -12,9 +12,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    List<Menu> getAll(long restaurantId);
+    List<Menu> getAllByRestaurantId(long restaurantId);
 
-    Optional<Menu> getById(long id, long restaurantId);
+    Optional<Menu> get(long id, long restaurantId);
 
     @Transactional
     @Modifying

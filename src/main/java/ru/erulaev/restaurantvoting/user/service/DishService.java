@@ -9,12 +9,10 @@ import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.repository.DishRepository;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.to.DishTo;
-import ru.erulaev.restaurantvoting.user.util.DishesUtil;
+import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.util.List;
 import java.util.Optional;
-
-import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.assureIdConsistent;
 
 @Service
 @AllArgsConstructor
@@ -25,17 +23,17 @@ public class DishService {
 
     @Transactional
     public List<DishTo> getAll(long menuId) {
-        List<Dish> dishes = dishRepository.getAll(menuId);
+        List<Dish> dishes = dishRepository.getAllByMenuId(menuId);
         if (dishes.isEmpty() && !menuRepository.existsById(menuId)) {
             throw new NotFoundException("Menu with id " + menuId + " not found");
         }
         return dishes.stream()
-                .map(dish -> DishesUtil.createTo(dish, menuId))
+                .map(dish -> ToConverter.createTo(dish, menuId))
                 .toList();
     }
 
     public Optional<DishTo> get(long id, long menuId) {
-        return dishRepository.getById(id, menuId).map(dish -> DishesUtil.createTo(dish, menuId));
+        return dishRepository.get(id, menuId).map(dish -> ToConverter.createTo(dish, menuId));
     }
 
     @Transactional
@@ -43,7 +41,7 @@ public class DishService {
         Menu menu = menuRepository.findById(menuId).orElseThrow(() ->
                 new NotFoundException("Menu with id=" + menuId + " not found"));
         dish.setMenu(menu);
-        return DishesUtil.createTo(dishRepository.prepareAndSave(dish), menuId);
+        return ToConverter.createTo(dishRepository.prepareAndSave(dish), menuId);
     }
 
     public void delete(long id, long menuId) {
@@ -52,13 +50,13 @@ public class DishService {
 
     @Transactional
     public void update(Dish newDish, long id, long menuId) {
-        Dish oldDish = dishRepository.getById(id, menuId).orElseThrow(() ->
+        Dish oldDish = dishRepository.get(id, menuId).orElseThrow(() ->
                 new NotFoundException("Dish with id=" + id + " not found in menu with id " + menuId));
-        oldDish.setName(newDish.getName().toLowerCase());
         oldDish.setPrice(newDish.getPrice());
+        oldDish.setName(newDish.getName().toLowerCase());
     }
 
     public Optional<Dish> getByName(String name, long menuId) {
-        return dishRepository.findByNameIgnoreCase(name, menuId);
+        return dishRepository.getByNameIgnoreCaseAndMenuId(name, menuId);
     }
 }

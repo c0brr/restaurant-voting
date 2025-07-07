@@ -17,7 +17,9 @@ import ru.erulaev.restaurantvoting.common.model.NamedEntity;
         @NamedQuery(name = Dish.GET, query =
                 "SELECT d FROM Dish d WHERE d.id = :id AND d.menu.id = :menuId"),
         @NamedQuery(name = Dish.DELETE, query =
-                "DELETE FROM Dish d WHERE d.id = :id AND d.menu.id = :menuId")
+                "DELETE FROM Dish d WHERE d.id = :id AND d.menu.id = :menuId"),
+        @NamedQuery(name = Dish.GET_BY_NAME, query =
+                "SELECT d FROM Dish d WHERE d.name = LOWER(:name) AND d.menu.id = :menuId")
 })
 @Entity
 @Table(name = "dish",
@@ -27,9 +29,10 @@ import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 @Setter
 public class Dish extends NamedEntity {
 
-    public static final String GET_ALL = "Dish.getAll";
-    public static final String GET = "Dish.getById";
+    public static final String GET_ALL = "Dish.getAllByMenuId";
+    public static final String GET = "Dish.get";
     public static final String DELETE = "Dish.delete";
+    public static final String GET_BY_NAME = "Dish.getByNameIgnoreCaseAndMenuId";
 
     @Column(name = "price", nullable = false)
     @Range(min = 1, max = 100000)

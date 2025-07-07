@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web;
+package ru.erulaev.restaurantvoting.user.web.regular;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

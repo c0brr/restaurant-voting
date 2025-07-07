@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web;
+package ru.erulaev.restaurantvoting.user.web.regular;
 
 import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,7 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
-import ru.erulaev.restaurantvoting.user.util.UsersUtil;
+import ru.erulaev.restaurantvoting.user.util.ToConverter;
+import ru.erulaev.restaurantvoting.user.web.AbstractUserController;
 
 import java.net.URI;
 
@@ -43,7 +44,7 @@ public class ProfileController extends AbstractUserController {
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
-        User created = userRepository.prepareAndSave(UsersUtil.createNewFromTo(userTo));
+        User created = userRepository.prepareAndSave(ToConverter.createNewFromTo(userTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
@@ -57,6 +58,6 @@ public class ProfileController extends AbstractUserController {
         log.info("update {} with id={}", userTo, authUser.id());
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
-        userRepository.prepareAndSave(UsersUtil.updateFromTo(user, userTo));
+        userRepository.prepareAndSave(ToConverter.updateFromTo(user, userTo));
     }
 }

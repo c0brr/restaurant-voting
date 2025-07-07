@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web;
+package ru.erulaev.restaurantvoting.user.web.regular;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -7,16 +7,18 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
-import ru.erulaev.restaurantvoting.user.util.UsersUtil;
+import ru.erulaev.restaurantvoting.user.util.ToConverter;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
+import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
+import ru.erulaev.restaurantvoting.user.web.UniqueMailValidator;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.erulaev.restaurantvoting.user.UserTestData.*;
-import static ru.erulaev.restaurantvoting.user.web.ProfileController.REST_URL;
+import static ru.erulaev.restaurantvoting.user.web.regular.ProfileController.REST_URL;
 
 class ProfileControllerTest extends AbstractControllerTest {
 
@@ -46,7 +48,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     @Test
     void register() throws Exception {
         UserTo newTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
-        User newUser = UsersUtil.createNewFromTo(newTo);
+        User newUser = ToConverter.createNewFromTo(newTo);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
@@ -72,7 +74,7 @@ class ProfileControllerTest extends AbstractControllerTest {
 
         USER_MATCHER.assertMatch(userRepository.findById(USER_1_ID).orElseThrow(() ->
                         new NotFoundException("Entity with id=" + USER_1_ID + " not found")),
-                UsersUtil.updateFromTo(new User(user1), updatedTo));
+                ToConverter.updateFromTo(new User(user1), updatedTo));
     }
 
     @Test

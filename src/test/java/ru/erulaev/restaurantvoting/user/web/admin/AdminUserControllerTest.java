@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web;
+package ru.erulaev.restaurantvoting.user.web.admin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Role;
 import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.erulaev.restaurantvoting.user.UserTestData.*;
-import static ru.erulaev.restaurantvoting.user.web.AdminUserController.REST_URL;
+import static ru.erulaev.restaurantvoting.user.web.admin.AdminUserController.REST_URL;
 import static ru.erulaev.restaurantvoting.user.web.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 
 class AdminUserControllerTest extends AbstractControllerTest {

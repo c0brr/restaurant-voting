@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web;
+package ru.erulaev.restaurantvoting.user.web.admin;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

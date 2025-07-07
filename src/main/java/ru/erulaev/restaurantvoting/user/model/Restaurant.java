@@ -1,10 +1,7 @@
 package ru.erulaev.restaurantvoting.user.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,6 +11,10 @@ import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r From Restaurant r ORDER BY r.name"),
+        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id = :id")
+})
 @Entity
 @Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "uk_restaurant_name"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +22,10 @@ import java.util.Date;
 @Setter
 public class Restaurant extends NamedEntity {
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    public static final String GET_ALL = "Restaurant.getAll";
+    public static final String DELETE = "Restaurant.delete";
+
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date registered = new Date();

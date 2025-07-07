@@ -19,12 +19,17 @@ import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 import java.util.*;
 
+@NamedQueries({
+        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id = :id")
+})
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class User extends NamedEntity implements HasIdAndEmail {
+
+    public static final String DELETE = "User.delete";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -43,7 +48,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @NotNull
     private boolean enabled = true;
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date registered = new Date();

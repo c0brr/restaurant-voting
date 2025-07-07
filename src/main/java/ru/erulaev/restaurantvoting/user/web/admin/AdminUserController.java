@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web;
+package ru.erulaev.restaurantvoting.user.web.admin;
 
 import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.web.AbstractUserController;
 
 import java.net.URI;
 import java.util.List;

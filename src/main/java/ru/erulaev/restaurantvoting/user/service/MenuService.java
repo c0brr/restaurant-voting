@@ -9,7 +9,7 @@ import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.to.MenuTo;
-import ru.erulaev.restaurantvoting.user.util.MenusUtil;
+import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,17 +23,17 @@ public class MenuService {
 
     @Transactional
     public List<MenuTo> getAll(long restaurantId) {
-        List<Menu> menus = menuRepository.getAll(restaurantId);
+        List<Menu> menus = menuRepository.getAllByRestaurantId(restaurantId);
         if (menus.isEmpty() && !restaurantRepository.existsById(restaurantId)) {
             throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
         }
         return menus.stream()
-                .map(menu -> MenusUtil.createTo(menu, restaurantId))
+                .map(menu -> ToConverter.createTo(menu, restaurantId))
                 .toList();
     }
 
     public Optional<MenuTo> get(long id, long restaurantId) {
-        return menuRepository.getById(id, restaurantId).map(menu -> MenusUtil.createTo(menu, restaurantId));
+        return menuRepository.get(id, restaurantId).map(menu -> ToConverter.createTo(menu, restaurantId));
     }
 
     @Transactional
@@ -41,7 +41,7 @@ public class MenuService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
                 new NotFoundException("Restaurant with id=" + restaurantId + " not found"));
         menu.setRestaurant(restaurant);
-        return MenusUtil.createTo(menuRepository.save(menu), restaurantId);
+        return ToConverter.createTo(menuRepository.save(menu), restaurantId);
     }
 
     public void delete(long id, long restaurantId) {

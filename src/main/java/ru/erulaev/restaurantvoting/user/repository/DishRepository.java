@@ -2,7 +2,6 @@ package ru.erulaev.restaurantvoting.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Dish;
@@ -13,9 +12,11 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Long> {
 
-    List<Dish> getAll(long menuId);
+    Optional<Dish> getByNameIgnoreCaseAndMenuId(String name, long menuId);
 
-    Optional<Dish> getById(long id, long menuId);
+    List<Dish> getAllByMenuId(long menuId);
+
+    Optional<Dish> get(long id, long menuId);
 
     @Transactional
     @Modifying
@@ -34,7 +35,4 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
         dish.setName(dish.getName().toLowerCase());
         return save(dish);
     }
-
-    @Query("SELECT d FROM Dish d WHERE d.name = LOWER(:name) AND d.menu.id = :menuId")
-    Optional<Dish> findByNameIgnoreCase(String name, long menuId);
 }
