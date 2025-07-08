@@ -13,7 +13,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     Optional<Vote> get(long id, long userId);
 
-    List<Vote> findAllByDate(LocalDate date);
+    List<Vote> findAllByCreated(LocalDate date);
 
     int getCountByDateAndRestaurantId(LocalDate date, long restaurantId);
 }

@@ -47,7 +47,7 @@ public class VoteService {
         Vote oldVote = getVote(requestVoteTo.getId(), user.id());
         checkCurrentDate(oldVote);
         Restaurant restaurant = getRestaurant(requestVoteTo.getRestaurantId());
-        oldVote.setDate(requestVoteTo.getDate());
+        oldVote.setCreated(requestVoteTo.getDate());
         oldVote.setRestaurant(restaurant);
     }
 
@@ -63,7 +63,7 @@ public class VoteService {
     }
 
     private void checkCurrentDate(Vote vote) {
-        if (!vote.getDate().isEqual(LocalDate.now())) {
+        if (!vote.getCreated().isEqual(LocalDate.now())) {
             throw new DataConflictException("You can't change your votes for past days");
         }
     }

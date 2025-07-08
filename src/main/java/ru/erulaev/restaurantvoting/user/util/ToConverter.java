@@ -35,6 +35,6 @@ public class ToConverter {
     }
 
     public static ResponseVoteTo createResponseTo(Vote vote) {
-        return new ResponseVoteTo(vote.getId(), vote.getDate(), vote.getUserId(), vote.getRestaurantId());
+        return new ResponseVoteTo(vote.getId(), vote.getCreated(), vote.getUserId(), vote.getRestaurantId());
     }
 }

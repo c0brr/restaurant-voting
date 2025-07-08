@@ -1,7 +1,6 @@
 package ru.erulaev.restaurantvoting.user.web.admin;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     private static final Sort SORT = Sort.by(Sort.Direction.ASC, "name");
     static final String REST_URL = "/api/admin/restaurants";
 
-    public AdminRestaurantController(@Autowired RestaurantRepository repository) {
+    public AdminRestaurantController(RestaurantRepository repository) {
         super(repository);
     }
 

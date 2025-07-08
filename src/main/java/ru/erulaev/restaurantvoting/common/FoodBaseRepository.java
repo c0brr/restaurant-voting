@@ -15,20 +15,21 @@ public interface FoodBaseRepository<T> extends JpaRepository<T, Long> {
     @Transactional
     @Modifying
     @Query("DELETE FROM #{#entityName} e WHERE e.id = ?1 AND e.parentEntity.id = ?2")
-    int delete(long id, long parentEntityId);
+    int delete(long id, long parentId);
 
     @Query("SELECT e FROM #{#entityName} e WHERE e.id = ?1 AND e.parentEntity.id = ?2")
-    Optional<T> get(long id, long parentEntityId);
+    Optional<T> get(long id, long parentId);
 
     @SuppressWarnings("all")
-    default void deleteExisted(long id, long parentEntityId) {
-        if (delete(id, parentEntityId) == 0) {throw new NotFoundException("Entity with id=" + id +
-                " not found in parent entity with id=" + parentEntityId);
+    default void deleteExisted(long id, long parentId) {
+        if (delete(id, parentId) == 0) {
+            throw new NotFoundException("Entity with id=" + id +
+                    " not found in parent entity with id=" + parentId);
         }
     }
 
-    default T getExisted(long id, long parentEntityId) {
-        return get(id, parentEntityId).orElseThrow(() -> new NotFoundException("Entity with id=" + id +
-                        " not found in parent entity with id=" + parentEntityId));
+    default T getExisted(long id, long parentId) {
+        return get(id, parentId).orElseThrow(() -> new NotFoundException("Entity with id=" + id +
+                " not found in parent entity with id=" + parentId));
     }
 }

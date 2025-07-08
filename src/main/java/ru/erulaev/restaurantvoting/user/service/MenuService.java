@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class MenuService {
+public class MenuService implements FoodService<Menu, MenuTo> {
 
     private final MenuRepository menuRepository;
     private final RestaurantRepository restaurantRepository;

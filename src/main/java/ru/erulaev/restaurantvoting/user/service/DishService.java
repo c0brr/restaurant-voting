@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class DishService {
+public class DishService implements FoodService<Dish, DishTo> {
 
     private DishRepository dishRepository;
     private MenuRepository menuRepository;
@@ -48,6 +48,7 @@ public class DishService {
         dishRepository.deleteExisted(id, menuId);
     }
 
+    @Override
     @Transactional
     public void update(Dish newDish, long id, long menuId) {
         Dish oldDish = dishRepository.get(id, menuId).orElseThrow(() ->
@@ -56,6 +57,7 @@ public class DishService {
         oldDish.setName(newDish.getName().toLowerCase());
     }
 
+    @Override
     public Optional<Dish> getByName(String name, long menuId) {
         return dishRepository.getByNameIgnoreCaseAndMenuId(name, menuId);
     }

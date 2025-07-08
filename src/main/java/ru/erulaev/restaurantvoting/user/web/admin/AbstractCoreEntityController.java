@@ -39,7 +39,7 @@ public class AbstractCoreEntityController<Entity extends HasId, Repository exten
         entity = repository.prepareAndSave(entity);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(url + "/{id}")
-                .buildAndExpand(entity.getId()).toUri();
+                .buildAndExpand(entity.id()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(entity);
     }
 

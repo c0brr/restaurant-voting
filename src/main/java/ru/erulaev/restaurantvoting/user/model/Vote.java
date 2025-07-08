@@ -15,12 +15,12 @@ import java.time.LocalDate;
 
 @NamedQueries({
         @NamedQuery(name = Vote.COUNT, query =
-                "SELECT COUNT(v) FROM Vote v WHERE v.date = :date AND v.restaurant.id = :restaurantId"),
+                "SELECT COUNT(v) FROM Vote v WHERE v.created = :created AND v.restaurant.id = :restaurantId"),
         @NamedQuery(name = Vote.GET, query = "SELECT v FROM Vote v WHERE v.id = :id AND v.user.id = :userId")
 })
 @Entity
 @Table(name = "vote",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date"}, name = "uk_user_vote_date"))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "created"}, name = "uk_user_vote_created"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
@@ -29,10 +29,10 @@ public class Vote extends BaseEntity {
     public static final String COUNT = "Vote.getCountByDateAndRestaurantId";
     public static final String GET = "Vote.get";
 
-    @Column(name = "date", nullable = false, columnDefinition = "date default '2025-06-06'")
+    @Column(name = "created", nullable = false, columnDefinition = "date default '2025-06-06'")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate date;
+    private LocalDate created;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -44,9 +44,9 @@ public class Vote extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    public Vote(Long id, LocalDate date, User user, Restaurant restaurant) {
+    public Vote(Long id, LocalDate created, User user, Restaurant restaurant) {
         super(id);
-        this.date = date;
+        this.created = created;
         this.user = user;
         this.restaurant = restaurant;
     }

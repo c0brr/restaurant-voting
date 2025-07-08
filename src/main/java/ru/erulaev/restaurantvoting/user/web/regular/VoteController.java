@@ -37,7 +37,7 @@ public class VoteController {
         ResponseVoteTo responseVoteTo = voteService.save(requestVoteTo, authUser.getUser());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(responseVoteTo.getId()).toUri();
+                .buildAndExpand(responseVoteTo.id()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(responseVoteTo);
     }
 
