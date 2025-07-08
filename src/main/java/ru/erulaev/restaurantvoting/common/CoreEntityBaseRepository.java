@@ -14,12 +14,16 @@ import java.util.List;
 @NoRepositoryBean
 public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Long> {
 
+    List<T> getAll();
+
+    T prepareAndSave(T entity);
+
     List<T> findByNameContainingIgnoreCase(String name, Sort sort);
 
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query.spel-expressions
     @Transactional
     @Modifying
-    @Query("DELETE FROM #{#entityName} e WHERE e.id=:id")
+    @Query("DELETE FROM #{#entityName} e WHERE e.id = :id")
     int delete(long id);
 
     //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)

@@ -5,12 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.CoreEntityBaseRepository;
 import ru.erulaev.restaurantvoting.user.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 import static ru.erulaev.restaurantvoting.app.config.SecurityConfig.PASSWORD_ENCODER;
 
 @Transactional(readOnly = true)
 public interface UserRepository extends CoreEntityBaseRepository<User> {
+
+    List<User> getAll();
 
     @Cacheable("users")
     Optional<User> findByEmailIgnoreCase(String email);

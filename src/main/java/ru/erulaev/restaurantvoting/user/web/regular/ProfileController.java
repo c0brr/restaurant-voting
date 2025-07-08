@@ -1,6 +1,8 @@
 package ru.erulaev.restaurantvoting.user.web.regular;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.repository.UserRepository;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
-import ru.erulaev.restaurantvoting.user.web.AbstractUserController;
 
 import java.net.URI;
 
@@ -22,9 +24,13 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.check
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class ProfileController extends AbstractUserController {
+@AllArgsConstructor
+@Slf4j
+public class ProfileController {
 
     static final String REST_URL = "/api/profile";
+
+    private final UserRepository userRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@AuthenticationPrincipal AuthUser authUser) {
@@ -36,7 +42,8 @@ public class ProfileController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", key = "#authUser.username")
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
-        super.delete(authUser.id());
+        log.info("delete {}", authUser);
+        userRepository.deleteExisted(authUser.id());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

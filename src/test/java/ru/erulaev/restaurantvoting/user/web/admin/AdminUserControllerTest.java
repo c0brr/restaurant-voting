@@ -16,8 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.erulaev.restaurantvoting.user.UserTestData.*;
-import static ru.erulaev.restaurantvoting.user.web.admin.AdminUserController.REST_URL;
 import static ru.erulaev.restaurantvoting.user.web.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
+import static ru.erulaev.restaurantvoting.user.web.admin.AdminUserController.REST_URL;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 
@@ -208,7 +208,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getAllContainingName() throws Exception {
+    void getByContainingName() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/by-containing-name?name=d"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

@@ -59,7 +59,7 @@ public class VoteService {
 
     private Vote getVote(long id, long userId) {
         return voteRepository.get(id, userId).orElseThrow(
-                () -> new NotFoundException("Vote with id=" + id + " from user with id " + userId + " not found"));
+                () -> new NotFoundException("Vote with id=" + id + " from user with id=" + userId + " not found"));
     }
 
     private void checkCurrentDate(Vote vote) {

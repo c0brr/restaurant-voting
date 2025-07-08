@@ -19,12 +19,17 @@ import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 import java.util.*;
 
+@NamedQueries({
+        @NamedQuery(name = User.GET_ALL, query = "SELECT u From User u ORDER BY u.name, u.email ASC")
+})
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class User extends NamedEntity implements HasIdAndEmail {
+
+    public static final String GET_ALL = "User.getAll";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
