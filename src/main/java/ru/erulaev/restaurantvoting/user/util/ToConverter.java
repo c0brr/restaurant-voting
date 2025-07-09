@@ -31,7 +31,7 @@ public class ToConverter {
     }
 
     public static Vote createNewFromRequestTo(RequestVoteTo requestVoteTo, User user, Restaurant restaurant) {
-        return new Vote(null, requestVoteTo.getDate(), user, restaurant);
+        return new Vote(null, requestVoteTo.getCreated(), user, restaurant);
     }
 
     public static ResponseVoteTo createResponseTo(Vote vote) {

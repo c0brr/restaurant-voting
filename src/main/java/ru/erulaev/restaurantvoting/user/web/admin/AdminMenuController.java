@@ -21,11 +21,13 @@ public class AdminMenuController extends AbstractFoodController<Menu, MenuTo> {
         super(service);
     }
 
+    @Override
     @GetMapping
     public List<MenuTo> getAll(@PathVariable long restaurantId) {
         return super.getAll(restaurantId);
     }
 
+    @Override
     @GetMapping("/{id}")
     public MenuTo get(@PathVariable long id, @PathVariable long restaurantId) {
         return super.get(id, restaurantId);
@@ -36,6 +38,7 @@ public class AdminMenuController extends AbstractFoodController<Menu, MenuTo> {
         return super.createWithLocation(menu, restaurantId, REST_URL);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id, @PathVariable long restaurantId) {

@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.common;
+package ru.erulaev.restaurantvoting.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,13 +23,12 @@ public interface FoodBaseRepository<T> extends JpaRepository<T, Long> {
     @SuppressWarnings("all")
     default void deleteExisted(long id, long parentId) {
         if (delete(id, parentId) == 0) {
-            throw new NotFoundException("Entity with id=" + id +
-                    " not found in parent entity with id=" + parentId);
+            throw new NotFoundException("Entity with id=" + id + " not found in parent entity with id=" + parentId);
         }
     }
 
     default T getExisted(long id, long parentId) {
-        return get(id, parentId).orElseThrow(() -> new NotFoundException("Entity with id=" + id +
-                " not found in parent entity with id=" + parentId));
+        return get(id, parentId).orElseThrow(
+                () -> new NotFoundException("Entity with id=" + id + " not found in parent entity with id=" + parentId));
     }
 }

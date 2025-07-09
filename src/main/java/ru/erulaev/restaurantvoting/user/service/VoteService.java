@@ -47,7 +47,7 @@ public class VoteService {
         Vote oldVote = getVote(requestVoteTo.getId(), user.id());
         checkCurrentDate(oldVote);
         Restaurant restaurant = getRestaurant(requestVoteTo.getRestaurantId());
-        oldVote.setCreated(requestVoteTo.getDate());
+        oldVote.setCreated(requestVoteTo.getCreated());
         oldVote.setRestaurant(restaurant);
     }
 

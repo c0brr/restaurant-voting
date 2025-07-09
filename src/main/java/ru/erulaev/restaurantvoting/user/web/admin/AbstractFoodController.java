@@ -15,26 +15,26 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AbstractFoodController<Entity extends HasId, EntityTo extends HasId> {
+public abstract class AbstractFoodController<Entity extends HasId, To extends HasId> {
 
     protected final Logger log = getLogger(getClass());
 
-    protected final FoodService<Entity, EntityTo> service;
+    protected final FoodService<Entity, To> service;
 
-    protected List<EntityTo> getAll(long parentId) {
+    protected List<To> getAll(long parentId) {
         log.info("getAll for parent {}", parentId);
         return service.getAll(parentId);
     }
 
-    protected EntityTo get(long id, long parentId) {
+    protected To get(long id, long parentId) {
         log.info("get {} from parent {}", id, parentId);
         return service.get(id, parentId);
     }
 
-    protected ResponseEntity<EntityTo> createWithLocation(Entity entity, long parentId, String url) {
+    protected ResponseEntity<To> createWithLocation(Entity entity, long parentId, String url) {
         log.info("create {} for parent {}", entity, parentId);
         checkNew(entity);
-        EntityTo entityTo = service.save(entity, parentId);
+        To entityTo = service.save(entity, parentId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(url + "/{id}")
                 .buildAndExpand(parentId, entityTo.id()).toUri();

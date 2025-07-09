@@ -56,9 +56,4 @@ public class DishService implements FoodService<Dish, DishTo> {
         oldDish.setPrice(newDish.getPrice());
         oldDish.setName(newDish.getName().toLowerCase());
     }
-
-    @Override
-    public Optional<Dish> getByName(String name, long menuId) {
-        return dishRepository.getByNameIgnoreCaseAndMenuId(name, menuId);
-    }
 }

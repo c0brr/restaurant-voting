@@ -16,7 +16,10 @@ import java.time.LocalDate;
 @NamedQueries({
         @NamedQuery(name = Vote.COUNT, query =
                 "SELECT COUNT(v) FROM Vote v WHERE v.created = :created AND v.restaurant.id = :restaurantId"),
-        @NamedQuery(name = Vote.GET, query = "SELECT v FROM Vote v WHERE v.id = :id AND v.user.id = :userId")
+        @NamedQuery(name = Vote.GET, query =
+                "SELECT v FROM Vote v WHERE v.id = :id AND v.user.id = :userId AND v.created = :created"),
+        @NamedQuery(name = Vote.DELETE, query =
+                "DELETE FROM Vote v WHERE v.id = :id AND v.user.id = :userId AND v.created = :created")
 })
 @Entity
 @Table(name = "vote",
@@ -26,8 +29,9 @@ import java.time.LocalDate;
 @Setter
 public class Vote extends BaseEntity {
 
-    public static final String COUNT = "Vote.getCountByDateAndRestaurantId";
+    public static final String COUNT = "Vote.getCountByCreatedAndRestaurantId";
     public static final String GET = "Vote.get";
+    public static final String DELETE = "Vote.delete";
 
     @Column(name = "created", nullable = false, columnDefinition = "date default '2025-06-06'")
     @NotNull

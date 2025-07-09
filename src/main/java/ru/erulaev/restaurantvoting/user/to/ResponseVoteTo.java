@@ -11,15 +11,15 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class ResponseVoteTo extends BaseTo implements HasId {
 
-    LocalDate date;
+    LocalDate created;
 
     long restaurantId;
 
     long userId;
 
-    public ResponseVoteTo(Long id, LocalDate date, long restaurantId, long userId) {
+    public ResponseVoteTo(Long id, LocalDate created, long restaurantId, long userId) {
         super(id);
-        this.date = date;
+        this.created = created;
         this.restaurantId = restaurantId;
         this.userId = userId;
     }

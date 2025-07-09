@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class RequestVoteTo extends BaseTo implements HasId {
 
     @NotNull
-    LocalDate date = LocalDate.now();
+    LocalDate created = LocalDate.now();
 
     @Min(1)
     long restaurantId;

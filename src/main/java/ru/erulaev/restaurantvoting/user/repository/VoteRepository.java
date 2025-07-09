@@ -15,5 +15,5 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     List<Vote> findAllByCreated(LocalDate date);
 
-    int getCountByDateAndRestaurantId(LocalDate date, long restaurantId);
+    int getCountByCreatedAndRestaurantId(LocalDate created, long restaurantId);
 }

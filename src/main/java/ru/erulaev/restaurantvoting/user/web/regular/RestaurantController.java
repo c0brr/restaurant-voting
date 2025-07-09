@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.service.RestaurantService;
 import ru.erulaev.restaurantvoting.user.to.RestaurantTo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,14 @@ public class RestaurantController {
 
     @GetMapping
     public List<RestaurantTo> getAll() {
-        log.info("getAll");
-        return restaurantService.getAll();
+        log.info("getAll for today");
+        return restaurantService.getAll(LocalDate.now());
+    }
+
+    @GetMapping("?date")
+    public List<RestaurantTo> getAllByDate(@RequestParam LocalDate date) {
+        log.info("getAll for date {}", date);
+        return restaurantService.getAll(date);
     }
 
     @GetMapping("/{id}")

@@ -23,11 +23,13 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
         super(service);
     }
 
+    @Override
     @GetMapping
     public List<DishTo> getAll(@PathVariable long menuId) {
         return super.getAll(menuId);
     }
 
+    @Override
     @GetMapping("/{id}")
     public DishTo get(@PathVariable long id, @PathVariable long menuId) {
         return super.get(id, menuId);
@@ -38,6 +40,7 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
         return super.createWithLocation(dish, menuId, REST_URL);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id, @PathVariable long menuId) {
@@ -50,11 +53,5 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
         log.info("update {} with id={} from menu {}", dish, id, menuId);
         assureIdConsistent(dish, id);
         service.update(dish, id, menuId);
-    }
-
-    @GetMapping("/by-name")
-    public ResponseEntity<Dish> getByName(@RequestParam String name, @PathVariable long menuId) {
-        log.info("getByName {} from menu {}", name, menuId);
-        return ResponseEntity.of(service.getByName(name, menuId));
     }
 }

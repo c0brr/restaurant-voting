@@ -23,11 +23,13 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
         super(repository);
     }
 
+    @Override
     @GetMapping
     public List<Restaurant> getAll() {
         return super.getAll();
     }
 
+    @Override
     @GetMapping("/{id}")
     public Restaurant get(@PathVariable long id) {
         return super.get(id);
@@ -39,6 +41,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
         return super.createWithLocation(restaurant, REST_URL);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurants", allEntries = true)
@@ -46,6 +49,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
         super.delete(id);
     }
 
+    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurants", allEntries = true)

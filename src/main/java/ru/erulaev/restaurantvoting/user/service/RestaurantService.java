@@ -27,8 +27,8 @@ public class RestaurantService {
     private final VoteRepository voteRepository;
 
     @Transactional
-    public List<RestaurantTo> getAll() {
-        Map<Long, Integer> votesByRestaurant = voteRepository.findAllByCreated(LocalDate.now()).stream()
+    public List<RestaurantTo> getAll(LocalDate date) {
+        Map<Long, Integer> votesByRestaurant = voteRepository.findAllByCreated(date).stream()
                 .collect(Collectors.toMap(Vote::getRestaurantId, vote -> ONE_VOTE, Integer::sum));
         return restaurantRepository.getAll().stream()
                 .map(restaurant ->
@@ -40,7 +40,7 @@ public class RestaurantService {
     public RestaurantTo get(long id) {
         Restaurant restaurant = restaurantRepository.getExisted(id);
         return ToConverter.createTo(restaurant,
-                voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), id));
+                voteRepository.getCountByCreatedAndRestaurantId(LocalDate.now(), id));
     }
 
     @Transactional
@@ -48,6 +48,6 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findByNameIgnoreCase(name).orElseThrow(
                 () -> new NotFoundException("Restaurant with name=" + name + " not found"));
         return ToConverter.createTo(restaurant,
-                voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), restaurant.getId()));
+                voteRepository.getCountByCreatedAndRestaurantId(LocalDate.now(), restaurant.getId()));
     }
 }

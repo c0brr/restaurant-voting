@@ -24,11 +24,13 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
         super(repository);
     }
 
+    @Override
     @GetMapping
     public List<User> getAll() {
         return super.getAll();
     }
 
+    @Override
     @GetMapping("/{id}")
     public User get(@PathVariable long id) {
         return super.get(id);
@@ -39,6 +41,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
         return super.createWithLocation(user, REST_URL);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", allEntries = true)
@@ -46,6 +49,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
         super.delete(id);
     }
 
+    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", key = "#user.email")

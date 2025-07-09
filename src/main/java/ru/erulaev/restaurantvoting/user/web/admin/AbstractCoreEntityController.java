@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.erulaev.restaurantvoting.common.CoreEntityBaseRepository;
 import ru.erulaev.restaurantvoting.common.HasId;
+import ru.erulaev.restaurantvoting.common.repository.CoreEntityBaseRepository;
 
 import java.net.URI;
 import java.util.List;
@@ -17,7 +17,8 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.assur
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class AbstractCoreEntityController<Entity extends HasId, Repository extends CoreEntityBaseRepository<Entity>> {
+public abstract class AbstractCoreEntityController<Entity extends HasId,
+        Repository extends CoreEntityBaseRepository<Entity>> {
 
     protected final Logger log = getLogger(getClass());
 
