@@ -15,28 +15,32 @@ import java.time.LocalDate;
 
 @NamedQueries({
         @NamedQuery(name = Vote.COUNT, query =
-                "SELECT COUNT(v) FROM Vote v WHERE v.created = :created AND v.restaurant.id = :restaurantId"),
-        @NamedQuery(name = Vote.GET, query =
-                "SELECT v FROM Vote v WHERE v.id = :id AND v.user.id = :userId AND v.created = :created"),
+                "SELECT COUNT(v) FROM Vote v WHERE v.date = :date AND v.restaurant.id = :restaurantId"),
         @NamedQuery(name = Vote.DELETE, query =
-                "DELETE FROM Vote v WHERE v.id = :id AND v.user.id = :userId AND v.created = :created")
+                "DELETE FROM Vote v WHERE v.user.id = :userId AND v.date = :date"),
+        @NamedQuery(name = Vote.GET_BY_USER_ID_AND_DATE, query =
+                "SELECT v FROM Vote v WHERE v.user.id = :userId AND v.date = :date"),
+        @NamedQuery(name = Vote.GET_BY_USER_ID, query =
+                "SELECT v FROM Vote v WHERE v.user.id = :userId ORDER BY v.date DESC")
 })
 @Entity
 @Table(name = "vote",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "created"}, name = "uk_user_vote_created"))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date"}, name = "uk_user_date"),
+        indexes = @Index(name = "date_restaurant", columnList = "date, restaurant_id"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Vote extends BaseEntity {
 
-    public static final String COUNT = "Vote.getCountByCreatedAndRestaurantId";
-    public static final String GET = "Vote.get";
+    public static final String COUNT = "Vote.getCountByDateAndRestaurantId";
     public static final String DELETE = "Vote.delete";
+    public static final String GET_BY_USER_ID_AND_DATE = "Vote.getByUserIdAndDate";
+    public static final String GET_BY_USER_ID = "Vote.findAllByUserId";
 
-    @Column(name = "created", nullable = false, columnDefinition = "date default '2025-06-06'")
+    @Column(name = "date", nullable = false, columnDefinition = "date default current_date")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate created;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -48,18 +52,18 @@ public class Vote extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    public Vote(Long id, LocalDate created, User user, Restaurant restaurant) {
+    public Vote(Long id, LocalDate date, User user, Restaurant restaurant) {
         super(id);
-        this.created = created;
+        this.date = date;
         this.user = user;
         this.restaurant = restaurant;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return user.getId();
     }
 
-    public long getRestaurantId() {
+    public Long getRestaurantId() {
         return restaurant.getId();
     }
 }

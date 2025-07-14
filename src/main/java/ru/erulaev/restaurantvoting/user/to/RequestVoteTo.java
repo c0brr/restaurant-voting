@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.common.to.BaseTo;
 
 import java.time.LocalDate;
@@ -14,9 +13,10 @@ import java.time.LocalDate;
 public class RequestVoteTo extends BaseTo {
 
     @NotNull
-    LocalDate created = LocalDate.now();
+    LocalDate date = LocalDate.now();
 
     @Min(1)
+    @NotNull
     long restaurantId;
 
     @Override

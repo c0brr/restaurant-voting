@@ -28,7 +28,8 @@ public class RestaurantService {
 
     @Transactional
     public List<RestaurantTo> getAll(LocalDate date) {
-        Map<Long, Integer> votesByRestaurant = voteRepository.findAllByCreated(date).stream()
+        Map<Long, Integer> votesByRestaurant = voteRepository.findAllByDate(date)
+                .stream()
                 .collect(Collectors.toMap(Vote::getRestaurantId, vote -> ONE_VOTE, Integer::sum));
         return restaurantRepository.getAll().stream()
                 .map(restaurant ->
@@ -40,13 +41,13 @@ public class RestaurantService {
     public RestaurantTo get(long id) {
         Restaurant restaurant = restaurantRepository.getExisted(id);
         return ToConverter.createTo(restaurant,
-                voteRepository.getCountByCreatedAndRestaurantId(LocalDate.now(), id));
+                voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), id));
     }
 
     @Transactional
     public RestaurantTo getByName(String name) {
         Restaurant restaurant = restaurantRepository.getExistedByName(name);
         return ToConverter.createTo(restaurant,
-                voteRepository.getCountByCreatedAndRestaurantId(LocalDate.now(), restaurant.getId()));
+                voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), restaurant.getId()));
     }
 }

@@ -3,6 +3,7 @@ package ru.erulaev.restaurantvoting.user.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import ru.erulaev.restaurantvoting.common.error.DataConflictException;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
@@ -16,6 +17,8 @@ import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,50 +29,42 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private RestaurantRepository restaurantRepository;
 
+    public List<ResponseVoteTo> getAllByUser(long userId) {
+        return voteRepository.findAllByUserId(userId).stream()
+                .map(ToConverter::createResponseTo)
+                .toList();
+    }
+
+    public Optional<ResponseVoteTo> getCurrent(long userId) {
+        return voteRepository.getByUserIdAndDate(userId, LocalDate.now()).map(ToConverter::createResponseTo);
+    }
+
     @Transactional
     public ResponseVoteTo save(RequestVoteTo requestVoteTo, User user) {
         checkDeadLine();
-        Restaurant restaurant = getRestaurant(requestVoteTo.getRestaurantId());
+        Restaurant restaurant = restaurantRepository.getExisted(requestVoteTo.getRestaurantId());
         Vote vote = voteRepository.save(ToConverter.createNewFromRequestTo(requestVoteTo, user, restaurant));
         return ToConverter.createResponseTo(vote);
     }
 
     @Transactional
-    public void delete(long id, User user) {
+    public void deleteCurrent(long userId) {
         checkDeadLine();
-        checkCurrentDate(getVote(id, user.id()));
-        voteRepository.deleteById(id);
+        voteRepository.deleteExisted(userId, LocalDate.now());
     }
 
     @Transactional
-    public void update(RequestVoteTo requestVoteTo, User user) {
+    public void changeChoice(long restaurantId, long userId) {
         checkDeadLine();
-        Vote oldVote = getVote(requestVoteTo.getId(), user.id());
-        checkCurrentDate(oldVote);
-        Restaurant restaurant = getRestaurant(requestVoteTo.getRestaurantId());
-        oldVote.setCreated(requestVoteTo.getCreated());
-        oldVote.setRestaurant(restaurant);
+        Vote vote = voteRepository.getByUserIdAndDate(userId, LocalDate.now()).orElseThrow(
+                () -> new NotFoundException("Vote from user with id=" + userId + " not found for today"));
+        Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
+        vote.setRestaurant(restaurant);
     }
 
     private void checkDeadLine() {
         if (LocalTime.now().isAfter(VOTING_DEADLINE)) {
             throw new DataConflictException("Voting is over for today");
         }
-    }
-
-    private Vote getVote(long id, long userId) {
-        return voteRepository.get(id, userId).orElseThrow(
-                () -> new NotFoundException("Vote with id=" + id + " from user with id=" + userId + " not found"));
-    }
-
-    private void checkCurrentDate(Vote vote) {
-        if (!vote.getCreated().isEqual(LocalDate.now())) {
-            throw new DataConflictException("You can't change your votes for past days");
-        }
-    }
-
-    private Restaurant getRestaurant(long restaurantId) {
-        return restaurantRepository.findById(restaurantId).orElseThrow(
-                () -> new NotFoundException("Restaurant with id=" + restaurantId + " not found"));
     }
 }
