@@ -15,7 +15,8 @@ import java.util.Date;
         @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r From Restaurant r ORDER BY r.name")
 })
 @Entity
-@Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "uk_restaurant_name"))
+@Table(name = "restaurant")
+@AttributeOverride(name = "name", column = @Column(unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter

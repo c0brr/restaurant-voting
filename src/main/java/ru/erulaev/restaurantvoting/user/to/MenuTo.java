@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class MenuTo extends BaseTo implements HasId {
+public class MenuTo extends BaseTo {
 
     LocalDate date;
 

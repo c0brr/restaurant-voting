@@ -20,6 +20,7 @@ public class MenuService implements FoodService<Menu, MenuTo> {
     private final MenuRepository menuRepository;
     private final RestaurantRepository restaurantRepository;
 
+    @Override
     @Transactional
     public List<MenuTo> getAll(long restaurantId) {
         restaurantRepository.getExisted(restaurantId);
@@ -29,10 +30,12 @@ public class MenuService implements FoodService<Menu, MenuTo> {
                 .toList();
     }
 
+    @Override
     public MenuTo get(long id, long restaurantId) {
         return ToConverter.createTo(menuRepository.getExisted(id, restaurantId), restaurantId);
     }
 
+    @Override
     @Transactional
     public MenuTo save(Menu menu, long restaurantId) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
@@ -40,6 +43,7 @@ public class MenuService implements FoodService<Menu, MenuTo> {
         return ToConverter.createTo(menuRepository.save(menu), restaurantId);
     }
 
+    @Override
     public void delete(long id, long restaurantId) {
         menuRepository.deleteExisted(id, restaurantId);
     }

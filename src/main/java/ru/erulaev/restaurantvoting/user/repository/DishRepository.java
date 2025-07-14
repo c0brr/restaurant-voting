@@ -16,7 +16,8 @@ public interface DishRepository extends FoodBaseRepository<Dish> {
 
     @Transactional
     default Dish prepareAndSave(Dish dish) {
-        dish.setName(dish.getName().toLowerCase());
+        String name = dish.getName();
+        dish.setName(Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase());
         return save(dish);
     }
 }

@@ -13,10 +13,10 @@ VALUES ('USER', 1),
        ('ADMIN', 4);
 
 INSERT INTO RESTAURANT (name)
-VALUES ('first_restaurant'),
-       ('second_restaurant'),
-       ('third_restaurant'),
-       ('fourth_restaurant');
+VALUES ('First_restaurant'),
+       ('Second_restaurant'),
+       ('Third_restaurant'),
+       ('Fourth_restaurant');
 
 INSERT INTO VOTE (restaurant_id, user_id)
 VALUES (1, 2),
@@ -29,5 +29,5 @@ VALUES (1),
        (2);
 
 INSERT INTO DISH (name, price, menu_id)
-VALUES ('soup', 100, 1),
-       ('salad', 200, 1);
+VALUES ('Soup', 100, 1),
+       ('Salad', 200, 1);

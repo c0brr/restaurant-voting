@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class RequestVoteTo extends BaseTo implements HasId {
+public class RequestVoteTo extends BaseTo {
 
     @NotNull
     LocalDate created = LocalDate.now();

@@ -2,14 +2,13 @@ package ru.erulaev.restaurantvoting.user.to;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 
 import java.util.Date;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class RestaurantTo extends NamedTo implements HasId {
+public class RestaurantTo extends NamedTo {
 
     Date registered;
 

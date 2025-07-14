@@ -21,7 +21,8 @@ public interface RestaurantRepository extends CoreEntityBaseRepository<Restauran
     @Override
     @Transactional
     default Restaurant prepareAndSave(Restaurant restaurant) {
-        restaurant.setName(restaurant.getName().toLowerCase());
+        String name = restaurant.getName();
+        restaurant.setName(Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase());
         return save(restaurant);
     }
 

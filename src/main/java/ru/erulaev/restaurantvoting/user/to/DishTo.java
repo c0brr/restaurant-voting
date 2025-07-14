@@ -2,12 +2,11 @@ package ru.erulaev.restaurantvoting.user.to;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class DishTo extends NamedTo implements HasId {
+public class DishTo extends NamedTo {
 
     int price;
 

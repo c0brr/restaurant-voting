@@ -12,7 +12,6 @@ import ru.erulaev.restaurantvoting.user.to.DishTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +20,7 @@ public class DishService implements FoodService<Dish, DishTo> {
     private DishRepository dishRepository;
     private MenuRepository menuRepository;
 
+    @Override
     @Transactional
     public List<DishTo> getAll(long menuId) {
         List<Dish> dishes = dishRepository.getAllByMenuId(menuId);
@@ -32,18 +32,21 @@ public class DishService implements FoodService<Dish, DishTo> {
                 .toList();
     }
 
+    @Override
     public DishTo get(long id, long menuId) {
         return ToConverter.createTo(dishRepository.getExisted(id, menuId), menuId);
     }
 
+    @Override
     @Transactional
     public DishTo save(Dish dish, long menuId) {
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() ->
-                new NotFoundException("Menu with id=" + menuId + " not found"));
+        Menu menu = menuRepository.findById(menuId).orElseThrow(
+                () -> new NotFoundException("Menu with id=" + menuId + " not found"));
         dish.setParentEntity(menu);
         return ToConverter.createTo(dishRepository.prepareAndSave(dish), menuId);
     }
 
+    @Override
     public void delete(long id, long menuId) {
         dishRepository.deleteExisted(id, menuId);
     }
@@ -53,6 +56,7 @@ public class DishService implements FoodService<Dish, DishTo> {
     public void update(Dish newDish, long id, long menuId) {
         Dish oldDish = dishRepository.getExisted(id, menuId);
         oldDish.setPrice(newDish.getPrice());
-        oldDish.setName(newDish.getName().toLowerCase());
+        String newName = newDish.getName();
+        oldDish.setName(Character.toUpperCase(newName.charAt(0)) + newName.substring(1).toLowerCase());
     }
 }
