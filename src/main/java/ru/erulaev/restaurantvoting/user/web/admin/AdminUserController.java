@@ -58,9 +58,9 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     }
 
     @GetMapping("/by-email")
-    public ResponseEntity<User> getByEmail(@RequestParam String email) {
+    public User getByEmail(@RequestParam String email) {
         log.info("getByEmail {}", email);
-        return ResponseEntity.of(repository.findByEmailIgnoreCase(email));
+        return repository.getExistedByEmail(email);
     }
 
     @GetMapping("/by-containing-name")

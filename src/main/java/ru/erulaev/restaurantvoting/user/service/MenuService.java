@@ -22,10 +22,8 @@ public class MenuService implements FoodService<Menu, MenuTo> {
 
     @Transactional
     public List<MenuTo> getAll(long restaurantId) {
+        restaurantRepository.getExisted(restaurantId);
         List<Menu> menus = menuRepository.getAllByRestaurantId(restaurantId);
-        if (menus.isEmpty() && !restaurantRepository.existsById(restaurantId)) {
-            throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
-        }
         return menus.stream()
                 .map(menu -> ToConverter.createTo(menu, restaurantId))
                 .toList();
@@ -37,8 +35,7 @@ public class MenuService implements FoodService<Menu, MenuTo> {
 
     @Transactional
     public MenuTo save(Menu menu, long restaurantId) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
-                new NotFoundException("Restaurant with id=" + restaurantId + " not found"));
+        Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         menu.setParentEntity(restaurant);
         return ToConverter.createTo(menuRepository.save(menu), restaurantId);
     }

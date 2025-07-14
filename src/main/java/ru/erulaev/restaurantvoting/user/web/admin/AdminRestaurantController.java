@@ -36,7 +36,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     }
 
     @PostMapping
-    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = "restaurantList", allEntries = true)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         return super.createWithLocation(restaurant, REST_URL);
     }
@@ -44,7 +44,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = {"restaurants","restaurantList"}, allEntries = true)
     public void delete(@PathVariable long id) {
         super.delete(id);
     }
@@ -52,15 +52,15 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = {"restaurants","restaurantList"}, allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable long id) {
         super.update(restaurant, id);
     }
 
     @GetMapping("/by-name")
-    public ResponseEntity<Restaurant> getByName(@RequestParam String name) {
+    public Restaurant getByName(@RequestParam String name) {
         log.info("getByName {}", name);
-        return ResponseEntity.of(repository.findByNameIgnoreCase(name));
+        return repository.getExistedByName(name);
     }
 
     @GetMapping("/by-containing-name")

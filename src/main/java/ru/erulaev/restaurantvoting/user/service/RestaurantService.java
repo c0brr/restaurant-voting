@@ -45,8 +45,7 @@ public class RestaurantService {
 
     @Transactional
     public RestaurantTo getByName(String name) {
-        Restaurant restaurant = restaurantRepository.findByNameIgnoreCase(name).orElseThrow(
-                () -> new NotFoundException("Restaurant with name=" + name + " not found"));
+        Restaurant restaurant = restaurantRepository.getExistedByName(name);
         return ToConverter.createTo(restaurant,
                 voteRepository.getCountByCreatedAndRestaurantId(LocalDate.now(), restaurant.getId()));
     }

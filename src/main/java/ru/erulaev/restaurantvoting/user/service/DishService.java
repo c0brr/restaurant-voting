@@ -51,8 +51,7 @@ public class DishService implements FoodService<Dish, DishTo> {
     @Override
     @Transactional
     public void update(Dish newDish, long id, long menuId) {
-        Dish oldDish = dishRepository.get(id, menuId).orElseThrow(() ->
-                new NotFoundException("Dish with id=" + id + " not found in menu with id " + menuId));
+        Dish oldDish = dishRepository.getExisted(id, menuId);
         oldDish.setPrice(newDish.getPrice());
         oldDish.setName(newDish.getName().toLowerCase());
     }

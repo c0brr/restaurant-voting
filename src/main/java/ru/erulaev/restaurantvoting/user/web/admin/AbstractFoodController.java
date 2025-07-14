@@ -22,17 +22,17 @@ public abstract class AbstractFoodController<Entity extends HasId, To extends Ha
     protected final FoodService<Entity, To> service;
 
     protected List<To> getAll(long parentId) {
-        log.info("getAll for parent {}", parentId);
+        log.info("getAll for parent entity {}", parentId);
         return service.getAll(parentId);
     }
 
     protected To get(long id, long parentId) {
-        log.info("get {} from parent {}", id, parentId);
+        log.info("get {} from parent entity {}", id, parentId);
         return service.get(id, parentId);
     }
 
     protected ResponseEntity<To> createWithLocation(Entity entity, long parentId, String url) {
-        log.info("create {} for parent {}", entity, parentId);
+        log.info("create {} for parent entity {}", entity, parentId);
         checkNew(entity);
         To entityTo = service.save(entity, parentId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -42,7 +42,7 @@ public abstract class AbstractFoodController<Entity extends HasId, To extends Ha
     }
 
     protected void delete(long id, long parentId) {
-        log.info("delete {} from parent {}", id, parentId);
+        log.info("delete {} from parent entity {}", id, parentId);
         service.delete(id, parentId);
     }
 }

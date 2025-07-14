@@ -23,9 +23,6 @@ spring:
     visibility.getter: none
     visibility.setter: none
     visibility.is-getter: none
-  cache:
-    cache-names: users, restaurants
-    caffeine.spec: maximumSize=5000,expireAfterAccess=600s
 
 logging:
   level:
