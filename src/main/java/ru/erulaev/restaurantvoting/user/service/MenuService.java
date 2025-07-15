@@ -11,7 +11,9 @@ import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.to.MenuTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,13 +28,13 @@ public class MenuService implements FoodService<Menu, MenuTo> {
         restaurantRepository.getExisted(restaurantId);
         List<Menu> menus = menuRepository.getAllByRestaurantId(restaurantId);
         return menus.stream()
-                .map(menu -> ToConverter.createTo(menu, restaurantId))
+                .map(menu -> ToConverter.createAdminTo(menu, restaurantId))
                 .toList();
     }
 
     @Override
     public MenuTo get(long id, long restaurantId) {
-        return ToConverter.createTo(menuRepository.getExisted(id, restaurantId), restaurantId);
+        return ToConverter.createAdminTo(menuRepository.getExisted(id, restaurantId), restaurantId);
     }
 
     @Override
@@ -40,11 +42,15 @@ public class MenuService implements FoodService<Menu, MenuTo> {
     public MenuTo save(Menu menu, long restaurantId) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         menu.setParentEntity(restaurant);
-        return ToConverter.createTo(menuRepository.save(menu), restaurantId);
+        return ToConverter.createAdminTo(menuRepository.save(menu), restaurantId);
     }
 
     @Override
     public void delete(long id, long restaurantId) {
         menuRepository.deleteExisted(id, restaurantId);
+    }
+
+    public Optional<MenuTo> getByDate(long restaurantId, LocalDate date) {
+        return menuRepository.getWithDishes(restaurantId, date).map(ToConverter::createToWIthDishes);
     }
 }

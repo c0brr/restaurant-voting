@@ -27,7 +27,7 @@ public class RestaurantService {
     private final VoteRepository voteRepository;
 
     @Transactional
-    public List<RestaurantTo> getAll(LocalDate date) {
+    public List<RestaurantTo> getAllByDate(LocalDate date) {
         Map<Long, Integer> votesByRestaurant = voteRepository.findAllByDate(date)
                 .stream()
                 .collect(Collectors.toMap(Vote::getRestaurantId, vote -> ONE_VOTE, Integer::sum));

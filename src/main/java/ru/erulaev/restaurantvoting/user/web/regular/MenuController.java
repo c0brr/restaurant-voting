@@ -2,15 +2,14 @@ package ru.erulaev.restaurantvoting.user.web.regular;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
 import ru.erulaev.restaurantvoting.user.to.MenuTo;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping(value = MenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -18,19 +17,15 @@ import java.util.List;
 @Slf4j
 public class MenuController {
 
-    static final String REST_URL = "/api/restaurants/{restaurantId}/menus";
+    static final String REST_URL = "/api/restaurants/{restaurantId}/menu";
 
     private final MenuService menuService;
 
     @GetMapping
-    public List<MenuTo> getAll(@PathVariable long restaurantId) {
-        log.info("getAll for restaurant {}", restaurantId);
-        return menuService.getAll(restaurantId);
-    }
-
-    @GetMapping("{id}")
-    public MenuTo get(@PathVariable long id, @PathVariable long restaurantId) {
-        log.info("get {} from restaurant {}", id, restaurantId);
-        return menuService.get(id, restaurantId);
+    public ResponseEntity<MenuTo> getByDate(@PathVariable long restaurantId,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        date = date != null ? date : LocalDate.now();
+        log.info("get for restaurant {} by date {}", restaurantId, date);
+        return ResponseEntity.of(menuService.getByDate(restaurantId, date));
     }
 }

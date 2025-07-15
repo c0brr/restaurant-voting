@@ -2,6 +2,7 @@ package ru.erulaev.restaurantvoting.user.web.regular;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.service.RestaurantService;
@@ -21,15 +22,11 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping
-    public List<RestaurantTo> getAll() {
-        log.info("getAll for today");
-        return restaurantService.getAll(LocalDate.now());
-    }
-
-    @GetMapping("?date")
-    public List<RestaurantTo> getAllByDate(@RequestParam LocalDate date) {
-        log.info("getAll for date {}", date);
-        return restaurantService.getAll(date);
+    public List<RestaurantTo> getAllByDate(@RequestParam(required = false)
+                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        date = date != null ? date : LocalDate.now();
+        log.info("getAll by date {}", date);
+        return restaurantService.getAllByDate(date);
     }
 
     @GetMapping("/{id}")

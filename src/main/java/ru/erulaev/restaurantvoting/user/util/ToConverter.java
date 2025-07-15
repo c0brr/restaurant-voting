@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 import ru.erulaev.restaurantvoting.user.model.*;
 import ru.erulaev.restaurantvoting.user.to.*;
 
+import java.util.List;
+
 @UtilityClass
 public class ToConverter {
 
@@ -11,8 +13,8 @@ public class ToConverter {
         return new DishTo(dish.getId(), dish.getName(), dish.getPrice(), menuId);
     }
 
-    public static MenuTo createTo(Menu menu, long restaurantId) {
-        return new MenuTo(menu.getId(), menu.getCreated(), restaurantId);
+    public static MenuTo createAdminTo(Menu menu, long restaurantId) {
+        return new MenuTo(menu.getId(), menu.getDate(), restaurantId);
     }
 
     public static RestaurantTo createTo(Restaurant restaurant, int votes) {
@@ -36,5 +38,11 @@ public class ToConverter {
 
     public static ResponseVoteTo createResponseTo(Vote vote) {
         return new ResponseVoteTo(vote.getId(), vote.getDate(), vote.getUserId(), vote.getRestaurantId());
+    }
+
+    public static MenuTo createToWIthDishes(Menu menu) {
+        long menuId = menu.getId();
+        List<DishTo> dishes = menu.getDishes().stream().map(dish -> ToConverter.createTo(dish, menuId)).toList();
+        return new MenuTo(menuId, menu.getDate(), menu.getRestaurantId(), dishes);
     }
 }
