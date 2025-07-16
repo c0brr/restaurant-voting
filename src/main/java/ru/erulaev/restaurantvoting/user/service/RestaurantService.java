@@ -1,7 +1,6 @@
 package ru.erulaev.restaurantvoting.user.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;

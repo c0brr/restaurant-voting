@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
+import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.repository.CoreEntityBaseRepository;
 
 import java.net.URI;
@@ -49,9 +51,13 @@ public abstract class AbstractCoreEntityController<Entity extends HasId,
         repository.deleteExisted(id);
     }
 
+    @Transactional
     protected void update(Entity entity, long id) {
         log.info("update {} with id={}", entity, id);
         assureIdConsistent(entity, id);
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("Entity with id=" + id + " not found");
+        }
         repository.prepareAndSave(entity);
     }
 

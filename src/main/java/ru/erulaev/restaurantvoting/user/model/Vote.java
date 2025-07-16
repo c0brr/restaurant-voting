@@ -26,16 +26,16 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "vote",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date"}, name = "uk_user_date"),
-        indexes = @Index(name = "date_restaurant", columnList = "date, restaurant_id"))
+        indexes = @Index(name = "date_restaurant_idx", columnList = "date, restaurant_id"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Vote extends BaseEntity {
 
-    public static final String COUNT = "Vote.getCountByDateAndRestaurantId";
-    public static final String DELETE = "Vote.delete";
-    public static final String GET_BY_USER_ID_AND_DATE = "Vote.getByUserIdAndDate";
-    public static final String GET_BY_USER_ID = "Vote.findAllByUserId";
+    static final String COUNT = "Vote.getCountByDateAndRestaurantId";
+    static final String DELETE = "Vote.delete";
+    static final String GET_BY_USER_ID_AND_DATE = "Vote.getByUserIdAndDate";
+    static final String GET_BY_USER_ID = "Vote.findAllByUserId";
 
     @Column(name = "date", nullable = false, columnDefinition = "date default current_date")
     @NotNull

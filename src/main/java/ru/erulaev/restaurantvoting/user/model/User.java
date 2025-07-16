@@ -19,17 +19,24 @@ import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 import java.util.*;
 
+
 @NamedQueries({
-        @NamedQuery(name = User.GET_ALL, query = "SELECT u From User u ORDER BY u.name, u.email ASC")
+        @NamedQuery(name = User.GET_ALL, query = "SELECT u From User u ORDER BY u.name, u.email ASC"),
+        @NamedQuery(name = User.GET_BY_EMAIL_CACHED, query = User.GET_BY_EMAIL_QUERY),
+        @NamedQuery(name = User.GET_BY_EMAIL, query = User.GET_BY_EMAIL_QUERY)
 })
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        indexes = @Index(name = "email_idx", columnList = "email"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class User extends NamedEntity implements HasIdAndEmail {
 
-    public static final String GET_ALL = "User.getAll";
+    static final String GET_BY_EMAIL_QUERY = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email = LOWER(:email)";
+    static final String GET_ALL = "User.getAll";
+    static final String GET_BY_EMAIL_CACHED = "User.getByEmailIgnoreCaseCached";
+    static final String GET_BY_EMAIL = "User.getByEmailIgnoreCase";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -83,10 +90,6 @@ public class User extends NamedEntity implements HasIdAndEmail {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles.isEmpty() ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
-    }
-
-    public boolean hasRole(Role role) {
-        return roles.contains(role);
     }
 
     @Override

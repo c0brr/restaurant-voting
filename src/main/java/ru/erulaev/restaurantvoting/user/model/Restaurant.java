@@ -22,7 +22,7 @@ import java.util.Date;
 @Setter
 public class Restaurant extends NamedEntity {
 
-    public static final String GET_ALL = "Restaurant.getAll";
+    static final String GET_ALL = "Restaurant.getAll";
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
     @NotNull

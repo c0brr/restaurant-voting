@@ -3,7 +3,6 @@ package ru.erulaev.restaurantvoting.user.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import ru.erulaev.restaurantvoting.common.error.DataConflictException;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;

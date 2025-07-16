@@ -37,6 +37,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(value = "users", key = "#user.email")
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         return super.createWithLocation(user, REST_URL);
     }

@@ -13,9 +13,7 @@ import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
 @NamedQueries({
         @NamedQuery(name = Dish.GET_ALL, query =
-                "SELECT d FROM Dish d WHERE d.parentEntity.id = :menuId ORDER BY d.name ASC"),
-        @NamedQuery(name = Dish.GET_BY_NAME, query =
-                "SELECT d FROM Dish d WHERE d.name = LOWER(:name) AND d.parentEntity.id = :menuId")
+                "SELECT d FROM Dish d WHERE d.parentEntity.id = :menuId ORDER BY d.name ASC")
 })
 @Entity
 @Table(name = "dish",
@@ -25,8 +23,7 @@ import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 @Setter
 public class Dish extends NamedEntity {
 
-    public static final String GET_ALL = "Dish.getAllByMenuId";
-    public static final String GET_BY_NAME = "Dish.getByNameIgnoreCaseAndMenuId";
+    static final String GET_ALL = "Dish.getAllByMenuId";
 
     @Column(name = "price", nullable = false)
     @Range(min = 1, max = 100000)

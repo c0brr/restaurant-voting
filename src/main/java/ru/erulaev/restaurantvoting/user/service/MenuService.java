@@ -25,8 +25,10 @@ public class MenuService implements FoodService<Menu, MenuTo> {
     @Override
     @Transactional
     public List<MenuTo> getAll(long restaurantId) {
-        restaurantRepository.getExisted(restaurantId);
         List<Menu> menus = menuRepository.getAllByRestaurantId(restaurantId);
+        if (menus.isEmpty() && !restaurantRepository.existsById(restaurantId)) {
+            throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
+        }
         return menus.stream()
                 .map(menu -> ToConverter.createAdminTo(menu, restaurantId))
                 .toList();
@@ -50,7 +52,11 @@ public class MenuService implements FoodService<Menu, MenuTo> {
         menuRepository.deleteExisted(id, restaurantId);
     }
 
+    @Transactional
     public Optional<MenuTo> getByDate(long restaurantId, LocalDate date) {
+        if(!restaurantRepository.existsById(restaurantId)) {
+            throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
+        }
         return menuRepository.getWithDishes(restaurantId, date).map(ToConverter::createToWIthDishes);
     }
 }

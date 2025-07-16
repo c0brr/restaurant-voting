@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
+import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
@@ -48,6 +49,7 @@ public class ProfileController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
+    @CacheEvict(value = "users", key = "#userTo.email")
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
@@ -62,8 +64,12 @@ public class ProfileController {
     @CacheEvict(value = "users", key = "#authUser.username")
     @Transactional
     public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("update {} with id={}", userTo, authUser.id());
-        assureIdConsistent(userTo, authUser.id());
+        long id = authUser.id();
+        log.info("update {} with id={}", userTo, id);
+        assureIdConsistent(userTo, id);
+        if (!userRepository.existsById(id)) {
+            throw new NotFoundException("User with id=" + id + " not found");
+        }
         User user = authUser.getUser();
         userRepository.prepareAndSave(ToConverter.updateFromTo(user, userTo));
     }

@@ -28,8 +28,8 @@ import java.util.List;
 @Setter
 public class Menu extends BaseEntity {
 
-    public static final String GET_ALL = "Menu.getAllByRestaurantId";
-    public static final String GET_WITH_DISHES = "Menu.getWithDishes";
+    static final String GET_ALL = "Menu.getAllByRestaurantId";
+    static final String GET_WITH_DISHES = "Menu.getWithDishes";
 
     @Column(name = "date", nullable = false, columnDefinition = "date default current_date", updatable = false)
     @NotNull

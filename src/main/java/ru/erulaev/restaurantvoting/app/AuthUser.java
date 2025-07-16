@@ -2,7 +2,6 @@ package ru.erulaev.restaurantvoting.app;
 
 import lombok.Getter;
 import org.springframework.lang.NonNull;
-import ru.erulaev.restaurantvoting.user.model.Role;
 import ru.erulaev.restaurantvoting.user.model.User;
 
 @Getter
@@ -17,10 +16,6 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
 
     public long id() {
         return user.id();
-    }
-
-    public boolean hasRole(Role role) {
-        return user.hasRole(role);
     }
 
     @Override

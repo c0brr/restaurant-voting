@@ -5,12 +5,9 @@ import ru.erulaev.restaurantvoting.common.repository.FoodBaseRepository;
 import ru.erulaev.restaurantvoting.user.model.Dish;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface DishRepository extends FoodBaseRepository<Dish> {
-
-    Optional<Dish> getByNameIgnoreCaseAndMenuId(String name, long menuId);
 
     List<Dish> getAllByMenuId(long menuId);
 

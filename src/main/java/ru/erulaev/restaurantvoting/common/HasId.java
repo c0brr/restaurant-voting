@@ -15,7 +15,7 @@ public interface HasId {
     }
 
     default long id() {
-        Assert.notNull(getId(), "Entity must has id");
+        Assert.notNull(getId(), "Entity must have id");
         return getId();
     }
 }

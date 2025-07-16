@@ -15,7 +15,6 @@ import ru.erulaev.restaurantvoting.user.to.RequestVoteTo;
 import ru.erulaev.restaurantvoting.user.to.ResponseVoteTo;
 
 import java.net.URI;
-import java.util.Map;
 
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 

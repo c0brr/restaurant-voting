@@ -17,8 +17,10 @@ public interface UserRepository extends CoreEntityBaseRepository<User> {
     @Override
     List<User> getAll();
 
+    Optional<User> getByEmailIgnoreCase(String email);
+
     @Cacheable("users")
-    Optional<User> findByEmailIgnoreCase(String email);
+    Optional<User> getByEmailIgnoreCaseCached(String email);
 
     @Override
     @Transactional
@@ -28,9 +30,8 @@ public interface UserRepository extends CoreEntityBaseRepository<User> {
         return save(user);
     }
 
-    @SuppressWarnings("all")
     default User getExistedByEmail(String email) {
-        return findByEmailIgnoreCase(email).orElseThrow(
+        return getByEmailIgnoreCase(email).orElseThrow(
                 () -> new NotFoundException("User with email=" + email + " not found"));
     }
 
