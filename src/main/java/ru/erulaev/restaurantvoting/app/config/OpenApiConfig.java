@@ -24,8 +24,8 @@ import org.springframework.context.annotation.Configuration;
                 description = """
                         Voting system for deciding where to have lunch</a>
                         <p><b>Test credentials:</b><br>
-                        - user@yandex.ru / password<br>
-                        - admin@gmail.com / admin<br>
+                        - user@gamil.com.ru / password<br>
+                        - admin@yandex.ru / admin<br>
                         - guest@gmail.com / guest</p>
                         """,
                 contact = @Contact(url = "https://t.me/@c0brr", name = "Ilya Erulaev", email = "ilyaerulaev@gmail.com")

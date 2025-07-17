@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ProblemDetail;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.AuthenticationException;
@@ -23,6 +24,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import ru.erulaev.restaurantvoting.common.error.AppException;
@@ -31,6 +33,7 @@ import ru.erulaev.restaurantvoting.common.error.ErrorType;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.nio.file.AccessDeniedException;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -73,6 +76,24 @@ public class RestExceptionHandler {
         String path = request.getRequestURI();
         log.warn(ERR_PFX + "BindException with invalidParams {} at request {}", invalidParams, path);
         return createProblemDetail(ex, path, BAD_REQUEST, "BindException", Map.of("invalid_params", invalidParams));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    ProblemDetail methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+        Throwable cause = getRootCause(ex);
+        if (cause.getClass().isAssignableFrom(DateTimeParseException.class)) {
+            Optional<String> format = Optional.of(ex.getParameter())
+                    .map(parameter -> parameter.getParameterAnnotation(DateTimeFormat.class))
+                    .map(annotation -> getIsoPattern(annotation.iso()));
+            if (format.isPresent()) {
+                String parameter = ex.getName();
+                String errorMessage = "Invalid format for parameter '" + parameter + "'" + ". Expected format: '" + format.get() + "'";
+                String path = request.getRequestURI();
+                log.warn(ERR_PFX + "DateTimeParseException at parameter '{}' at request {}", parameter, path);
+                return createProblemDetail(cause, path, FORMAT_ERROR, errorMessage, Map.of());
+            }
+        }
+        return exception(ex, request);
     }
 
     private Map<String, String> getErrorMap(BindingResult result) {
@@ -141,5 +162,14 @@ public class RestExceptionHandler {
     private static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);
         return rootCause != null ? rootCause : t;
+    }
+
+    private static String getIsoPattern(DateTimeFormat.ISO iso) {
+        return switch (iso) {
+            case DATE -> "yyyy-MM-dd";
+            case TIME -> "HH:mm:ss.SSSZ";
+            case DATE_TIME -> "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            case NONE -> null;
+        };
     }
 }
