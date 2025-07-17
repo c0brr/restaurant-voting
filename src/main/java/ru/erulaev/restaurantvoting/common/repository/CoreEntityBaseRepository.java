@@ -18,6 +18,8 @@ public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Long> {
 
     T prepareAndSave(T entity);
 
+    T getExisted(long id);
+
     List<T> findByNameContainingIgnoreCase(String name, Sort sort);
 
     //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query.spel-expressions
@@ -25,8 +27,6 @@ public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Long> {
     @Modifying
     @Query("DELETE FROM #{#entityName} e WHERE e.id = :id")
     int delete(long id);
-
-    T getExisted(long id);
 
     //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)
     @SuppressWarnings("all") // transaction invoked

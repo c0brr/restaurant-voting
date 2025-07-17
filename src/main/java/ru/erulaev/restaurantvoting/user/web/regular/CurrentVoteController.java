@@ -7,12 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
 import ru.erulaev.restaurantvoting.user.to.RequestVoteTo;
 import ru.erulaev.restaurantvoting.user.to.ResponseVoteTo;
+import ru.erulaev.restaurantvoting.user.web.validation.UniqueUserVoteValidator;
 
 import java.net.URI;
 
@@ -27,6 +29,12 @@ public class CurrentVoteController {
     static final String REST_URL = "/api/current-vote";
 
     private final VoteService voteService;
+    private final UniqueUserVoteValidator userVoteValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(userVoteValidator);
+    }
 
     @GetMapping
     public ResponseEntity<ResponseVoteTo> get(@AuthenticationPrincipal AuthUser authUser) {

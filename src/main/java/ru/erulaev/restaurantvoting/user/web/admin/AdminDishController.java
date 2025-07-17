@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.model.Dish;
 import ru.erulaev.restaurantvoting.user.service.DishService;
 import ru.erulaev.restaurantvoting.user.to.DishTo;
+import ru.erulaev.restaurantvoting.user.web.validation.UniqueDishNameValidator;
 
 import java.util.List;
 
@@ -19,8 +21,16 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
 
     static final String REST_URL = "/api/admin/menus/{menuId}/dishes";
 
-    public AdminDishController(DishService service) {
+    private final UniqueDishNameValidator dishNameValidator;
+
+    public AdminDishController(DishService service, UniqueDishNameValidator dishNameValidator) {
         super(service);
+        this.dishNameValidator = dishNameValidator;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(dishNameValidator);
     }
 
     @Override

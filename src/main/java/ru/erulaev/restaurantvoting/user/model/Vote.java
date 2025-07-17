@@ -18,10 +18,12 @@ import java.time.LocalDate;
                 "SELECT COUNT(v) FROM Vote v WHERE v.date = :date AND v.restaurant.id = :restaurantId"),
         @NamedQuery(name = Vote.DELETE, query =
                 "DELETE FROM Vote v WHERE v.user.id = :userId AND v.date = :date"),
-        @NamedQuery(name = Vote.GET_BY_USER_ID_AND_DATE, query =
+        @NamedQuery(name = Vote.GET_BY_USER_AND_DATE, query =
                 "SELECT v FROM Vote v WHERE v.user.id = :userId AND v.date = :date"),
-        @NamedQuery(name = Vote.GET_BY_USER_ID, query =
-                "SELECT v FROM Vote v WHERE v.user.id = :userId ORDER BY v.date DESC")
+        @NamedQuery(name = Vote.GET_ALL_BY_USER, query =
+                "SELECT v FROM Vote v WHERE v.user.id = :userId ORDER BY v.date DESC"),
+        @NamedQuery(name = Vote.IS_EXISTED, query =
+                "SELECT (COUNT(v) > 0) from Vote v where v.user.id = :userId and v.date = :date")
 })
 @Entity
 @Table(name = "vote",
@@ -34,8 +36,9 @@ public class Vote extends BaseEntity {
 
     static final String COUNT = "Vote.getCountByDateAndRestaurantId";
     static final String DELETE = "Vote.delete";
-    static final String GET_BY_USER_ID_AND_DATE = "Vote.getByUserIdAndDate";
-    static final String GET_BY_USER_ID = "Vote.findAllByUserId";
+    static final String GET_BY_USER_AND_DATE = "Vote.getByUserIdAndDate";
+    static final String GET_ALL_BY_USER = "Vote.getAllByUserId";
+    static final String IS_EXISTED = "Vote.existsByUserIdAndDate";
 
     @Column(name = "date", nullable = false, columnDefinition = "date default current_date")
     @NotNull

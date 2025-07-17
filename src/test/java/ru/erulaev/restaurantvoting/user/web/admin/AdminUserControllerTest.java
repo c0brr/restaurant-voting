@@ -16,8 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.erulaev.restaurantvoting.user.UserTestData.*;
-import static ru.erulaev.restaurantvoting.user.web.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 import static ru.erulaev.restaurantvoting.user.web.admin.AdminUserController.REST_URL;
+import static ru.erulaev.restaurantvoting.user.web.validation.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 

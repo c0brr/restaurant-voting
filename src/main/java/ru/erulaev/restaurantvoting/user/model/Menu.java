@@ -15,10 +15,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = Menu.GET_ALL, query =
+        @NamedQuery(name = Menu.GET_ALL_BY_RESTAURANT, query =
                 "SELECT m FROM Menu m WHERE m.parentEntity.id = :restaurantId ORDER BY m.date DESC"),
-        @NamedQuery(name = Menu.GET_WITH_DISHES, query =
-                "SELECT m FROM Menu m LEFT JOIN FETCH m.dishes WHERE m.parentEntity.id = :restaurantId AND m.date = :date")
+        @NamedQuery(name = Menu.GET_WITH_DISHES_BY_DATE, query =
+                "SELECT m FROM Menu m LEFT JOIN FETCH m.dishes WHERE m.parentEntity.id = :restaurantId AND m.date = :date"),
+        @NamedQuery(name = Menu.GET_BY_RESTAURANT_AND_DATE, query =
+                "SELECT m FROM Menu m WHERE m.parentEntity.id = :restaurantId AND m.date = :date")
 })
 @Entity
 @Table(name = "menu",
@@ -28,8 +30,9 @@ import java.util.List;
 @Setter
 public class Menu extends BaseEntity {
 
-    static final String GET_ALL = "Menu.getAllByRestaurantId";
-    static final String GET_WITH_DISHES = "Menu.getWithDishes";
+    static final String GET_ALL_BY_RESTAURANT = "Menu.getAllByRestaurantId";
+    static final String GET_WITH_DISHES_BY_DATE = "Menu.getWithDishesByDate";
+    static final String GET_BY_RESTAURANT_AND_DATE = "Menu.getByRestaurantIdAndDate";
 
     @Column(name = "date", nullable = false, columnDefinition = "date default current_date", updatable = false)
     @NotNull

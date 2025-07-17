@@ -11,7 +11,7 @@ import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
 import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
-import ru.erulaev.restaurantvoting.user.web.UniqueMailValidator;
+import ru.erulaev.restaurantvoting.user.web.validation.UniqueMailValidator;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

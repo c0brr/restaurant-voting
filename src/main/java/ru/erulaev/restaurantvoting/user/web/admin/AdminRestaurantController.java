@@ -6,9 +6,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
+import ru.erulaev.restaurantvoting.user.web.validation.UniqueRestaurantNameValidator;
 
 import java.util.List;
 
@@ -19,8 +21,16 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     private static final Sort SORT = Sort.by(Sort.Direction.ASC, "name");
     static final String REST_URL = "/api/admin/restaurants";
 
-    public AdminRestaurantController(RestaurantRepository repository) {
+    private final UniqueRestaurantNameValidator nameValidator;
+
+    public AdminRestaurantController(RestaurantRepository repository, UniqueRestaurantNameValidator nameValidator) {
         super(repository);
+        this.nameValidator = nameValidator;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(nameValidator);
     }
 
     @Override
@@ -44,7 +54,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = {"restaurants","restaurantList"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurantList"}, allEntries = true)
     public void delete(@PathVariable long id) {
         super.delete(id);
     }
@@ -52,7 +62,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = {"restaurants","restaurantList"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurantList"}, allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable long id) {
         super.update(restaurant, id);
     }

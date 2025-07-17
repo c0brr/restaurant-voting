@@ -15,11 +15,13 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     Optional<Vote> getByUserIdAndDate(long userId, LocalDate date);
 
-    List<Vote> findAllByUserId(long userId);
+    List<Vote> getAllByUserId(long userId);
+
+    int getCountByDateAndRestaurantId(LocalDate date, long restaurantId);
 
     List<Vote> findAllByDate(LocalDate date);
 
-    int getCountByDateAndRestaurantId(LocalDate date, long restaurantId);
+    boolean existsByUserIdAndDate(long userId, LocalDate date);
 
     @Transactional
     @Modifying

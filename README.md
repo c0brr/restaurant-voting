@@ -3,23 +3,25 @@
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.5-green)
 
-RESTful API for deciding where to have lunch. The project is implemented on Spring Boot using JPA, Spring Security and Swagger.
+RESTful API for deciding where to have lunch. The project is implemented on Spring Boot using JPA, Spring Security and
+Swagger.
 
 ## 🔧 Technical requirement:
-Build a voting system for deciding where to have lunch.
+
+A voting system for deciding where to have lunch.
+
 - 2 types of users: admin and regular users
 - Admin can input a restaurant, and it's lunch menu of the day (2-5 items usually, just a dish name and price)
 - Menu changes each day (admins do the updates)
 - Users can vote for a restaurant they want to have lunch at today
 - Only one vote counted per user
 - If user votes again the same day:
-  - If it is before 11:00 we assume that he changed his mind
-  - If it is after 11:00 then it is too late, vote can't be changed
+    - If it is before 11:00 we assume that he changed his mind
+    - If it is after 11:00 then it is too late, vote can't be changed
 - Each restaurant provides a new menu each day
 
-
-
 ## ⚙️ Technologies:
+
 - **Language**: Java 21
 - **Framework**: Spring Boot 3.4.5
 - **Data base**: H2
@@ -35,6 +37,7 @@ Build a voting system for deciding where to have lunch.
 - Git
 
 ## 📋 Environment requirements
+
 - Java 21+
 - Maven 3.9+
 - Git 2.25+
@@ -46,6 +49,7 @@ Build a voting system for deciding where to have lunch.
 ## 🛠 Installation and launch
 
 ### 1. Clone repository
+
 ```bash
 git clone https://github.com/c0brr/restaurant-voting.git
 cd restaurant-voting

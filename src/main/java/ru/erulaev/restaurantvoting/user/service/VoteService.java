@@ -3,7 +3,7 @@ package ru.erulaev.restaurantvoting.user.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.erulaev.restaurantvoting.common.error.DataConflictException;
+import ru.erulaev.restaurantvoting.common.error.IllegalRequestDataException;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.model.User;
@@ -29,7 +29,7 @@ public class VoteService {
     private RestaurantRepository restaurantRepository;
 
     public List<ResponseVoteTo> getAllByUser(long userId) {
-        return voteRepository.findAllByUserId(userId).stream()
+        return voteRepository.getAllByUserId(userId).stream()
                 .map(ToConverter::createResponseTo)
                 .toList();
     }
@@ -63,7 +63,7 @@ public class VoteService {
 
     private void checkDeadLine() {
         if (LocalTime.now().isAfter(VOTING_DEADLINE)) {
-            throw new DataConflictException("Voting is over for today");
+            throw new IllegalRequestDataException("Voting is over for today");
         }
     }
 }

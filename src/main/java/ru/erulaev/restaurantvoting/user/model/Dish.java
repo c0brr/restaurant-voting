@@ -12,8 +12,10 @@ import org.hibernate.validator.constraints.Range;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
 @NamedQueries({
-        @NamedQuery(name = Dish.GET_ALL, query =
-                "SELECT d FROM Dish d WHERE d.parentEntity.id = :menuId ORDER BY d.name ASC")
+        @NamedQuery(name = Dish.GET_ALL_BY_MENU, query =
+                "SELECT d FROM Dish d WHERE d.parentEntity.id = :menuId ORDER BY d.name ASC"),
+        @NamedQuery(name = Dish.GET_BY_MENU_AND_NAME, query =
+                "SELECT d FROM Dish d WHERE d.parentEntity.id = :menuId AND d.name = :name")
 })
 @Entity
 @Table(name = "dish",
@@ -23,7 +25,8 @@ import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 @Setter
 public class Dish extends NamedEntity {
 
-    static final String GET_ALL = "Dish.getAllByMenuId";
+    static final String GET_ALL_BY_MENU = "Dish.getAllByMenuId";
+    static final String GET_BY_MENU_AND_NAME = "Dish.getByMenuIdAndName";
 
     @Column(name = "price", nullable = false)
     @Range(min = 1, max = 100000)

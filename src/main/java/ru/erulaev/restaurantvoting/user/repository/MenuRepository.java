@@ -13,5 +13,7 @@ public interface MenuRepository extends FoodBaseRepository<Menu> {
 
     List<Menu> getAllByRestaurantId(long restaurantId);
 
-    Optional<Menu> getWithDishes(long restaurantId, LocalDate date);
+    Optional<Menu> getWithDishesByDate(long restaurantId, LocalDate date);
+
+    Optional<Menu> getByRestaurantIdAndDate(long restaurantId, LocalDate date);
 }
