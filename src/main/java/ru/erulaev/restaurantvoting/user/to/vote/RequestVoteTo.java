@@ -1,5 +1,6 @@
-package ru.erulaev.restaurantvoting.user.to;
+package ru.erulaev.restaurantvoting.user.to.vote;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 public class RequestVoteTo extends BaseTo {
 
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     LocalDate date = LocalDate.now();
 
     @Min(1)

@@ -8,7 +8,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
-import ru.erulaev.restaurantvoting.user.to.MenuTo;
+import ru.erulaev.restaurantvoting.user.to.menu.MenuTo;
 import ru.erulaev.restaurantvoting.user.web.validation.UniqueDateMenuValidator;
 
 import java.util.List;

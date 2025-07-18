@@ -8,7 +8,7 @@ import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
-import ru.erulaev.restaurantvoting.user.to.MenuTo;
+import ru.erulaev.restaurantvoting.user.to.menu.MenuTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.time.LocalDate;
@@ -30,13 +30,13 @@ public class MenuService implements FoodService<Menu, MenuTo> {
             throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
         }
         return menus.stream()
-                .map(menu -> ToConverter.createAdminTo(menu, restaurantId))
+                .map(menu -> ToConverter.createTo(menu, restaurantId))
                 .toList();
     }
 
     @Override
     public MenuTo get(long id, long restaurantId) {
-        return ToConverter.createAdminTo(menuRepository.getExisted(id, restaurantId), restaurantId);
+        return ToConverter.createTo(menuRepository.getExisted(id, restaurantId), restaurantId);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MenuService implements FoodService<Menu, MenuTo> {
     public MenuTo save(Menu menu, long restaurantId) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         menu.setParentEntity(restaurant);
-        return ToConverter.createAdminTo(menuRepository.save(menu), restaurantId);
+        return ToConverter.createTo(menuRepository.save(menu), restaurantId);
     }
 
     @Override

@@ -10,8 +10,8 @@ import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.model.Vote;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
-import ru.erulaev.restaurantvoting.user.to.RequestVoteTo;
-import ru.erulaev.restaurantvoting.user.to.ResponseVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.time.LocalDate;

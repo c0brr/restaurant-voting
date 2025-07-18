@@ -25,7 +25,7 @@ public class DishService implements FoodService<Dish, DishTo> {
     public List<DishTo> getAll(long menuId) {
         List<Dish> dishes = dishRepository.getAllByMenuId(menuId);
         if (dishes.isEmpty() && !menuRepository.existsById(menuId)) {
-            throw new NotFoundException("Menu with id " + menuId + " not found");
+            throw new NotFoundException("Menu with id=" + menuId + " not found");
         }
         return dishes.stream()
                 .map(dish -> ToConverter.createTo(dish, menuId))

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
-import ru.erulaev.restaurantvoting.user.to.RequestVoteTo;
-import ru.erulaev.restaurantvoting.user.to.ResponseVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 import ru.erulaev.restaurantvoting.user.web.validation.UniqueUserVoteValidator;
 
 import java.net.URI;

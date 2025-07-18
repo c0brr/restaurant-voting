@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import ru.erulaev.restaurantvoting.app.AuthUtil;
 import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
-import ru.erulaev.restaurantvoting.user.to.RequestVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
 
 @Component
 @AllArgsConstructor

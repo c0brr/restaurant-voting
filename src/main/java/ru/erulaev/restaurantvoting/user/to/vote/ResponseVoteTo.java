@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.to;
+package ru.erulaev.restaurantvoting.user.to.vote;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;

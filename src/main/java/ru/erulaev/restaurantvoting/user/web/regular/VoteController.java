@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
-import ru.erulaev.restaurantvoting.user.to.ResponseVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 
 import java.util.List;
 

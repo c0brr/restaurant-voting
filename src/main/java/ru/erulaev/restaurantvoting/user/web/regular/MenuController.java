@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
-import ru.erulaev.restaurantvoting.user.to.MenuTo;
+import ru.erulaev.restaurantvoting.user.to.menu.MenuTo;
 
 import java.time.LocalDate;
 

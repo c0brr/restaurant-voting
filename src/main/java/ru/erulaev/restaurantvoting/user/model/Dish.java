@@ -1,5 +1,6 @@
 package ru.erulaev.restaurantvoting.user.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -36,5 +37,6 @@ public class Dish extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Menu parentEntity;
 }
