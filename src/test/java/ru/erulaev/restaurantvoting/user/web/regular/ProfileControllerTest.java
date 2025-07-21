@@ -1,15 +1,16 @@
 package ru.erulaev.restaurantvoting.user.web.regular;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
+import ru.erulaev.restaurantvoting.user.mapper.UserMapper;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
-import ru.erulaev.restaurantvoting.user.util.ToConverter;
 import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 import ru.erulaev.restaurantvoting.user.web.validation.UniqueMailValidator;
 
@@ -21,6 +22,9 @@ import static ru.erulaev.restaurantvoting.user.UserTestData.*;
 import static ru.erulaev.restaurantvoting.user.web.regular.ProfileController.REST_URL;
 
 class ProfileControllerTest extends AbstractControllerTest {
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Test
     @WithUserDetails(value = USER_1_MAIL)
@@ -48,7 +52,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     @Test
     void register() throws Exception {
         UserTo newTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
-        User newUser = ToConverter.createNewFromTo(newTo);
+        User newUser = userMapper.createNewFromTo(newTo);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
@@ -74,7 +78,7 @@ class ProfileControllerTest extends AbstractControllerTest {
 
         USER_MATCHER.assertMatch(userRepository.findById(USER_1_ID).orElseThrow(() ->
                         new NotFoundException("Entity with id=" + USER_1_ID + " not found")),
-                ToConverter.updateFromTo(new User(user1), updatedTo));
+                userMapper.updateFromTo(new User(user1), updatedTo));
     }
 
     @Test

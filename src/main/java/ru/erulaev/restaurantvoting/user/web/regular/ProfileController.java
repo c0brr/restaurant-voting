@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
+import ru.erulaev.restaurantvoting.user.mapper.UserMapper;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
-import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.net.URI;
 
@@ -32,6 +32,7 @@ public class ProfileController {
     static final String REST_URL = "/api/profile";
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@AuthenticationPrincipal AuthUser authUser) {
@@ -53,7 +54,7 @@ public class ProfileController {
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
-        User created = userRepository.prepareAndSave(ToConverter.createNewFromTo(userTo));
+        User created = userRepository.prepareAndSave(userMapper.createNewFromTo(userTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
@@ -71,6 +72,6 @@ public class ProfileController {
             throw new NotFoundException("User with id=" + id + " not found");
         }
         User user = authUser.getUser();
-        userRepository.prepareAndSave(ToConverter.updateFromTo(user, userTo));
+        userRepository.prepareAndSave(userMapper.updateFromTo(user, userTo));
     }
 }

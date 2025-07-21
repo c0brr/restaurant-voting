@@ -39,4 +39,9 @@ public class Dish extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Menu parentEntity;
+
+    @Schema(hidden = true)
+    public Long getMenuId() {
+        return parentEntity.getId();
+    }
 }

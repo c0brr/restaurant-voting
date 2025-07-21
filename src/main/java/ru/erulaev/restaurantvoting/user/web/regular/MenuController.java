@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
-import ru.erulaev.restaurantvoting.user.to.menu.MenuTo;
+import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
 
 import java.time.LocalDate;
 
@@ -22,8 +22,9 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping
-    public ResponseEntity<MenuTo> getByDate(@PathVariable long restaurantId,
-                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<RegularMenuTo> getByDate(@PathVariable long restaurantId,
+                                                   @RequestParam(required = false)
+                                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         date = date != null ? date : LocalDate.now();
         log.info("get for restaurant {} by date {}", restaurantId, date);
         return ResponseEntity.of(menuService.getByDate(restaurantId, date));

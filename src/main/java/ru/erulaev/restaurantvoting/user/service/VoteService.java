@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.IllegalRequestDataException;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
+import ru.erulaev.restaurantvoting.user.mapper.VoteMapper;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.model.Vote;
@@ -12,7 +13,6 @@ import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
 import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
-import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,24 +26,25 @@ public class VoteService {
     private static final LocalTime VOTING_DEADLINE = LocalTime.of(11, 0);
 
     private final VoteRepository voteRepository;
-    private RestaurantRepository restaurantRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final VoteMapper voteMapper;
 
     public List<ResponseVoteTo> getAllByUser(long userId) {
         return voteRepository.getAllByUserId(userId).stream()
-                .map(ToConverter::createResponseTo)
+                .map(voteMapper::createResponseTo)
                 .toList();
     }
 
     public Optional<ResponseVoteTo> getCurrent(long userId) {
-        return voteRepository.getByUserIdAndDate(userId, LocalDate.now()).map(ToConverter::createResponseTo);
+        return voteRepository.getByUserIdAndDate(userId, LocalDate.now()).map(voteMapper::createResponseTo);
     }
 
     @Transactional
     public ResponseVoteTo save(RequestVoteTo requestVoteTo, User user) {
         checkDeadLine();
         Restaurant restaurant = restaurantRepository.getExisted(requestVoteTo.getRestaurantId());
-        Vote vote = voteRepository.save(ToConverter.createNewFromRequestTo(requestVoteTo, user, restaurant));
-        return ToConverter.createResponseTo(vote);
+        Vote vote = voteRepository.save(voteMapper.createNewFromRequestTo(requestVoteTo, user, restaurant));
+        return voteMapper.createResponseTo(vote);
     }
 
     @Transactional

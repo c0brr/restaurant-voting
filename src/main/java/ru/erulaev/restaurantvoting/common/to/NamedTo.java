@@ -2,11 +2,14 @@ package ru.erulaev.restaurantvoting.common.to;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(callSuper = true)
 public class NamedTo extends BaseTo {
 

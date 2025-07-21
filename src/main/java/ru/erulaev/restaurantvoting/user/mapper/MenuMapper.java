@@ -1,0 +1,15 @@
+package ru.erulaev.restaurantvoting.user.mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.to.menu.MenuTo;
+import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
+
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = DishMapper.class)
+public interface MenuMapper {
+
+    MenuTo createTo(Menu menu);
+
+    RegularMenuTo createToWithDishes(Menu menu);
+}

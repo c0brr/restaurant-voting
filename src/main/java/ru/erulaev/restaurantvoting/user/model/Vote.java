@@ -3,7 +3,6 @@ package ru.erulaev.restaurantvoting.user.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +28,7 @@ import java.time.LocalDate;
 @Table(name = "vote",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date"}, name = "uk_user_date"),
         indexes = @Index(name = "date_restaurant_idx", columnList = "date, restaurant_id"))
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Setter
 public class Vote extends BaseEntity {
@@ -54,13 +53,6 @@ public class Vote extends BaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
-
-    public Vote(Long id, LocalDate date, User user, Restaurant restaurant) {
-        super(id);
-        this.date = date;
-        this.user = user;
-        this.restaurant = restaurant;
-    }
 
     public Long getUserId() {
         return user.getId();

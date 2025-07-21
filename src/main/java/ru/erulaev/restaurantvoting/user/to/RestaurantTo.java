@@ -1,24 +1,20 @@
 package ru.erulaev.restaurantvoting.user.to;
 
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 
 import java.util.Date;
 
-@Value
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 public class RestaurantTo extends NamedTo {
 
-    Date registered;
+    private Date registered;
 
-    int votes;
-
-    public RestaurantTo(Long id, String name, Date registered, int votes) {
-        super(id, name);
-        this.registered = registered;
-        this.votes = votes;
-    }
+    private int votes;
 
     @Override
     public String toString() {

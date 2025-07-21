@@ -32,6 +32,7 @@ A voting system for deciding where to have lunch.
 - Swagger 3 (OpenAPI)
 - JUnit 5
 - Caffeine Cache
+- MapStruct
 - **Instruments**:
 - Maven
 - Git

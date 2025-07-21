@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
+import ru.erulaev.restaurantvoting.user.mapper.DishMapper;
 import ru.erulaev.restaurantvoting.user.model.Dish;
 import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.repository.DishRepository;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.to.DishTo;
-import ru.erulaev.restaurantvoting.user.util.ToConverter;
 
 import java.util.List;
 
@@ -17,8 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 public class DishService implements FoodService<Dish, DishTo> {
 
-    private DishRepository dishRepository;
-    private MenuRepository menuRepository;
+    private final DishRepository dishRepository;
+    private final MenuRepository menuRepository;
+    private final DishMapper dishMapper;
 
     @Override
     @Transactional
@@ -28,13 +29,13 @@ public class DishService implements FoodService<Dish, DishTo> {
             throw new NotFoundException("Menu with id=" + menuId + " not found");
         }
         return dishes.stream()
-                .map(dish -> ToConverter.createTo(dish, menuId))
+                .map(dishMapper::createTo)
                 .toList();
     }
 
     @Override
     public DishTo get(long id, long menuId) {
-        return ToConverter.createTo(dishRepository.getExisted(id, menuId), menuId);
+        return dishMapper.createTo(dishRepository.getExisted(id, menuId));
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DishService implements FoodService<Dish, DishTo> {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new NotFoundException("Menu with id=" + menuId + " not found"));
         dish.setParentEntity(menu);
-        return ToConverter.createTo(dishRepository.prepareAndSave(dish), menuId);
+        return dishMapper.createTo(dishRepository.prepareAndSave(dish));
     }
 
     @Override

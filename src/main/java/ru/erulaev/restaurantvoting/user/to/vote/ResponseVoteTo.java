@@ -1,27 +1,22 @@
 package ru.erulaev.restaurantvoting.user.to.vote;
 
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.to.BaseTo;
 
 import java.time.LocalDate;
 
-@Value
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 public class ResponseVoteTo extends BaseTo {
 
-    LocalDate date;
+    private LocalDate date;
 
-    long restaurantId;
+    private long restaurantId;
 
-    long userId;
-
-    public ResponseVoteTo(Long id, LocalDate date, long restaurantId, long userId) {
-        super(id);
-        this.date = date;
-        this.restaurantId = restaurantId;
-        this.userId = userId;
-    }
+    private long userId;
 
     @Override
     public String toString() {

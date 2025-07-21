@@ -1,22 +1,18 @@
 package ru.erulaev.restaurantvoting.user.to;
 
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 
-@Value
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 public class DishTo extends NamedTo {
 
-    int price;
+    private int price;
 
-    long menuId;
-
-    public DishTo(Long id, String name, int price, long menuId) {
-        super(id, name);
-        this.price = price;
-        this.menuId = menuId;
-    }
+    private long menuId;
 
     @Override
     public String toString() {
