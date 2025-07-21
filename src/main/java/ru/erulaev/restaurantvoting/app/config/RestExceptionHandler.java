@@ -1,5 +1,6 @@
 package ru.erulaev.restaurantvoting.app.config;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ValidationException;
@@ -12,6 +13,7 @@ import org.springframework.core.NestedExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.RequestRejectedException;
@@ -76,6 +78,17 @@ public class RestExceptionHandler {
         String path = request.getRequestURI();
         log.warn(ERR_PFX + "BindException with invalidParams {} at request {}", invalidParams, path);
         return createProblemDetail(ex, path, BAD_REQUEST, "BindException", Map.of("invalid_params", invalidParams));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    ProblemDetail jsonParseException(HttpMessageNotReadableException ex, HttpServletRequest request) {
+        Throwable cause = getRootCause(ex);
+        if (cause.getClass().isAssignableFrom(JsonParseException.class)) {
+            String path = request.getRequestURI();
+            log.warn(ERR_PFX + "JsonParseException at request {}", path);
+            return createProblemDetail(ex, path, BAD_REQUEST, "Malformed JSON request", Map.of());
+        }
+        return exception(ex, request);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
