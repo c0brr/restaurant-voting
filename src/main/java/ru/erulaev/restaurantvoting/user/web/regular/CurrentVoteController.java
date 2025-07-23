@@ -1,5 +1,9 @@
 package ru.erulaev.restaurantvoting.user.web.regular;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,7 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.check
 @RequestMapping(value = CurrentVoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "Current vote controller", description = "Management for user's vote by current date")
 public class CurrentVoteController {
 
     static final String REST_URL = "/api/current-vote";
@@ -37,13 +42,19 @@ public class CurrentVoteController {
     }
 
     @GetMapping
+    @Operation(summary = "To get vote", description = "Returns user's current vote by his authentication")
+    @ApiResponse(responseCode = "200", description = "Vote is found")
+    @ApiResponse(responseCode = "404", description = "Vote is not found")
     public ResponseEntity<ResponseVoteTo> get(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get for user {} for today", authUser);
         return ResponseEntity.of(voteService.getCurrent(authUser.id()));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseVoteTo> createWithLocation(@Valid @RequestBody RequestVoteTo requestVoteTo,
+    @Operation(summary = "To create vote", description = "Creates a new vote")
+    @ApiResponse(responseCode = "201", description = "Vote is created")
+    public ResponseEntity<ResponseVoteTo> createWithLocation(@Parameter(description = "Vote's data")
+                                                             @Valid @RequestBody RequestVoteTo requestVoteTo,
                                                              @AuthenticationPrincipal AuthUser authUser) {
         log.info("create {} from user {}", requestVoteTo, authUser);
         checkNew(requestVoteTo);
@@ -55,6 +66,9 @@ public class CurrentVoteController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "To delete vote", description = "Deletes user's vote by his authentication")
+    @ApiResponse(responseCode = "204", description = "Vote is deleted")
+    @ApiResponse(responseCode = "404", description = "Vote is not found")
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         log.info("delete current from user {}", authUser);
         voteService.deleteCurrent(authUser.id());
@@ -62,7 +76,8 @@ public class CurrentVoteController {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void patch(@RequestParam long restaurantId,
+    @Operation(summary = "To change vote", description = "Changes restaurant at user's vote by his authentication")
+    public void patch(@Parameter(description = "Restaurant's ID") @RequestParam long restaurantId,
                       @AuthenticationPrincipal AuthUser authUser) {
         log.info("change choice for user {}", authUser);
         voteService.changeChoice(restaurantId, authUser.id());

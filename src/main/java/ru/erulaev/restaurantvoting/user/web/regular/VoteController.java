@@ -1,5 +1,7 @@
 package ru.erulaev.restaurantvoting.user.web.regular;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "Vote controller", description = "Getting all user's votes")
 public class VoteController {
 
     static final String REST_URL = "/api/my-votes";
@@ -24,8 +27,9 @@ public class VoteController {
     private final VoteService voteService;
 
     @GetMapping
+    @Operation(summary = "To get all votes by user", description = "Returns all votes' data by authenticated user")
     public List<ResponseVoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
-        log.info("getAll from user {}", authUser);
+        log.info("getAll by user {}", authUser);
         return voteService.getAllByUser(authUser.id());
     }
 }

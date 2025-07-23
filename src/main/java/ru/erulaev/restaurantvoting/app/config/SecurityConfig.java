@@ -52,7 +52,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/api/**").authorizeHttpRequests(authz ->
                         authz.requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
-                                .requestMatchers("/api/current-vote", "/api/votes").hasRole(Role.USER.name())
+                                .requestMatchers("/api/current-vote", "/api/my-votes").hasRole(Role.USER.name())
                                 .requestMatchers(HttpMethod.POST, "/api/profile").anonymous()
                                 .requestMatchers("/", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                                 .requestMatchers("/api/**").authenticated())
