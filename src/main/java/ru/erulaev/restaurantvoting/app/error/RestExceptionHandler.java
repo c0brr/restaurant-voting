@@ -1,6 +1,8 @@
-package ru.erulaev.restaurantvoting.app.config;
+package ru.erulaev.restaurantvoting.app.error;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.exc.InputCoercionException;
+import com.fasterxml.jackson.core.io.JsonEOFException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ValidationException;
@@ -64,10 +66,10 @@ public class RestExceptionHandler {
             put(EntityNotFoundException.class, DATA_CONFLICT);
             put(DataIntegrityViolationException.class, DATA_CONFLICT);
             put(IllegalArgumentException.class, BAD_DATA);
-            put(ValidationException.class, BAD_REQUEST);
-            put(HttpRequestMethodNotSupportedException.class, BAD_REQUEST);
-            put(ServletRequestBindingException.class, BAD_REQUEST);
-            put(RequestRejectedException.class, BAD_REQUEST);
+            put(ValidationException.class, INVALID_REQUEST);
+            put(HttpRequestMethodNotSupportedException.class, INVALID_REQUEST);
+            put(ServletRequestBindingException.class, INVALID_REQUEST);
+            put(RequestRejectedException.class, INVALID_REQUEST);
             put(AccessDeniedException.class, FORBIDDEN);
         }
     };
@@ -77,18 +79,20 @@ public class RestExceptionHandler {
         Map<String, String> invalidParams = getErrorMap(ex.getBindingResult());
         String path = request.getRequestURI();
         log.warn(ERR_PFX + "BindException with invalidParams {} at request {}", invalidParams, path);
-        return createProblemDetail(ex, path, BAD_REQUEST, "BindException", Map.of("invalid_params", invalidParams));
+        return createProblemDetail(ex, path, INVALID_REQUEST, "BindException", Map.of("invalid_params", invalidParams));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ProblemDetail jsonParseException(HttpMessageNotReadableException ex, HttpServletRequest request) {
+    ProblemDetail httpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletRequest request) {
         Throwable cause = getRootCause(ex);
-        if (cause.getClass().isAssignableFrom(JsonParseException.class)) {
-            String path = request.getRequestURI();
-            log.warn(ERR_PFX + "JsonParseException at request {}", path);
-            return createProblemDetail(ex, path, BAD_REQUEST, "Malformed JSON request", Map.of());
-        }
-        return exception(ex, request);
+        return cause.getClass().isAssignableFrom(JsonParseException.class) ? bodyException(ex, request) : exception(ex, request);
+    }
+
+    @ExceptionHandler({JsonEOFException.class, InputCoercionException.class})
+    ProblemDetail bodyException(Exception ex, HttpServletRequest request) {
+        String path = request.getRequestURI();
+        log.warn(ERR_PFX + "{} at request {}", ex.getClass().getSimpleName(), path);
+        return createProblemDetail(ex, path, WRONG_REQUEST, "Malformed JSON request", Map.of());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -97,13 +101,18 @@ public class RestExceptionHandler {
         if (cause.getClass().isAssignableFrom(DateTimeParseException.class)) {
             Optional<String> format = Optional.of(ex.getParameter())
                     .map(parameter -> parameter.getParameterAnnotation(DateTimeFormat.class))
-                    .map(annotation -> getIsoPattern(annotation.iso()));
+                    .map(annotation -> switch (annotation.iso()) {
+                        case DATE -> "yyyy-MM-dd";
+                        case TIME -> "HH:mm:ss.SSSZ";
+                        case DATE_TIME -> "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                        case NONE -> null;
+                    });
             if (format.isPresent()) {
                 String parameter = ex.getName();
                 String errorMessage = "Invalid format for parameter '" + parameter + "'" + ". Expected format: '" + format.get() + "'";
                 String path = request.getRequestURI();
                 log.warn(ERR_PFX + "DateTimeParseException at parameter '{}' at request {}", parameter, path);
-                return createProblemDetail(cause, path, FORMAT_ERROR, errorMessage, Map.of());
+                return createProblemDetail(cause, path, WRONG_REQUEST, errorMessage, Map.of());
             }
         }
         return exception(ex, request);
@@ -175,14 +184,5 @@ public class RestExceptionHandler {
     private static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);
         return rootCause != null ? rootCause : t;
-    }
-
-    private static String getIsoPattern(DateTimeFormat.ISO iso) {
-        return switch (iso) {
-            case DATE -> "yyyy-MM-dd";
-            case TIME -> "HH:mm:ss.SSSZ";
-            case DATE_TIME -> "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-            case NONE -> null;
-        };
     }
 }
