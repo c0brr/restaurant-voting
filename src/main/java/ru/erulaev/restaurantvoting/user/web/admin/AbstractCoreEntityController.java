@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.repository.CoreEntityBaseRepository;
+import ru.erulaev.restaurantvoting.app.apiResponse.CommonAdminApiResponses;
 
 import java.net.URI;
 import java.util.List;
@@ -19,6 +20,7 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.assur
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@CommonAdminApiResponses
 public abstract class AbstractCoreEntityController<Entity extends HasId,
         Repository extends CoreEntityBaseRepository<Entity>> {
 

@@ -2,6 +2,8 @@ package ru.erulaev.restaurantvoting.user.web.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,8 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
+import ru.erulaev.restaurantvoting.app.apiResponse.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.app.apiResponse.SearchResultApiResponses;
 
 import java.util.List;
 
@@ -31,16 +36,18 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
 
     @Override
     @GetMapping
-    @Operation(summary = "To get all users", description = "Returns all users' data, order by name and email")
+    @Operation(summary = "To get all users",
+            description = "Returns all users' data (ID, name, email, enable status, registration moment, roles), order by name and email")
+    @ApiResponse(responseCode = "200", description = "Request successful")
     public List<User> getAll() {
         return super.getAll();
     }
 
     @Override
     @GetMapping("/{id}")
-    @Operation(summary = "To get user (by ID)", description = "Returns user's data by his ID")
-    @ApiResponse(responseCode = "200", description = "User is found")
-    @ApiResponse(responseCode = "404", description = "User is not found")
+    @Operation(summary = "To get user (by ID)",
+            description = "Returns user's data (ID, name, email, enable status, registration moment, roles) by his ID")
+    @SearchResultApiResponses
     public User get(@Parameter(description = "User's ID") @PathVariable long id) {
         return super.get(id);
     }
@@ -49,7 +56,9 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @CacheEvict(value = "users", key = "#user.email")
     @Operation(summary = "To create user", description = "Creates a new user")
     @ApiResponse(responseCode = "201", description = "User is created")
-    public ResponseEntity<User> createWithLocation(@Parameter(description = "User's data") @Valid @RequestBody User user) {
+    @BodyAndDataApiResponses
+    public ResponseEntity<User> createWithLocation(@Parameter(description = "User's data (name, email, password, enable status, roles)")
+                                                   @Valid @RequestBody User user) {
         return super.createWithLocation(user, REST_URL);
     }
 
@@ -57,9 +66,11 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", allEntries = true)
-    @Operation(summary = "To delete user", description = "Deletes a user by his ID")
+    @Operation(summary = "To delete user",
+            description = "Deletes a user by his ID. User's roles will also be deleted. User's votes will remain for voting history")
     @ApiResponse(responseCode = "204", description = "User is deleted")
-    @ApiResponse(responseCode = "404", description = "User is not found")
+    @ApiResponse(responseCode = "404", description = "User is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     public void delete(@Parameter(description = "User's ID") @PathVariable long id) {
         super.delete(id);
     }
@@ -70,16 +81,19 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @CacheEvict(value = "users", key = "#user.email")
     @Operation(summary = "To update user", description = "Updates a user by its ID")
     @ApiResponse(responseCode = "204", description = "User is updated")
-    @ApiResponse(responseCode = "404", description = "User is not found")
-    public void update(@Parameter(description = "User's data") @Valid @RequestBody User user,
+    @ApiResponse(responseCode = "404", description = "User is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @BodyAndDataApiResponses
+    public void update(@Parameter(description = "User's data (name, email, password, enable status, roles)")
+                       @Valid @RequestBody User user,
                        @Parameter(description = "User's ID") @PathVariable long id) {
         super.update(user, id);
     }
 
     @GetMapping("/by-email")
-    @Operation(summary = "To get user (by email)", description = "Returns user's data by his email")
-    @ApiResponse(responseCode = "200", description = "User is found")
-    @ApiResponse(responseCode = "404", description = "User is not found")
+    @Operation(summary = "To get user (by email)",
+            description = "Returns user's data (ID, name, email, enable status, registered date, roles) by his email")
+    @SearchResultApiResponses
     public User getByEmail(@Parameter(description = "User's email") @RequestParam String email) {
         log.info("getByEmail {}", email);
         return repository.getExistedByEmail(email);
@@ -87,7 +101,9 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
 
     @GetMapping("/by-containing-name")
     @Operation(summary = "To get users by containing name",
-            description = "Returns all users, whose names contain name form request parameter, order by name and email")
+            description = "Returns all users' data (ID, name, email, enable status, registered date, roles), " +
+                    "whose names contain name form request parameter, order by name and email")
+    @ApiResponse(responseCode = "200", description = "Request successful")
     public List<User> getByContainingName(@Parameter(description = "Name to contain") @RequestParam String name) {
         return super.getByContainingName(name, SORT);
     }
@@ -98,7 +114,8 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @Operation(summary = "To set user enable/disable",
             description = "Enables/disables a user depending request parameter: true = enabled, false = disabled")
     @ApiResponse(responseCode = "204", description = "User is disabled/enabled")
-    @ApiResponse(responseCode = "404", description = "User is not found")
+    @ApiResponse(responseCode = "404", description = "User is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     public void enable(@Parameter(description = "User's ID") @PathVariable long id,
                        @Parameter(description = "Boolean value") @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);

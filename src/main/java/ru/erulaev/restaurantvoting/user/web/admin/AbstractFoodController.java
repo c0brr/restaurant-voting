@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.user.service.FoodService;
+import ru.erulaev.restaurantvoting.app.apiResponse.CommonAdminApiResponses;
 
 import java.net.URI;
 import java.util.List;
@@ -15,6 +16,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.checkNew;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@CommonAdminApiResponses
 public abstract class AbstractFoodController<Entity extends HasId, To extends HasId> {
 
     protected final Logger log = getLogger(getClass());

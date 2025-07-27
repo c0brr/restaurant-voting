@@ -9,8 +9,9 @@ import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
-import ru.erulaev.restaurantvoting.user.to.menu.MenuTo;
+import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
 import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
+import ru.erulaev.restaurantvoting.user.util.RestaurantUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class MenuService implements FoodService<Menu, MenuTo> {
+public class MenuService implements FoodService<Menu, AdminMenuTo> {
 
     private final MenuRepository menuRepository;
     private final RestaurantRepository restaurantRepository;
@@ -26,7 +27,7 @@ public class MenuService implements FoodService<Menu, MenuTo> {
 
     @Override
     @Transactional
-    public List<MenuTo> getAll(long restaurantId) {
+    public List<AdminMenuTo> getAll(long restaurantId) {
         List<Menu> menus = menuRepository.getAllByRestaurantId(restaurantId);
         if (menus.isEmpty() && !restaurantRepository.existsById(restaurantId)) {
             throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
@@ -37,13 +38,13 @@ public class MenuService implements FoodService<Menu, MenuTo> {
     }
 
     @Override
-    public MenuTo get(long id, long restaurantId) {
+    public AdminMenuTo get(long id, long restaurantId) {
         return menuMapper.createTo(menuRepository.getExisted(id, restaurantId));
     }
 
     @Override
     @Transactional
-    public MenuTo save(Menu menu, long restaurantId) {
+    public AdminMenuTo save(Menu menu, long restaurantId) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         menu.setParentEntity(restaurant);
         return menuMapper.createTo(menuRepository.save(menu));
@@ -56,8 +57,9 @@ public class MenuService implements FoodService<Menu, MenuTo> {
 
     @Transactional
     public Optional<RegularMenuTo> getByDate(long restaurantId, LocalDate date) {
-        if (!restaurantRepository.existsById(restaurantId)) {
-            throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
+        Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
+        if (!RestaurantUtil.isRestaurantExistedByDate(restaurant, date)) {
+            throw new NotFoundException("No data available for this date");
         }
         return menuRepository.getWithDishesByDate(restaurantId, date).map(menuMapper::createToWithDishes);
     }

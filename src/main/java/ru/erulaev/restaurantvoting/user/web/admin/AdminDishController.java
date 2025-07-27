@@ -2,6 +2,8 @@ package ru.erulaev.restaurantvoting.user.web.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -10,9 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.model.Dish;
 import ru.erulaev.restaurantvoting.user.service.DishService;
 import ru.erulaev.restaurantvoting.user.to.DishTo;
+import ru.erulaev.restaurantvoting.app.apiResponse.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.app.apiResponse.SearchResultApiResponses;
 import ru.erulaev.restaurantvoting.user.web.validation.UniqueDishNameValidator;
 
 import java.util.List;
@@ -40,17 +45,20 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
 
     @Override
     @GetMapping
-    @Operation(summary = "To get all dishes (by menu)", description = "Returns all dishes' data by menu's ID")
-    @ApiResponse(responseCode = "404", description = "Menu is not found")
+    @Operation(summary = "To get all dishes (by menu)",
+            description = "Returns all dishes' data (dish's ID, name, price, menu's ID) by menu's ID")
+    @ApiResponse(responseCode = "200", description = "Request successful")
+    @ApiResponse(responseCode = "404", description = "Menu is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     public List<DishTo> getAll(@Parameter(description = "Menu's ID") @PathVariable long menuId) {
         return super.getAll(menuId);
     }
 
     @Override
     @GetMapping("/{id}")
-    @Operation(summary = "To get dish", description = "Returns dish's data by its ID and menu's ID")
-    @ApiResponse(responseCode = "200", description = "Dish is found")
-    @ApiResponse(responseCode = "404", description = "Dish or menu is not found")
+    @Operation(summary = "To get dish",
+            description = "Returns dish's data (dish's ID, name, price, menu's ID) by its ID and menu's ID")
+    @SearchResultApiResponses
     public DishTo get(@Parameter(description = "Dish's ID") @PathVariable long id,
                       @Parameter(description = "Menu's ID") @PathVariable long menuId) {
         return super.get(id, menuId);
@@ -59,8 +67,11 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "To create dish", description = "Creates a new dish")
     @ApiResponse(responseCode = "201", description = "Dish is created")
-    @ApiResponse(responseCode = "404", description = "Menu is not found")
-    public ResponseEntity<DishTo> createWithLocation(@Parameter(description = "Dish's data") @Valid @RequestBody Dish dish,
+    @ApiResponse(responseCode = "404", description = "Menu is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @BodyAndDataApiResponses
+    public ResponseEntity<DishTo> createWithLocation(@Parameter(description = "Dish's data (name, price)")
+                                                     @Valid @RequestBody Dish dish,
                                                      @Parameter(description = "Menu's ID") @PathVariable long menuId) {
         return super.createWithLocation(dish, menuId, REST_URL);
     }
@@ -70,7 +81,8 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "To delete dish", description = "Deletes a dish by its ID and menu's ID")
     @ApiResponse(responseCode = "204", description = "Dish is deleted")
-    @ApiResponse(responseCode = "404", description = "Dish or menu is not found")
+    @ApiResponse(responseCode = "404", description = "Dish or menu is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     public void delete(@Parameter(description = "Dish's ID") @PathVariable long id,
                        @Parameter(description = "Menu's ID") @PathVariable long menuId) {
         super.delete(id, menuId);
@@ -80,8 +92,10 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "To update dish", description = "Updates a dish by its ID and menu's ID")
     @ApiResponse(responseCode = "204", description = "Dish is updated")
-    @ApiResponse(responseCode = "404", description = "Dish or menu is not found")
-    public void update(@Parameter(description = "Dish's data") @Valid @RequestBody Dish dish,
+    @ApiResponse(responseCode = "404", description = "Dish is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @BodyAndDataApiResponses
+    public void update(@Parameter(description = "Dish's data (name, price)") @Valid @RequestBody Dish dish,
                        @Parameter(description = "Dish's ID") @PathVariable long id,
                        @Parameter(description = "Menu's ID") @PathVariable long menuId) {
         log.info("update {} with id={} from menu {}", dish, id, menuId);

@@ -1,6 +1,10 @@
 package ru.erulaev.restaurantvoting.user.web.regular;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.erulaev.restaurantvoting.app.AuthUser;
+import ru.erulaev.restaurantvoting.app.apiResponse.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
 import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 
@@ -20,6 +26,9 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @Tag(name = "Vote controller", description = "Getting all user's votes")
+@ApiResponses(@ApiResponse(responseCode = "403", description = "USER role required for this request",
+        content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class))))
+@CommonRegularApiResponses
 public class VoteController {
 
     static final String REST_URL = "/api/my-votes";
@@ -27,7 +36,10 @@ public class VoteController {
     private final VoteService voteService;
 
     @GetMapping
-    @Operation(summary = "To get all votes by user", description = "Returns all votes' data by authenticated user")
+    @Operation(summary = "To get all votes by user",
+            description = "Returns votes' data (vote's ID, voting date, user's ID, restaurant's ID) by authenticated user " +
+                    "except votes for deleted restaurants.")
+    @ApiResponse(responseCode = "200", description = "Request successful")
     public List<ResponseVoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("getAll by user {}", authUser);
         return voteService.getAllByUser(authUser.id());

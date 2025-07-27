@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class RegularMenuTo extends MenuTo {
+public class RegularMenuTo extends AdminMenuTo {
 
     private List<DishTo> dishes;
 

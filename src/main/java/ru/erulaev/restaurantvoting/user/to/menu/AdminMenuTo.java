@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class MenuTo extends BaseTo {
+public class AdminMenuTo extends BaseTo {
 
     protected LocalDate date;
 

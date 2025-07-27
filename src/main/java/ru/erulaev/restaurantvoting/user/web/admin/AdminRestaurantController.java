@@ -2,6 +2,8 @@ package ru.erulaev.restaurantvoting.user.web.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -12,8 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
+import ru.erulaev.restaurantvoting.app.apiResponse.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.app.apiResponse.SearchResultApiResponses;
 import ru.erulaev.restaurantvoting.user.web.validation.UniqueRestaurantNameValidator;
 
 import java.util.List;
@@ -40,16 +45,18 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
 
     @Override
     @GetMapping
-    @Operation(summary = "To get all restaurants", description = "Returns all restaurants' data, order by name")
+    @Operation(summary = "To get all restaurants",
+            description = "Returns all restaurants' data (ID, name, registered date), order by name")
+    @ApiResponse(responseCode = "200", description = "Request successful")
     public List<Restaurant> getAll() {
         return super.getAll();
     }
 
     @Override
     @GetMapping("/{id}")
-    @Operation(summary = "To get restaurant (by ID)", description = "Returns restaurant's data by its ID")
-    @ApiResponse(responseCode = "200", description = "Restaurant is found")
-    @ApiResponse(responseCode = "404", description = "Restaurant is not found")
+    @Operation(summary = "To get restaurant (by ID)",
+            description = "Returns restaurant's data (ID, name, registered date) by its ID")
+    @SearchResultApiResponses
     public Restaurant get(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
         return super.get(id);
     }
@@ -58,7 +65,9 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @CacheEvict(value = "restaurantList", allEntries = true)
     @Operation(summary = "To create restaurant", description = "Creates a new restaurant")
     @ApiResponse(responseCode = "201", description = "Restaurant is created")
-    public ResponseEntity<Restaurant> createWithLocation(@Parameter(description = "Restaurant's data") @Valid @RequestBody Restaurant restaurant) {
+    @BodyAndDataApiResponses
+    public ResponseEntity<Restaurant> createWithLocation(@Parameter(description = "Restaurant's data (name)")
+                                                         @Valid @RequestBody Restaurant restaurant) {
         return super.createWithLocation(restaurant, REST_URL);
     }
 
@@ -66,9 +75,11 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = {"restaurants", "restaurantList"}, allEntries = true)
-    @Operation(summary = "To delete restaurant", description = "Deletes a restaurant by its ID")
+    @Operation(summary = "To delete restaurant",
+            description = "Deletes a restaurant by its ID. All menus and votes for this restaurant will also be deleted")
     @ApiResponse(responseCode = "204", description = "Restaurant is deleted")
-    @ApiResponse(responseCode = "404", description = "Restaurant is not found")
+    @ApiResponse(responseCode = "404", description = "Restaurant is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     public void delete(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
         super.delete(id);
     }
@@ -79,16 +90,18 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @CacheEvict(value = {"restaurants", "restaurantList"}, allEntries = true)
     @Operation(summary = "To update restaurant", description = "Updates a restaurant by its ID")
     @ApiResponse(responseCode = "204", description = "Restaurant is updated")
-    @ApiResponse(responseCode = "404", description = "Restaurant is not found")
-    public void update(@Parameter(description = "Restaurant's data") @Valid @RequestBody Restaurant restaurant,
+    @ApiResponse(responseCode = "404", description = "Restaurant is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @BodyAndDataApiResponses
+    public void update(@Parameter(description = "Restaurant's data (name)") @Valid @RequestBody Restaurant restaurant,
                        @Parameter(description = "Restaurant's ID") @PathVariable long id) {
         super.update(restaurant, id);
     }
 
     @GetMapping("/by-name")
-    @Operation(summary = "To get restaurant (by name)", description = "Returns restaurant's data by its name")
-    @ApiResponse(responseCode = "200", description = "Restaurant is found")
-    @ApiResponse(responseCode = "404", description = "Restaurant is not found")
+    @Operation(summary = "To get restaurant (by name)",
+            description = "Returns restaurant's data (ID, name, registered date) by its name")
+    @SearchResultApiResponses
     public Restaurant getByName(@Parameter(description = "Restaurant's name") @RequestParam String name) {
         log.info("getByName {}", name);
         return repository.getExistedByName(name);
@@ -96,7 +109,9 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
 
     @GetMapping("/by-containing-name")
     @Operation(summary = "To get restaurants by containing name",
-            description = "Returns all restaurants, whose names contain name form request parameter, order by name")
+            description = "Returns all restaurants' data (ID, name, registered date), " +
+                    "whose names contain name form request parameter, order by name")
+    @ApiResponse(responseCode = "200", description = "Request successful")
     public List<Restaurant> getByContainingName(@Parameter(description = "Name to contain") @RequestParam String name) {
         return super.getByContainingName(name, SORT);
     }
