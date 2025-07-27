@@ -10,6 +10,7 @@ import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.repository.DishRepository;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.to.DishTo;
+import ru.erulaev.restaurantvoting.user.util.NameUtil;
 
 import java.util.List;
 
@@ -57,7 +58,6 @@ public class DishService implements FoodService<Dish, DishTo> {
     public void update(Dish newDish, long id, long menuId) {
         Dish oldDish = dishRepository.getExisted(id, menuId);
         oldDish.setPrice(newDish.getPrice());
-        String newName = newDish.getName();
-        oldDish.setName(Character.toUpperCase(newName.charAt(0)) + newName.substring(1).toLowerCase());
+        oldDish.setName(NameUtil.getCorrectName(newDish.getName()));
     }
 }

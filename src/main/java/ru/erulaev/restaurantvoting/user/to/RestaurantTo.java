@@ -5,14 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public class RestaurantTo extends NamedTo {
 
-    private Date registered;
+    private Instant registered;
 
     private int votes;
 

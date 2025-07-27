@@ -16,7 +16,11 @@ import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
-import java.util.*;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Set;
 
 
 @NamedQueries({
@@ -57,7 +61,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date registered = new Date();
+    private Instant registered = Instant.now();
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role",
@@ -68,17 +72,17 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles = EnumSet.noneOf(Role.class);
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("CopyConstructorMissesField")
     public User(User u) {
         this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
     public User(Long id, String name, String email, String password, Role... roles) {
-        this(id, name, email, password, true, new Date(), Arrays.asList(roles));
+        this(id, name, email, password, true, Instant.now(), Arrays.asList(roles));
     }
 
     public User(Long id, String name, String email, String password,
-                boolean enabled, Date registered, @NonNull Collection<Role> roles) {
+                boolean enabled, Instant registered, @NonNull Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;

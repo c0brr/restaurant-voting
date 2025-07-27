@@ -22,7 +22,7 @@ public abstract class BaseEntity implements HasId {
 
     // https://stackoverflow.com/questions/1638723
     @Override
-    @SuppressWarnings("all")
+    @SuppressWarnings("EqualsDoesntCheckParameterClass")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClassWithoutInitializingProxy(this) != getClassWithoutInitializingProxy(o)) return false;

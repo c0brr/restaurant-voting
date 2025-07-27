@@ -6,7 +6,7 @@ import org.hibernate.proxy.HibernateProxy;
 @UtilityClass
 public class HibernateProxyHelper {
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("rawtypes")
     public static Class getClassWithoutInitializingProxy(Object object) {
         return (object instanceof HibernateProxy proxy) ?
                 proxy.getHibernateLazyInitializer().getPersistentClass() : object.getClass();

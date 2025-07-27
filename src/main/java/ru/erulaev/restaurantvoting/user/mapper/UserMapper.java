@@ -5,17 +5,17 @@ import ru.erulaev.restaurantvoting.user.model.Role;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.EnumSet;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, imports = {EnumSet.class, Role.class, Date.class},
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, imports = {EnumSet.class, Role.class, Instant.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", qualifiedByName = "getEmailLowerCase")
     @Mapping(target = "enabled", constant = "true")
-    @Mapping(target = "registered", expression = "java(new Date())")
+    @Mapping(target = "registered", expression = "java(Instant.now())")
     @Mapping(target = "roles", expression = "java(EnumSet.of(Role.USER))")
     User createNewFromTo(UserTo userTo);
 

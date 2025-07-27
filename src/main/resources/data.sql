@@ -21,7 +21,6 @@ VALUES ('First_restaurant'),
 INSERT INTO VOTE (restaurant_id, user_id)
 VALUES (1, 2),
        (2, 1),
-       (1, 3),
        (1, 4);
 
 INSERT INTO MENU (restaurant_id)

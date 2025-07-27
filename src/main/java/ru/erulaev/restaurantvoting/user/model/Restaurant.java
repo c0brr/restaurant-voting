@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.model.NamedEntity;
 
-import java.util.Date;
+import java.time.Instant;
 
 @NamedQueries({
         @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r From Restaurant r ORDER BY r.name")
@@ -26,5 +26,5 @@ public class Restaurant extends NamedEntity {
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date registered = new Date();
+    private Instant registered = Instant.now();
 }

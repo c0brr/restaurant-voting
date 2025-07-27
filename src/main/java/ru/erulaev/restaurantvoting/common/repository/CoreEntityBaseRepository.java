@@ -29,7 +29,7 @@ public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Long> {
     int delete(long id);
 
     //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)
-    @SuppressWarnings("all") // transaction invoked
+    @SuppressWarnings("SpringTransactionalMethodCallsInspection") // transaction invoked
     default void deleteExisted(long id) {
         if (delete(id) == 0) {
             throw new NotFoundException("Entity with id=" + id + " not found");

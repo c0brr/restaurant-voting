@@ -20,7 +20,7 @@ public interface FoodBaseRepository<T> extends JpaRepository<T, Long> {
     @Query("SELECT e FROM #{#entityName} e WHERE e.id = ?1 AND e.parentEntity.id = ?2")
     Optional<T> get(long id, long parentId);
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("SpringTransactionalMethodCallsInspection")
     default void deleteExisted(long id, long parentId) {
         if (delete(id, parentId) == 0) {
             throw new NotFoundException("Entity with id=" + id + " not found at parent entity with id=" + parentId);
