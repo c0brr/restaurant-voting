@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.app.schema;
+package ru.erulaev.restaurantvoting.user.web.apiResponse.schema;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user;
+package ru.erulaev.restaurantvoting.user.web.data;
 
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
@@ -37,7 +37,7 @@ public class UserTestData {
     }
 
     public static User getUpdated() {
-        return new User(USER_1_ID, "UpdatedName", USER_1_MAIL, "newPass", false, Instant.now(), List.of(Role.ADMIN));
+        return new User(USER_1_ID, "UpdatedName", "updated@mail.com", "newPass", false, Instant.now(), List.of(Role.ADMIN));
     }
 
     public static String jsonWithPassword(User user, String password) {

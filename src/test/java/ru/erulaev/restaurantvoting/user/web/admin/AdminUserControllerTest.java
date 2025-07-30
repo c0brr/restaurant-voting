@@ -8,18 +8,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Role;
 import ru.erulaev.restaurantvoting.user.model.User;
-import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
+import ru.erulaev.restaurantvoting.user.web.AbstractUserControllerTest;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.erulaev.restaurantvoting.user.UserTestData.*;
+import static ru.erulaev.restaurantvoting.user.validation.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 import static ru.erulaev.restaurantvoting.user.web.admin.AdminUserController.REST_URL;
-import static ru.erulaev.restaurantvoting.user.web.validation.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
+import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.*;
 
-class AdminUserControllerTest extends AbstractControllerTest {
+class AdminUserControllerTest extends AbstractUserControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
 
@@ -213,5 +213,14 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(admin, user2, user3));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getEmptyListByContainingName() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/by-containing-name?name=fifth"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(USER_MATCHER.contentJson());
     }
 }

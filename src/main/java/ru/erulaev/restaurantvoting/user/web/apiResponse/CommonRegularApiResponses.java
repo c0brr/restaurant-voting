@@ -1,10 +1,10 @@
-package ru.erulaev.restaurantvoting.app.apiResponse;
+package ru.erulaev.restaurantvoting.user.web.apiResponse;
 
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

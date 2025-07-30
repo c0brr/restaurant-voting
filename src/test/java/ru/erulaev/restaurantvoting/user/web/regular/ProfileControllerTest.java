@@ -11,17 +11,17 @@ import ru.erulaev.restaurantvoting.common.util.JsonUtil;
 import ru.erulaev.restaurantvoting.user.mapper.UserMapper;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
-import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
-import ru.erulaev.restaurantvoting.user.web.validation.UniqueMailValidator;
+import ru.erulaev.restaurantvoting.user.validation.UniqueMailValidator;
+import ru.erulaev.restaurantvoting.user.web.AbstractUserControllerTest;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.erulaev.restaurantvoting.user.UserTestData.*;
+import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.*;
 import static ru.erulaev.restaurantvoting.user.web.regular.ProfileController.REST_URL;
 
-class ProfileControllerTest extends AbstractControllerTest {
+class ProfileControllerTest extends AbstractUserControllerTest {
 
     @Autowired
     private UserMapper userMapper;
@@ -70,7 +70,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_1_MAIL)
     void update() throws Exception {
-        UserTo updatedTo = new UserTo(null, "newName", USER_1_MAIL, "newPassword");
+        UserTo updatedTo = new UserTo(null, "newName", "new@mail.ru", "newPassword");
         perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())

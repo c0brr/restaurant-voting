@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.web.validation;
+package ru.erulaev.restaurantvoting.user.validation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;

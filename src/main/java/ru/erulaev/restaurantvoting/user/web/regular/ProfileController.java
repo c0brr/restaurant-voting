@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
-import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.mapper.UserMapper;
 import ru.erulaev.restaurantvoting.user.model.User;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
-import ru.erulaev.restaurantvoting.app.apiResponse.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
 
 import java.net.URI;
 

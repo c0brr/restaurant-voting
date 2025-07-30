@@ -11,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.service.RestaurantService;
 import ru.erulaev.restaurantvoting.user.to.RestaurantTo;
 import ru.erulaev.restaurantvoting.user.util.DateUtil;
-import ru.erulaev.restaurantvoting.app.apiResponse.CommonRegularApiResponses;
-import ru.erulaev.restaurantvoting.app.apiResponse.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -27,4 +27,17 @@ public class Restaurant extends NamedEntity {
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant registered = Instant.now();
+
+    public Restaurant(Restaurant restaurant) {
+        this(restaurant.id, restaurant.name, restaurant.registered);
+    }
+
+    public Restaurant(Long id, String name, Instant registered) {
+        this(id, name);
+        this.registered = registered;
+    }
+
+    public Restaurant(Long id, String name) {
+        super(id, name);
+    }
 }

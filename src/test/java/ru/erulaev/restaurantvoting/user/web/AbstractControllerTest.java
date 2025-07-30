@@ -8,16 +8,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
-import ru.erulaev.restaurantvoting.user.repository.UserRepository;
 
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public abstract class AbstractControllerTest {
-
-    @Autowired
-    protected UserRepository userRepository;
 
     @Autowired
     private MockMvc mockMvc;

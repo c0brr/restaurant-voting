@@ -18,14 +18,14 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
-import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
 import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
-import ru.erulaev.restaurantvoting.app.apiResponse.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.app.apiResponse.CommonRegularApiResponses;
-import ru.erulaev.restaurantvoting.app.apiResponse.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.validation.UniqueUserVoteValidator;
+import ru.erulaev.restaurantvoting.user.validation.UniqueUserVoteValidator;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
 
 import java.net.URI;
 

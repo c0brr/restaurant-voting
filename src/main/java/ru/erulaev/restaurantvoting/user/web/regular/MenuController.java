@@ -12,11 +12,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.erulaev.restaurantvoting.app.schema.ProblemDetailSchema;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
 import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
 import ru.erulaev.restaurantvoting.user.util.DateUtil;
-import ru.erulaev.restaurantvoting.app.apiResponse.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
 
 import java.time.LocalDate;
 
