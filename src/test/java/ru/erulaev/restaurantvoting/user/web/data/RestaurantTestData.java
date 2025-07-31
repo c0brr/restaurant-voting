@@ -30,6 +30,6 @@ public class RestaurantTestData {
     }
 
     public static Restaurant getUpdated() {
-        return new Restaurant(RESTAURANT_1_ID, "Updated", Instant.now());
+        return new Restaurant(RESTAURANT_1_ID, "UpdatedName", Instant.now());
     }
 }

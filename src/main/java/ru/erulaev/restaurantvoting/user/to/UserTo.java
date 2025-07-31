@@ -3,13 +3,13 @@ package ru.erulaev.restaurantvoting.user.to;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.*;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
-@Value
+@NoArgsConstructor
+@Getter
 @EqualsAndHashCode(callSuper = true)
 public class UserTo extends NamedTo implements HasIdAndEmail {
 

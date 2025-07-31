@@ -1,13 +1,16 @@
 package ru.erulaev.restaurantvoting.user.web.admin;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
-import ru.erulaev.restaurantvoting.user.web.AbstractRestaurantControllerTest;
+import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
+import ru.erulaev.restaurantvoting.user.util.NameUtil;
+import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -21,9 +24,12 @@ import static ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData.*;
 import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.ADMIN_MAIL;
 import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.USER_1_MAIL;
 
-class AdminRestaurantControllerTest extends AbstractRestaurantControllerTest {
+class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -134,8 +140,10 @@ class AdminRestaurantControllerTest extends AbstractRestaurantControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
+        updated = getUpdated();
+        updated.setName(NameUtil.getCorrectName(updated.getName()));
         RESTAURANT_MATCHER.assertMatch(restaurantRepository.findById(RESTAURANT_1_ID).orElseThrow(() ->
-                new NotFoundException("Entity with id=" + RESTAURANT_1_ID + " not found")), getUpdated());
+                new NotFoundException("Entity with id=" + RESTAURANT_1_ID + " not found")), updated);
     }
 
     @Test

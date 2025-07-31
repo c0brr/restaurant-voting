@@ -23,9 +23,13 @@ VALUES (1, 2),
        (2, 1),
        (1, 4);
 
-INSERT INTO MENU (restaurant_id)
-VALUES (1),
-       (2);
+INSERT INTO MENU (restaurant_id, date)
+VALUES (1, '2024-05-06'),
+       (1, '2024-06-06'),
+       (1, '2024-06-07'),
+       (1, '2024-06-08'),
+       (1, '2025-01-01'),
+       (2, '2024-01-01');
 
 INSERT INTO DISH (name, price, menu_id)
 VALUES ('Soup', 100, 1),

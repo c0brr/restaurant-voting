@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +25,7 @@ import java.util.List;
 @Entity
 @Table(name = "menu",
         uniqueConstraints = @UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "uk_restaurant_menu_date"))
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Setter
 public class Menu extends BaseEntity {
@@ -54,5 +53,15 @@ public class Menu extends BaseEntity {
     @Schema(hidden = true)
     public Long getRestaurantId() {
         return parentEntity.getId();
+    }
+
+    public Menu(Long id, LocalDate date, Restaurant parentEntity) {
+        this(id, date);
+        this.parentEntity = parentEntity;
+    }
+
+    public Menu(Long id, LocalDate date) {
+        super(id);
+        this.date = date;
     }
 }
