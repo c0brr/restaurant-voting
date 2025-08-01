@@ -13,7 +13,7 @@ import static ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData.resta
 
 public class MenuTestData {
 
-    public static final MatcherFactory.Matcher<AdminMenuTo> MENU_MATCHER = MatcherFactory.usingEqualsComparator(AdminMenuTo.class);
+    public static final MatcherFactory.Matcher<AdminMenuTo> ADMIN_MENU_TO_MATCHER = MatcherFactory.usingEqualsComparator(AdminMenuTo.class);
     public static final MenuMapper MAPPER = Mappers.getMapper(MenuMapper.class);
 
     public static final long MENU_1_ID = 1L;
@@ -23,6 +23,9 @@ public class MenuTestData {
     public static final long MENU_5_ID = 5L;
     public static final long MENU_6_ID = 6L;
     public static final long NOT_FOUND = 100L;
+
+    public static final Menu menu1 = new Menu(MENU_1_ID, LocalDate.of(2024, 5, 6), restaurant1);
+    public static final Menu menu2 = new Menu(MENU_2_ID, LocalDate.of(2024, 6, 6), restaurant1);
 
     public static final AdminMenuTo menuTo1 = MAPPER.createTo(new Menu(MENU_1_ID, LocalDate.of(2024, 5, 6), restaurant1));
     public static final AdminMenuTo menuTo2 = MAPPER.createTo(new Menu(MENU_2_ID, LocalDate.of(2024, 6, 6), restaurant1));

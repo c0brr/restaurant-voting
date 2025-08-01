@@ -32,5 +32,8 @@ VALUES (1, '2024-05-06'),
        (2, '2024-01-01');
 
 INSERT INTO DISH (name, price, menu_id)
-VALUES ('Soup', 100, 1),
-       ('Salad', 200, 1);
+VALUES ('Soup', 260, 1),
+       ('Salad', 200, 1),
+       ('Fries', 100, 1),
+       ('Apple juice', 150, 1),
+       ('Salad', 50, 2);

@@ -10,6 +10,6 @@ import java.time.ZoneId;
 public class RestaurantUtil {
 
     public static boolean isRestaurantExistedByDate(Restaurant restaurant, LocalDate date) {
-        return !restaurant.getRegistered().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(date);
+        return !restaurant.getCreated().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(date);
     }
 }

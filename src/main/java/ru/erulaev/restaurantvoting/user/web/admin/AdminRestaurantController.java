@@ -46,7 +46,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Override
     @GetMapping
     @Operation(summary = "To get all restaurants",
-            description = "Returns all restaurants' data (ID, name, registered date), order by name")
+            description = "Returns all restaurants' data (ID, name, created date), order by name")
     @ApiResponse(responseCode = "200", description = "Request successful")
     public List<Restaurant> getAll() {
         return super.getAll();
@@ -55,7 +55,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Override
     @GetMapping("/{id}")
     @Operation(summary = "To get restaurant (by ID)",
-            description = "Returns restaurant's data (ID, name, registered date) by its ID")
+            description = "Returns restaurant's data (ID, name, created date) by its ID")
     @SearchResultApiResponses
     public Restaurant get(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
         return super.get(id);
@@ -100,7 +100,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
 
     @GetMapping("/by-name")
     @Operation(summary = "To get restaurant (by name)",
-            description = "Returns restaurant's data (ID, name, registered date) by its name")
+            description = "Returns restaurant's data (ID, name, created date) by its name")
     @SearchResultApiResponses
     public Restaurant getByName(@Parameter(description = "Restaurant's name") @RequestParam String name) {
         log.info("getByName {}", name);
@@ -109,7 +109,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
 
     @GetMapping("/by-containing-name")
     @Operation(summary = "To get restaurants by containing name",
-            description = "Returns all restaurants' data (ID, name, registered date), " +
+            description = "Returns all restaurants' data (ID, name, created date), " +
                     "whose names contain name form request parameter, order by name")
     @ApiResponse(responseCode = "200", description = "Request successful")
     public List<Restaurant> getByContainingName(@Parameter(description = "Name to contain") @RequestParam String name) {

@@ -40,6 +40,26 @@ public class Dish extends NamedEntity {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Menu parentEntity;
 
+    @SuppressWarnings("CopyConstructorMissesField")
+    public Dish(Dish dish) {
+        this(dish.id, dish.name, dish.price);
+    }
+
+    public Dish(Long id, String name, int price, Menu parentEntity) {
+        this(id, name, price);
+        this.parentEntity = parentEntity;
+    }
+
+    public Dish(Long id, String name, int price) {
+        this(name, price);
+        this.id = id;
+    }
+
+    public Dish(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
     @Schema(hidden = true)
     public Long getMenuId() {
         return parentEntity.getId();

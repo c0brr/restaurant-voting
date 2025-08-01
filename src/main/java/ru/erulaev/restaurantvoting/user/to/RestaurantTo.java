@@ -12,7 +12,7 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 public class RestaurantTo extends NamedTo {
 
-    private Instant registered;
+    private Instant created;
 
     private int votes;
 

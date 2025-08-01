@@ -23,18 +23,18 @@ public class Restaurant extends NamedEntity {
 
     static final String GET_ALL = "Restaurant.getAll";
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
+    @Column(name = "created", nullable = false, columnDefinition = "timestamp default current_timestamp", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Instant registered = Instant.now();
+    private Instant created = Instant.now();
 
     public Restaurant(Restaurant restaurant) {
-        this(restaurant.id, restaurant.name, restaurant.registered);
+        this(restaurant.id, restaurant.name, restaurant.created);
     }
 
-    public Restaurant(Long id, String name, Instant registered) {
+    public Restaurant(Long id, String name, Instant created) {
         this(id, name);
-        this.registered = registered;
+        this.created = created;
     }
 
     public Restaurant(Long id, String name) {

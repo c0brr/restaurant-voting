@@ -50,11 +50,6 @@ public class Menu extends BaseEntity {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private List<Dish> dishes;
 
-    @Schema(hidden = true)
-    public Long getRestaurantId() {
-        return parentEntity.getId();
-    }
-
     public Menu(Long id, LocalDate date, Restaurant parentEntity) {
         this(id, date);
         this.parentEntity = parentEntity;
@@ -63,5 +58,10 @@ public class Menu extends BaseEntity {
     public Menu(Long id, LocalDate date) {
         super(id);
         this.date = date;
+    }
+
+    @Schema(hidden = true)
+    public Long getRestaurantId() {
+        return parentEntity.getId();
     }
 }

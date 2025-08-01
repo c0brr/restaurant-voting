@@ -47,7 +47,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MENU_MATCHER.contentJson(menuTo5, menuTo4, menuTo3, menuTo2, menuTo1));
+                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson(menuTo5, menuTo4, menuTo3, menuTo2, menuTo1));
     }
 
     @Test
@@ -64,7 +64,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(RESTAURANT_4_REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MENU_MATCHER.contentJson());
+                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson());
     }
 
     @Test
@@ -74,7 +74,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MENU_MATCHER.contentJson(menuTo6));
+                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson(menuTo6));
     }
 
     @Test
@@ -88,7 +88,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getForWrongRestaurant() throws Exception {
-        perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL + MENU_6_ID))
+        perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL_SLASH + MENU_6_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -110,7 +110,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void deleteRestaurantAndGet() throws Exception {
-        restaurantRepository.deleteExisted(RESTAURANT_1_ID);
+        restaurantRepository.delete(RESTAURANT_1_ID);
         perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL_SLASH + MENU_4_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
@@ -125,15 +125,15 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .content(writeValue(newMenu)))
                 .andExpect(status().isCreated());
 
-        AdminMenuTo created = MENU_MATCHER.readFromJson(action);
+        AdminMenuTo created = ADMIN_MENU_TO_MATCHER.readFromJson(action);
         long newId = created.id();
         newMenu.setId(newId);
         newMenu.setParentEntity(restaurantRepository.getReferenceById(created.getRestaurantId()));
         AdminMenuTo newMenuTo = getTo(newMenu);
-        MENU_MATCHER.assertMatch(created, newMenuTo);
+        ADMIN_MENU_TO_MATCHER.assertMatch(created, newMenuTo);
         created = getTo(menuRepository.findById(newId).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + newId + " not found")));
-        MENU_MATCHER.assertMatch(created, newMenuTo);
+        ADMIN_MENU_TO_MATCHER.assertMatch(created, newMenuTo);
     }
 
     @Test

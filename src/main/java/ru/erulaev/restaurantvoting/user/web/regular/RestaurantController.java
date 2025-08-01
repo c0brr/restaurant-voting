@@ -35,7 +35,7 @@ public class RestaurantController {
 
     @GetMapping
     @Operation(summary = "To get all restaurants",
-            description = "Returns all restaurants' data (ID, name, registered date, vote count). " +
+            description = "Returns all restaurants' data (ID, name, created date, vote count). " +
                     "By default, for current date. You can request restaurants with their votes for date specified " +
                     "at request parameter. Shows restaurants that exist for requested date")
     @ApiResponse(responseCode = "200", description = "Request successful")
@@ -53,7 +53,7 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     @Operation(summary = "To get restaurant (by ID)",
-            description = "Returns restaurant's data (ID, name, registered date, vote count for today) by its ID")
+            description = "Returns restaurant's data (ID, name, created date, vote count for today) by its ID")
     @SearchResultApiResponses
     public RestaurantTo get(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
         log.info("get {}", id);
@@ -62,7 +62,7 @@ public class RestaurantController {
 
     @GetMapping("/by-name")
     @Operation(summary = "To get restaurant (by name)",
-            description = "Returns restaurant's data (ID, name, registered date, vote count for today) by its name")
+            description = "Returns restaurant's data (ID, name, created date, vote count for today) by its name")
     @SearchResultApiResponses
     public RestaurantTo getByName(@Parameter(description = "Restaurant's name") @RequestParam String name) {
         log.info("getByName {}", name);

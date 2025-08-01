@@ -46,7 +46,7 @@ public class AdminDishController extends AbstractFoodController<Dish, DishTo> {
     @Override
     @GetMapping
     @Operation(summary = "To get all dishes (by menu)",
-            description = "Returns all dishes' data (dish's ID, name, price, menu's ID) by menu's ID")
+            description = "Returns all dishes' data (dish's ID, name, price, menu's ID) by menu's ID, order by name")
     @ApiResponse(responseCode = "200", description = "Request successful")
     @ApiResponse(responseCode = "404", description = "Menu is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))

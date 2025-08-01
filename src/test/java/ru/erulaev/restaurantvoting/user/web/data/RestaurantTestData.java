@@ -8,7 +8,7 @@ import java.time.Instant;
 public class RestaurantTestData {
 
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "registered");
+            MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "created");
 
     public static final long RESTAURANT_1_ID = 1L;
     public static final long RESTAURANT_2_ID = 2L;

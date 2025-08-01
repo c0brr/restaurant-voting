@@ -103,7 +103,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        Restaurant expected = new Restaurant(null, RESTAURANT_1_NAME);
+        Restaurant expected = new Restaurant(null, RESTAURANT_1_NAME.toLowerCase());
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(expected)))
@@ -174,7 +174,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getByName() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "by-name?name=" + restaurant4.getName()))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "by-name?name=" + restaurant4.getName().toLowerCase()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_MATCHER.contentJson(restaurant4));
