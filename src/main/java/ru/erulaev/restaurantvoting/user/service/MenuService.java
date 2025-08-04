@@ -58,7 +58,7 @@ public class MenuService implements FoodService<Menu, AdminMenuTo> {
     @Transactional
     public Optional<RegularMenuTo> getByDate(long restaurantId, LocalDate date) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
-        if (!RestaurantUtil.isRestaurantExistedByDate(restaurant, date)) {
+        if (!RestaurantUtil.isRestaurantExistedAtDate(restaurant, date)) {
             throw new NotFoundException("No data available for this date");
         }
         return menuRepository.getWithDishesByDate(restaurantId, date).map(menuMapper::createToWithDishes);

@@ -9,7 +9,7 @@ import java.time.ZoneId;
 @UtilityClass
 public class RestaurantUtil {
 
-    public static boolean isRestaurantExistedByDate(Restaurant restaurant, LocalDate date) {
+    public static boolean isRestaurantExistedAtDate(Restaurant restaurant, LocalDate date) {
         return !restaurant.getCreated().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(date);
     }
 }

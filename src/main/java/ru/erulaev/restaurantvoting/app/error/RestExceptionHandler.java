@@ -154,7 +154,7 @@ public class RestExceptionHandler {
             return createProblemDetail(ex, path, optType.get(), ex.getMessage(), additionalParams);
         } else {
             Throwable root = getRootCause(ex);
-            log.error(ERR_PFX + "Exception " + root + " at request " + path, root);
+            log.error(ERR_PFX + "Exception {} at request {}", root, path, root);
             return createProblemDetail(ex, path, APP_ERROR, "Exception " + root.getClass().getSimpleName(), additionalParams);
         }
     }

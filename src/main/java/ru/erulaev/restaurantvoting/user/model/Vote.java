@@ -54,6 +54,13 @@ public class Vote extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
+    public Vote(Long id, LocalDate date, User user, Restaurant restaurant) {
+        this.id = id;
+        this.date = date;
+        this.user = user;
+        this.restaurant = restaurant;
+    }
+
     public Long getUserId() {
         return user.getId();
     }

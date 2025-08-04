@@ -12,9 +12,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.erulaev.restaurantvoting.user.service.DateService;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
 import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
-import ru.erulaev.restaurantvoting.user.util.DateUtil;
 import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
 import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
 
@@ -31,6 +31,7 @@ public class MenuController {
     static final String REST_URL = "/api/restaurants/{restaurantId}/menu";
 
     private final MenuService menuService;
+    private final DateService dateService;
 
     @GetMapping
     @Operation(summary = "To get menu", description = "Returns menu's data (menu's ID, date, restaurant's ID, list of dishes) " +
@@ -43,7 +44,7 @@ public class MenuController {
     public ResponseEntity<RegularMenuTo> getByDate(@Parameter(description = "Restaurant's ID") @PathVariable long restaurantId,
                                                    @Parameter(description = "Date, format - yyyy-MM-dd") @RequestParam(required = false)
                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        date = DateUtil.processDate(date);
+        date = dateService.processDate(date);
         log.info("get for restaurant {} by date {}", restaurantId, date);
         return ResponseEntity.of(menuService.getByDate(restaurantId, date));
     }

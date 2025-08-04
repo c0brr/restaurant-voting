@@ -12,16 +12,18 @@ VALUES ('USER', 1),
        ('USER', 4),
        ('ADMIN', 4);
 
-INSERT INTO RESTAURANT (name)
-VALUES ('First_restaurant'),
-       ('Second_restaurant'),
-       ('Third_restaurant'),
-       ('Fourth_restaurant');
+INSERT INTO RESTAURANT (name, created)
+VALUES ('First_restaurant', '2024-01-01'),
+       ('Second_restaurant', '2025-01-01'),
+       ('Third_restaurant', '2025-06-06'),
+       ('Fourth_restaurant', '2024-06-06');
 
-INSERT INTO VOTE (restaurant_id, user_id)
-VALUES (1, 2),
-       (2, 1),
-       (1, 4);
+INSERT INTO VOTE (user_id, restaurant_id, date)
+VALUES (1, 2, '2025-07-07'),
+       (1, 2, '2025-07-28'),
+       (1, 1, '2025-07-29'),
+       (1, 3, '2025-07-30'),
+       (2, 1, '2025-07-07');
 
 INSERT INTO MENU (restaurant_id, date)
 VALUES (1, '2024-05-06'),

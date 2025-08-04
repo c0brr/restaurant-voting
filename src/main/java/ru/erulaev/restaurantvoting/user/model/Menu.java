@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.erulaev.restaurantvoting.common.model.BaseEntity;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class Menu extends BaseEntity {
     @Column(name = "date", nullable = false, columnDefinition = "date default current_date", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate date = LocalDate.now();
+    private LocalDate date = LocalDate.now(Clock.systemUTC());
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)

@@ -11,9 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.erulaev.restaurantvoting.user.service.DateService;
 import ru.erulaev.restaurantvoting.user.service.RestaurantService;
 import ru.erulaev.restaurantvoting.user.to.RestaurantTo;
-import ru.erulaev.restaurantvoting.user.util.DateUtil;
 import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
 import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
 import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
@@ -32,6 +32,7 @@ public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
     private final RestaurantService restaurantService;
+    private final DateService dateService;
 
     @GetMapping
     @Operation(summary = "To get all restaurants",
@@ -46,7 +47,7 @@ public class RestaurantController {
     public List<RestaurantTo> getAllByDate(@Parameter(description = "Date, format - yyyy-MM-dd")
                                            @RequestParam(required = false)
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        date = DateUtil.processDate(date);
+        date = dateService.processDate(date);
         log.info("getAll by date {}", date);
         return restaurantService.getAllByDate(date);
     }

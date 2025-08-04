@@ -27,6 +27,7 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final VoteRepository voteRepository;
     private final RestaurantMapper restaurantMapper;
+    private final DateService dateService;
 
     @Transactional
     public List<RestaurantTo> getAllByDate(LocalDate date) {
@@ -35,7 +36,7 @@ public class RestaurantService {
                 .collect(Collectors.toMap(Vote::getRestaurantId, vote -> ONE_VOTE, Integer::sum));
 
         List<RestaurantTo> restaurantTos = restaurantRepository.getAll().stream()
-                .filter(restaurant -> RestaurantUtil.isRestaurantExistedByDate(restaurant, date))
+                .filter(restaurant -> RestaurantUtil.isRestaurantExistedAtDate(restaurant, date))
                 .map(restaurant ->
                         restaurantMapper.createTo(restaurant, votesByRestaurant.getOrDefault(restaurant.getId(), ZERO_VOTES)))
                 .toList();
@@ -49,13 +50,13 @@ public class RestaurantService {
     public RestaurantTo get(long id) {
         Restaurant restaurant = restaurantRepository.getExisted(id);
         return restaurantMapper.createTo(restaurant,
-                voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), id));
+                voteRepository.getCountByDateAndRestaurantId(dateService.getCurrentDate(), id));
     }
 
     @Transactional
     public RestaurantTo getByName(String name) {
         Restaurant restaurant = restaurantRepository.getExistedByName(name);
         return restaurantMapper.createTo(restaurant,
-                voteRepository.getCountByDateAndRestaurantId(LocalDate.now(), restaurant.getId()));
+                voteRepository.getCountByDateAndRestaurantId(dateService.getCurrentDate(), restaurant.getId()));
     }
 }

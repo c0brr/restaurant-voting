@@ -14,7 +14,6 @@ import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
 import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +22,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class VoteService {
 
-    private static final LocalTime VOTING_DEADLINE = LocalTime.of(11, 0);
+    public static final LocalTime VOTING_DEADLINE = LocalTime.of(11, 0);
 
     private final VoteRepository voteRepository;
     private final RestaurantRepository restaurantRepository;
     private final VoteMapper voteMapper;
+    private final TimeService timeService;
+    private final DateService dateService;
 
     public List<ResponseVoteTo> getAllByUser(long userId) {
         return voteRepository.getAllByUserId(userId).stream()
@@ -36,7 +37,7 @@ public class VoteService {
     }
 
     public Optional<ResponseVoteTo> getCurrent(long userId) {
-        return voteRepository.getByUserIdAndDate(userId, LocalDate.now()).map(voteMapper::createResponseTo);
+        return voteRepository.getByUserIdAndDate(userId, dateService.getCurrentDate()).map(voteMapper::createResponseTo);
     }
 
     @Transactional
@@ -50,20 +51,20 @@ public class VoteService {
     @Transactional
     public void deleteCurrent(long userId) {
         checkDeadLine();
-        voteRepository.deleteExisted(userId, LocalDate.now());
+        voteRepository.deleteExisted(userId, dateService.getCurrentDate());
     }
 
     @Transactional
     public void changeChoice(long restaurantId, long userId) {
         checkDeadLine();
-        Vote vote = voteRepository.getByUserIdAndDate(userId, LocalDate.now()).orElseThrow(
+        Vote vote = voteRepository.getByUserIdAndDate(userId, dateService.getCurrentDate()).orElseThrow(
                 () -> new NotFoundException("Vote from user with id=" + userId + " not found for today"));
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         vote.setRestaurant(restaurant);
     }
 
     private void checkDeadLine() {
-        if (LocalTime.now().isAfter(VOTING_DEADLINE)) {
+        if (timeService.isDeadLinePassed(VOTING_DEADLINE)) {
             throw new IllegalRequestDataException("Voting is over for today");
         }
     }

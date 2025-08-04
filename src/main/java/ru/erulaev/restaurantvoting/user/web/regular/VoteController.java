@@ -38,7 +38,7 @@ public class VoteController {
     @GetMapping
     @Operation(summary = "To get all votes by user",
             description = "Returns votes' data (vote's ID, voting date, user's ID, restaurant's ID) by authenticated user " +
-                    "except votes for deleted restaurants.")
+                    "except votes for deleted restaurants, order by date desc.")
     @ApiResponse(responseCode = "200", description = "Request successful")
     public List<ResponseVoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("getAll by user {}", authUser);
