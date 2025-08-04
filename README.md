@@ -31,6 +31,7 @@ A voting system for deciding where to have lunch.
 - Lombok
 - Swagger 3 (OpenAPI)
 - JUnit 5
+- Mockito
 - Caffeine Cache
 - MapStruct
 - **Instruments**:

@@ -98,9 +98,9 @@ public class CurrentVoteController {
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @ApiResponse(responseCode = "422", description = "Voting deadline violation",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public void patch(@Parameter(description = "Restaurant's ID") @RequestParam long restaurantId,
-                      @AuthenticationPrincipal AuthUser authUser) {
-        log.info("change choice for user {}", authUser);
+    public void changeChoice(@Parameter(description = "Restaurant's ID") @RequestParam long restaurantId,
+                             @AuthenticationPrincipal AuthUser authUser) {
+        log.info("change choice for user {} to restaurant {}", authUser, restaurantId);
         voteService.changeChoice(restaurantId, authUser.id());
     }
 }
