@@ -18,6 +18,6 @@ public class AdminMenuTo extends BaseTo {
 
     @Override
     public String toString() {
-        return "MenuTo:" + id;
+        return "AdminMenuTo:" + id;
     }
 }

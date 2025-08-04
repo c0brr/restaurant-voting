@@ -27,11 +27,14 @@ public class DishTestData {
     public static final String DISH_5_NAME = "Salad";
 
     public static final Dish dish1 = new Dish(DISH_1_ID, DISH_1_NAME, 260, menu1);
+    public static final Dish dish2 = new Dish(DISH_2_ID, DISH_2_NAME, 200, menu1);
+    public static final Dish dish3 = new Dish(DISH_3_ID, DISH_3_NAME, 100, menu1);
+    public static final Dish dish4 = new Dish(DISH_4_ID, DISH_4_NAME, 150, menu1);
 
     public static final DishTo dishTo1 = MAPPER.createTo(dish1);
-    public static final DishTo dishTo2 = MAPPER.createTo(new Dish(DISH_2_ID, DISH_2_NAME, 200, menu1));
-    public static final DishTo dishTo3 = MAPPER.createTo(new Dish(DISH_3_ID, DISH_3_NAME, 100, menu1));
-    public static final DishTo dishTo4 = MAPPER.createTo(new Dish(DISH_4_ID, DISH_4_NAME, 150, menu1));
+    public static final DishTo dishTo2 = MAPPER.createTo(dish2);
+    public static final DishTo dishTo3 = MAPPER.createTo(dish3);
+    public static final DishTo dishTo4 = MAPPER.createTo(dish4);
     public static final DishTo dishTo5 = MAPPER.createTo(new Dish(DISH_5_ID, DISH_5_NAME, 50, menu2));
 
     public static Dish getNew() {

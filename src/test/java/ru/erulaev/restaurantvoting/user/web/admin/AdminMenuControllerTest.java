@@ -47,7 +47,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson(menuTo5, menuTo4, menuTo3, menuTo2, menuTo1));
+                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson(adminMenuTo5, adminMenuTo4, adminMenuTo3, adminMenuTo2, adminMenuTo1));
     }
 
     @Test
@@ -74,7 +74,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson(menuTo6));
+                .andExpect(ADMIN_MENU_TO_MATCHER.contentJson(adminMenuTo6));
     }
 
     @Test
@@ -129,9 +129,9 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         long newId = created.id();
         newMenu.setId(newId);
         newMenu.setParentEntity(restaurantRepository.getReferenceById(created.getRestaurantId()));
-        AdminMenuTo newMenuTo = getTo(newMenu);
+        AdminMenuTo newMenuTo = getAdminTo(newMenu);
         ADMIN_MENU_TO_MATCHER.assertMatch(created, newMenuTo);
-        created = getTo(menuRepository.findById(newId).orElseThrow(() ->
+        created = getAdminTo(menuRepository.findById(newId).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + newId + " not found")));
         ADMIN_MENU_TO_MATCHER.assertMatch(created, newMenuTo);
     }
@@ -148,7 +148,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        Menu expected = new Menu(null, menuTo6.getDate());
+        Menu expected = new Menu(null, adminMenuTo6.getDate());
         perform(MockMvcRequestBuilders.post(RESTAURANT_2_REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(expected)))

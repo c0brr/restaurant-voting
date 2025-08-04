@@ -18,6 +18,8 @@ import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 import ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -82,8 +84,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void createWithLocation() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(CORRECT_VOTE_DATE);
+        processMockServices(CORRECT_DATE);
         RequestVoteTo newRequestTo = new RequestVoteTo(RESTAURANT_4_ID);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -103,8 +104,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void createDuplicate() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        processMockServices(responseVoteTo5.getDate());
         RequestVoteTo expected = new RequestVoteTo(RESTAURANT_4_ID, responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -117,8 +117,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void createInvalid() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(CORRECT_VOTE_DATE);
+        processMockServices(CORRECT_DATE);
         RequestVoteTo newRequestTo = new RequestVoteTo(-1);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -130,8 +129,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createForNotExistRestaurant() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(CORRECT_VOTE_DATE);
+        processMockServices(CORRECT_DATE);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(new RequestVoteTo(RestaurantTestData.NOT_FOUND))))
@@ -141,8 +139,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void createWhenDeadLinePassed() throws Exception {
-        when(timeService.getCurrentTime()).thenReturn(PASSED_DEADLINE_TIME);
-        when(dateService.getCurrentDate()).thenReturn(CORRECT_VOTE_DATE);
+        processMockServicesWhenDeadlinePassed(CORRECT_DATE);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(new RequestVoteTo(RESTAURANT_4_ID))))
@@ -153,8 +150,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void delete() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        processMockServices(responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
         assertFalse(voteRepository.findById(VOTE_5_ID).isPresent());
@@ -163,8 +159,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void deleteNotFound() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(VOTE_DATE_NOT_FOUND);
+        processMockServices(DATE_NOT_FOUND);
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNotFound());
     }
@@ -172,8 +167,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void deleteWhenDeadLinePassed() throws Exception {
-        when(timeService.getCurrentTime()).thenReturn(PASSED_DEADLINE_TIME);
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        processMockServicesWhenDeadlinePassed(responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -181,8 +175,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void changeChoice() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        processMockServices(responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.patch(REST_URL)
                 .param("restaurantId", "2")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -197,8 +190,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void changeChoiceForNotFoundRestaurant() throws Exception {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        processMockServices(responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.patch(REST_URL)
                 .param("restaurantId", "100")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -209,12 +201,21 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void changeChoiceWhenDeadLinePassed() throws Exception {
-        when(timeService.getCurrentTime()).thenReturn(PASSED_DEADLINE_TIME);
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        processMockServicesWhenDeadlinePassed(responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.patch(REST_URL)
                 .param("restaurantId", "3")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    private void processMockServices(LocalDate returningDate) {
+        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
+        when(dateService.getCurrentDate()).thenReturn(returningDate);
+    }
+
+    private void processMockServicesWhenDeadlinePassed(LocalDate returningDate) {
+        when(timeService.getCurrentTime()).thenReturn(PASSED_DEADLINE_TIME);
+        when(dateService.getCurrentDate()).thenReturn(returningDate);
     }
 }

@@ -29,8 +29,8 @@ public class VoteTestData {
     public static final long VOTE_4_ID = 4L;
     public static final long VOTE_5_ID = 5L;
 
-    public static final LocalDate VOTE_DATE_NOT_FOUND = LocalDate.of(2024, 1, 1);
-    public static final LocalDate CORRECT_VOTE_DATE = LocalDate.of(2025, 2, 2);
+    public static final LocalDate DATE_NOT_FOUND = LocalDate.of(2024, 1, 1);
+    public static final LocalDate CORRECT_DATE = LocalDate.of(2025, 2, 2);
     public static final LocalTime PASSED_DEADLINE_TIME = LocalTime.of(13, 0);
 
     public static final ResponseVoteTo responseVoteTo1 =

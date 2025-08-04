@@ -9,10 +9,10 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "dishTos")
 public class RegularMenuTo extends AdminMenuTo {
 
-    private List<DishTo> dishes;
+    private List<DishTo> dishTos;
 
     @Override
     public String toString() {
