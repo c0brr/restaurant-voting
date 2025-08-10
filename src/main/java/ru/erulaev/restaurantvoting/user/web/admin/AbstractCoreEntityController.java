@@ -54,7 +54,7 @@ public abstract class AbstractCoreEntityController<Entity extends HasId,
     }
 
     @Transactional
-    protected void update(Entity entity, long id) {
+    protected void modify(Entity entity, long id) {
         log.info("update {} with id={}", entity, id);
         assureIdConsistent(entity, id);
         if (!repository.existsById(id)) {

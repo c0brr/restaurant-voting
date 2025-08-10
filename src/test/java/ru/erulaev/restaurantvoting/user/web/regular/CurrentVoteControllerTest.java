@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
-import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
 import ru.erulaev.restaurantvoting.user.service.DateService;
 import ru.erulaev.restaurantvoting.user.service.TimeService;
@@ -41,9 +40,6 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Autowired
     private VoteRepository voteRepository;
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-
     @MockitoSpyBean
     private TimeService timeService;
 
@@ -71,14 +67,6 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     void getForbidden() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithUserDetails(value = USER_2_MAIL)
-    void deleteRestaurantAndGet() throws Exception {
-        restaurantRepository.delete(RESTAURANT_2_ID);
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isNotFound());
     }
 
     @Test

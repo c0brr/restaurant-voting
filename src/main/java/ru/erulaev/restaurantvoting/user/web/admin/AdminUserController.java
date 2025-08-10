@@ -75,7 +75,6 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
         super.delete(id);
     }
 
-    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "users", key = "#user.email")
@@ -87,7 +86,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     public void update(@Parameter(description = "User's data (name, email, password, enable status, roles)")
                        @Valid @RequestBody User user,
                        @Parameter(description = "User's ID") @PathVariable long id) {
-        super.update(user, id);
+        super.modify(user, id);
     }
 
     @GetMapping("/by-email")

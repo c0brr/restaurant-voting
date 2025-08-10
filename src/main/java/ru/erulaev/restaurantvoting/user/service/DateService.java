@@ -21,4 +21,8 @@ public class DateService {
         }
         return date;
     }
+
+    public String getDateAsString(LocalDate date) {
+        return date.toString();
+    }
 }

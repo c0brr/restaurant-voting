@@ -25,10 +25,13 @@ spring:
     visibility.is-getter: none
 
 logging:
+  file:
+    name: log
   level:
     root: WARN
     ru.erulaev.restaurantvoting: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+
 
 server.servlet:
   encoding:

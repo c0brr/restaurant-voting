@@ -182,6 +182,14 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
+    void getByNameNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "by-name?name=" + NOT_FOUND_NAME))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
     void getByContainingName() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/by-containing-name?name=f"))
                 .andExpect(status().isOk())

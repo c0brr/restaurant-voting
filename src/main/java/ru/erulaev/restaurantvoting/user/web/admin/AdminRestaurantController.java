@@ -84,7 +84,6 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
         super.delete(id);
     }
 
-    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = {"restaurants", "restaurantList"}, allEntries = true)
@@ -95,7 +94,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @BodyAndDataApiResponses
     public void update(@Parameter(description = "Restaurant's data (name)") @Valid @RequestBody Restaurant restaurant,
                        @Parameter(description = "Restaurant's ID") @PathVariable long id) {
-        super.update(restaurant, id);
+        super.modify(restaurant, id);
     }
 
     @GetMapping("/by-name")

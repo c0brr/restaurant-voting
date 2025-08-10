@@ -53,8 +53,4 @@ public class MenuTestData {
         regularMenuTo.setDishTos(Arrays.asList(dishTos));
         return regularMenuTo;
     }
-
-    public static String getDateAsString(LocalDate date) {
-        return date.toString();
-    }
 }

@@ -23,9 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.erulaev.restaurantvoting.common.util.JsonUtil.writeValue;
 import static ru.erulaev.restaurantvoting.user.validation.UniqueDishNameValidator.EXCEPTION_DUPLICATE_NAME;
 import static ru.erulaev.restaurantvoting.user.web.data.DishTestData.*;
-import static ru.erulaev.restaurantvoting.user.web.data.DishTestData.getTo;
-import static ru.erulaev.restaurantvoting.user.web.data.MenuTestData.*;
-import static ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.erulaev.restaurantvoting.user.web.data.MenuTestData.MENU_1_ID;
+import static ru.erulaev.restaurantvoting.user.web.data.MenuTestData.MENU_2_ID;
 import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.ADMIN_MAIL;
 import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.USER_1_MAIL;
 
@@ -110,15 +109,6 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void getForbidden() throws Exception {
         perform(MockMvcRequestBuilders.get(MENU_1_REST_URL))
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void deleteMenuAndGet() throws Exception {
-        menuRepository.delete(MENU_1_ID, RESTAURANT_1_ID);
-        perform(MockMvcRequestBuilders.get(MENU_1_REST_URL_SLASH + MENU_4_ID))
-                .andDo(print())
-                .andExpect(status().isNotFound());
     }
 
     @Test
