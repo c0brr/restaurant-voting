@@ -17,7 +17,7 @@ public class DateService {
         LocalDate currenDate = getCurrentDate();
         date = date != null ? date : currenDate;
         if (date.isAfter(currenDate)) {
-            throw new NotFoundException("No available data for this date");
+            throw new NotFoundException("No available data for date " + date);
         }
         return date;
     }

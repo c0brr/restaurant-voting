@@ -40,3 +40,6 @@ server.servlet:
     force: true
 
 springdoc.swagger-ui.path: /
+
+app:
+  voting-deadline: "11:00"

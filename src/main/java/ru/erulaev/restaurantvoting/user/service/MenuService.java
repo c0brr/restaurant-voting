@@ -59,7 +59,7 @@ public class MenuService implements FoodService<Menu, AdminMenuTo> {
     public Optional<RegularMenuTo> getByDate(long restaurantId, LocalDate date) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         if (!RestaurantUtil.isRestaurantExistedAtDate(restaurant, date)) {
-            throw new NotFoundException("No data available for this date");
+            throw new NotFoundException("No data available for date " + date);
         }
         return menuRepository.getWithDishesByDate(restaurantId, date).map(menuMapper::createToWithDishes);
     }

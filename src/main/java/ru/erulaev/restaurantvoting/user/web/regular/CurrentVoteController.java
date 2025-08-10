@@ -65,6 +65,8 @@ public class CurrentVoteController {
     @ApiResponse(responseCode = "201", description = "Vote is created")
     @ApiResponse(responseCode = "404", description = "Restaurant for voting is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @ApiResponse(responseCode = "409", description = "Voting deadline passed",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @BodyAndDataApiResponses
     public ResponseEntity<ResponseVoteTo> createWithLocation(@Parameter(description = "Vote's data (restaurant's ID)")
                                                              @Valid @RequestBody RequestVoteTo requestVoteTo,
@@ -83,6 +85,8 @@ public class CurrentVoteController {
     @ApiResponse(responseCode = "204", description = "Vote is deleted")
     @ApiResponse(responseCode = "404", description = "Vote is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @ApiResponse(responseCode = "409", description = "Voting deadline passed",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @ApiResponse(responseCode = "422", description = "Voting deadline violation",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
@@ -95,6 +99,8 @@ public class CurrentVoteController {
     @Operation(summary = "To change choice", description = "Changes restaurant's ID at user's vote by his authentication")
     @ApiResponse(responseCode = "204", description = "Choice has been changed")
     @ApiResponse(responseCode = "404", description = "Vote or restaurant for voting is not found",
+            content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
+    @ApiResponse(responseCode = "409", description = "Voting deadline passed",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @ApiResponse(responseCode = "422", description = "Voting deadline violation",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))

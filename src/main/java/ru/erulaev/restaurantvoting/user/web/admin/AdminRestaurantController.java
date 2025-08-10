@@ -94,7 +94,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @BodyAndDataApiResponses
     public void update(@Parameter(description = "Restaurant's data (name)") @Valid @RequestBody Restaurant restaurant,
                        @Parameter(description = "Restaurant's ID") @PathVariable long id) {
-        super.modify(restaurant, id);
+        super.doUpdate(restaurant, id);
     }
 
     @GetMapping("/by-name")

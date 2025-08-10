@@ -85,14 +85,14 @@ public class RestExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ProblemDetail httpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletRequest request) {
         Throwable cause = getRootCause(ex);
-        return cause.getClass().isAssignableFrom(JsonParseException.class) ? bodyException(ex, request) : exception(ex, request);
+        return cause.getClass().isAssignableFrom(JsonParseException.class) ? requestBodyException(ex, request) : exception(ex, request);
     }
 
     @ExceptionHandler({JsonEOFException.class, InputCoercionException.class})
-    ProblemDetail bodyException(Exception ex, HttpServletRequest request) {
+    ProblemDetail requestBodyException(Exception ex, HttpServletRequest request) {
         String path = request.getRequestURI();
         log.warn(ERR_PFX + "{} at request {}", ex.getClass().getSimpleName(), path);
-        return createProblemDetail(ex, path, WRONG_REQUEST, "Malformed JSON request", Map.of());
+        return createProblemDetail(ex, path, BAD_REQUEST, "Malformed JSON request", Map.of());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -112,7 +112,7 @@ public class RestExceptionHandler {
                 String errorMessage = "Invalid format for parameter '" + parameter + "'" + ". Expected format: '" + format.get() + "'";
                 String path = request.getRequestURI();
                 log.warn(ERR_PFX + "DateTimeParseException at parameter '{}' at request {}", parameter, path);
-                return createProblemDetail(cause, path, WRONG_REQUEST, errorMessage, Map.of());
+                return createProblemDetail(cause, path, BAD_REQUEST, errorMessage, Map.of());
             }
         }
         return exception(ex, request);

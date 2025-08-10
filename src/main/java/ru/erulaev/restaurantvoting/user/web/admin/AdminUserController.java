@@ -86,7 +86,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     public void update(@Parameter(description = "User's data (name, email, password, enable status, roles)")
                        @Valid @RequestBody User user,
                        @Parameter(description = "User's ID") @PathVariable long id) {
-        super.modify(user, id);
+        super.doUpdate(user, id);
     }
 
     @GetMapping("/by-email")

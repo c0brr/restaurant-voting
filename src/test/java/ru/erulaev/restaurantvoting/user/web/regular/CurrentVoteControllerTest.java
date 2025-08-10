@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.erulaev.restaurantvoting.common.util.JsonUtil.writeValue;
-import static ru.erulaev.restaurantvoting.user.service.VoteService.VOTING_DEADLINE;
 import static ru.erulaev.restaurantvoting.user.validation.UniqueUserVoteValidator.EXCEPTION_DUPLICATE_VOTE;
 import static ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData.RESTAURANT_2_ID;
 import static ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData.RESTAURANT_4_ID;
@@ -131,7 +130,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(new RequestVoteTo(RESTAURANT_4_ID))))
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isConflict());
     }
 
 
@@ -157,7 +156,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     void deleteWhenDeadLinePassed() throws Exception {
         processMockServicesWhenDeadlinePassed(responseVoteTo5.getDate());
         perform(MockMvcRequestBuilders.delete(REST_URL))
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -194,11 +193,11 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
                 .param("restaurantId", "3")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isConflict());
     }
 
     private void processMockServices(LocalDate returningDate) {
-        when(timeService.isDeadLinePassed(VOTING_DEADLINE)).thenReturn(false);
+        when(timeService.isDeadLinePassed()).thenReturn(false);
         when(dateService.getCurrentDate()).thenReturn(returningDate);
     }
 

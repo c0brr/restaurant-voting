@@ -41,7 +41,7 @@ public class RestaurantService {
                         restaurantMapper.createTo(restaurant, votesByRestaurant.getOrDefault(restaurant.getId(), ZERO_VOTES)))
                 .toList();
         if (restaurantTos.isEmpty()) {
-            throw new NotFoundException("No data available for this date");
+            throw new NotFoundException("No data available for date " + date);
         }
         return restaurantTos;
     }
