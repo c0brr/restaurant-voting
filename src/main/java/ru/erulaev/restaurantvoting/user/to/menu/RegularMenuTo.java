@@ -3,7 +3,7 @@ package ru.erulaev.restaurantvoting.user.to.menu;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import ru.erulaev.restaurantvoting.user.to.DishTo;
+import ru.erulaev.restaurantvoting.user.to.dish.DishTo;
 
 import java.util.List;
 

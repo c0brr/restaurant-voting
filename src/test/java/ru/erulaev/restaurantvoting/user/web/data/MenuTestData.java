@@ -4,7 +4,7 @@ import org.mapstruct.factory.Mappers;
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.user.mapper.MenuMapper;
 import ru.erulaev.restaurantvoting.user.model.Menu;
-import ru.erulaev.restaurantvoting.user.to.DishTo;
+import ru.erulaev.restaurantvoting.user.to.dish.DishTo;
 import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
 import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
 

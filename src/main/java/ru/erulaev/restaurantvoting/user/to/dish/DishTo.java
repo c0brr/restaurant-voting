@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.to;
+package ru.erulaev.restaurantvoting.user.to.dish;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,9 +10,7 @@ import ru.erulaev.restaurantvoting.common.to.NamedTo;
 @EqualsAndHashCode(callSuper = true)
 public class DishTo extends NamedTo {
 
-    private int price;
-
-    private int menuId;
+    protected int price;
 
     @Override
     public String toString() {
