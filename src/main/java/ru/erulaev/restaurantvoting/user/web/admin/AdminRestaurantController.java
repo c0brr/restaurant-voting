@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.model.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.validation.UniqueRestaurantNameValidator;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
 
 import java.util.List;
 

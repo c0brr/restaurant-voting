@@ -30,8 +30,8 @@ public class RestaurantTestData {
 
     public static final LocalDate CURRENT_DATE = LocalDate.of(2025, 7, 30);
     public static final LocalDate OTHER_DATE = LocalDate.of(2025, 7, 7);
-    public static final LocalDate NOT_VALID_DATE1 = LocalDate.of(2026, 1, 1);
-    public static final LocalDate NOT_VALID_DATE2 = LocalDate.of(2022, 1, 1);
+    public static final LocalDate NOT_VALID_DATE_FUTURE = LocalDate.of(3000, 1, 1);
+    public static final LocalDate NOT_VALID_DATE_PAST = LocalDate.of(2000, 1, 1);
 
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT_1_ID, RESTAURANT_1_NAME);
     public static final Restaurant restaurant2 = new Restaurant(RESTAURANT_2_ID, RESTAURANT_2_NAME);

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.user.service.FoodService;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonAdminApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.CommonAdminApiResponses;
 
 import java.net.URI;
 import java.util.List;
@@ -17,26 +17,26 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.check
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @CommonAdminApiResponses
-public abstract class AbstractFoodController<Entity extends HasId, To extends HasId> {
+public abstract class AbstractFoodController<E extends HasId, T extends HasId> {
 
     protected final Logger log = getLogger(getClass());
 
-    protected final FoodService<Entity, To> service;
+    protected final FoodService<E, T> service;
 
-    protected List<To> getAll(long parentId) {
+    protected List<T> getAll(long parentId) {
         log.info("getAll for parent entity {}", parentId);
         return service.getAll(parentId);
     }
 
-    protected To get(long id, long parentId) {
+    protected T get(long id, long parentId) {
         log.info("get {} from parent entity {}", id, parentId);
         return service.get(id, parentId);
     }
 
-    protected ResponseEntity<To> createWithLocation(Entity entity, long parentId, String url) {
+    protected ResponseEntity<T> createWithLocation(E entity, long parentId, String url) {
         log.info("create {} for parent entity {}", entity, parentId);
         checkNew(entity);
-        To entityTo = service.save(entity, parentId);
+        T entityTo = service.save(entity, parentId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(url + "/{id}")
                 .buildAndExpand(parentId, entityTo.id()).toUri();

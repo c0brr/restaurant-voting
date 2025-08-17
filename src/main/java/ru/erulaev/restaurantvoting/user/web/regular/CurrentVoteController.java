@@ -22,10 +22,10 @@ import ru.erulaev.restaurantvoting.user.service.VoteService;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
 import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueUserVoteValidator;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
 
 import java.net.URI;
 

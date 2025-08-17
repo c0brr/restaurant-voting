@@ -16,9 +16,9 @@ import ru.erulaev.restaurantvoting.user.model.Dish;
 import ru.erulaev.restaurantvoting.user.service.DishService;
 import ru.erulaev.restaurantvoting.user.to.DishTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueDishNameValidator;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
 
 import java.util.List;
 

@@ -1,12 +1,14 @@
 # Restaurant Voting REST API
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d97bb4004fa14341829685c0f080dc4f)](https://app.codacy.com/gh/c0brr/restaurant-voting/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.5-green)
 
 RESTful API for deciding where to have lunch. The project is implemented on Spring Boot using JPA, Spring Security and
 Swagger.
 
-## 🔧 Technical requirement:
+## 🔧 Technical requirement
 
 A voting system for deciding where to have lunch.
 
@@ -20,7 +22,7 @@ A voting system for deciding where to have lunch.
     - If it is after 11:00 then it is too late, vote can't be changed
 - Each restaurant provides a new menu each day
 
-## ⚙️ Technologies:
+## ⚙️ Technologies
 
 - **Language**: Java 21
 - **Framework**: Spring Boot 3.4.5

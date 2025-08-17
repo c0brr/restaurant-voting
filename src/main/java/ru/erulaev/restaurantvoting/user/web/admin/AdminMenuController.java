@@ -16,9 +16,9 @@ import ru.erulaev.restaurantvoting.user.model.Menu;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
 import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueDateMenuValidator;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
 
 import java.util.List;
 

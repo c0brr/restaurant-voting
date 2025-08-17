@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
 import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonRegularApiResponses;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.response.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
 
 import java.util.List;
 

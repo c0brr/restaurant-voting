@@ -48,19 +48,19 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_1_MAIL)
-    void getAllByNotValidDate1() throws Exception {
+    void getAllByNotValidDateFuture() throws Exception {
         when(dateService.getCurrentDate()).thenReturn(CURRENT_DATE);
         perform(MockMvcRequestBuilders.get(REST_URL)
-                .param("date", dateService.getDateAsString(NOT_VALID_DATE1)))
+                .param("date", dateService.getDateAsString(NOT_VALID_DATE_FUTURE)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @WithUserDetails(value = USER_1_MAIL)
-    void getAllByNotValidDate2() throws Exception {
+    void getAllByNotValidDatePast() throws Exception {
         when(dateService.getCurrentDate()).thenReturn(CURRENT_DATE);
         perform(MockMvcRequestBuilders.get(REST_URL)
-                .param("date", dateService.getDateAsString(NOT_VALID_DATE2)))
+                .param("date", dateService.getDateAsString(NOT_VALID_DATE_PAST)))
                 .andExpect(status().isNotFound());
     }
 

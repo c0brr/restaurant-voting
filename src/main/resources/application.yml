@@ -26,11 +26,18 @@ spring:
 
 logging:
   file:
-    name: log
+    name: logs/app.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: WARN
-    ru.erulaev.restaurantvoting: DEBUG
-    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+    ru.erulaev.restaurantvoting: INFO
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: INFO
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      file-name-pattern: logs/app-%d{yyyy-MM-dd}.%i.log
+      max-history: 50
 
 
 server.servlet:

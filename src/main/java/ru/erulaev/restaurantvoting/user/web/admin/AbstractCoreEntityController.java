@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.repository.CoreEntityBaseRepository;
-import ru.erulaev.restaurantvoting.user.web.apiResponse.CommonAdminApiResponses;
+import ru.erulaev.restaurantvoting.user.web.response.CommonAdminApiResponses;
 
 import java.net.URI;
 import java.util.List;
@@ -21,24 +21,23 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.check
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @CommonAdminApiResponses
-public abstract class AbstractCoreEntityController<Entity extends HasId,
-        Repository extends CoreEntityBaseRepository<Entity>> {
+public abstract class AbstractCoreEntityController<E extends HasId, R extends CoreEntityBaseRepository<E>> {
 
     protected final Logger log = getLogger(getClass());
 
-    protected final Repository repository;
+    protected final R repository;
 
-    protected List<Entity> getAll() {
+    protected List<E> getAll() {
         log.info("getAll");
         return repository.getAll();
     }
 
-    protected Entity get(long id) {
+    protected E get(long id) {
         log.info("get {}", id);
         return repository.getExisted(id);
     }
 
-    protected ResponseEntity<Entity> createWithLocation(Entity entity, String url) {
+    protected ResponseEntity<E> createWithLocation(E entity, String url) {
         log.info("create {}", entity);
         checkNew(entity);
         entity = repository.prepareAndSave(entity);
@@ -54,7 +53,7 @@ public abstract class AbstractCoreEntityController<Entity extends HasId,
     }
 
     @Transactional
-    protected void doUpdate(Entity entity, long id) {
+    protected void doUpdate(E entity, long id) {
         log.info("update {} with id={}", entity, id);
         assureIdConsistent(entity, id);
         if (!repository.existsById(id)) {
@@ -63,7 +62,7 @@ public abstract class AbstractCoreEntityController<Entity extends HasId,
         repository.prepareAndSave(entity);
     }
 
-    protected List<Entity> getByContainingName(String name, Sort sort) {
+    protected List<E> getByContainingName(String name, Sort sort) {
         log.info("getByContainingName {}", name);
         return repository.findByNameContainingIgnoreCase(name, sort);
     }
