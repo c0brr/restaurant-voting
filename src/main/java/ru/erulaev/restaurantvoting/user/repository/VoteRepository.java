@@ -11,23 +11,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface VoteRepository extends JpaRepository<Vote, Long> {
+public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
-    Optional<Vote> getByUserIdAndDate(long userId, LocalDate date);
+    Optional<Vote> getByUserIdAndDate(int userId, LocalDate date);
 
-    List<Vote> getAllByUserId(long userId);
+    List<Vote> getAllByUserId(int userId);
 
-    int getCountByDateAndRestaurantId(LocalDate date, long restaurantId);
+    int getCountByDateAndRestaurantId(LocalDate date, int restaurantId);
 
     List<Vote> findAllByDate(LocalDate date);
 
-    boolean existsByUserIdAndDate(long userId, LocalDate date);
+    boolean existsByUserIdAndDate(int userId, LocalDate date);
 
     @Transactional
     @Modifying
-    int delete(long userId, LocalDate date);
+    int delete(int userId, LocalDate date);
 
-    default void deleteExisted(long userId, LocalDate date) {
+    default void deleteExisted(int userId, LocalDate date) {
         if (delete(userId, date) == 0) {
             throw new NotFoundException("Vote from user with id= " + userId + " not found for today");
         }

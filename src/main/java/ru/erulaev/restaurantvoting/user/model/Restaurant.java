@@ -32,12 +32,12 @@ public class Restaurant extends NamedEntity {
         this(restaurant.id, restaurant.name, restaurant.created);
     }
 
-    public Restaurant(Long id, String name, Instant created) {
+    public Restaurant(Integer id, String name, Instant created) {
         this(id, name);
         this.created = created;
     }
 
-    public Restaurant(Long id, String name) {
+    public Restaurant(Integer id, String name) {
         super(id, name);
     }
 }

@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.to.menu;
+package ru.erulaev.restaurantvoting.user.to.vote;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,14 +10,16 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class AdminMenuTo extends BaseTo {
+public class ResponseVoteToWithRestaurantName extends BaseTo {
 
-    protected LocalDate date;
+    private LocalDate date;
 
-    protected int restaurantId;
+    private String restaurantName;
+
+    private int userId;
 
     @Override
     public String toString() {
-        return "AdminMenuTo:" + id;
+        return "ResponseVoteToWithRestaurantName:" + id;
     }
 }

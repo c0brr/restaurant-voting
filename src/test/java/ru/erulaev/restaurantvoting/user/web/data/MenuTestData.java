@@ -21,13 +21,13 @@ public class MenuTestData {
     public static final MatcherFactory.Matcher<RegularMenuTo> REGULAR_MENU_TO_MATCHER = MatcherFactory.usingEqualsComparator(RegularMenuTo.class);
     public static final MenuMapper MAPPER = Mappers.getMapper(MenuMapper.class);
 
-    public static final long MENU_1_ID = 1L;
-    public static final long MENU_2_ID = 2L;
-    public static final long MENU_3_ID = 3L;
-    public static final long MENU_4_ID = 4L;
-    public static final long MENU_5_ID = 5L;
-    public static final long MENU_6_ID = 6L;
-    public static final long NOT_FOUND = 100L;
+    public static final int MENU_1_ID = 1;
+    public static final int MENU_2_ID = 2;
+    public static final int MENU_3_ID = 3;
+    public static final int MENU_4_ID = 4;
+    public static final int MENU_5_ID = 5;
+    public static final int MENU_6_ID = 6;
+    public static final int NOT_FOUND = 100;
 
     public static final LocalDate DATE_NOT_FOUND = LocalDate.of(2024, 1, 1);
 

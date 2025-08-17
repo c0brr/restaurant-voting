@@ -11,9 +11,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface DishRepository extends FoodBaseRepository<Dish> {
 
-    List<Dish> getAllByMenuId(long menuId);
+    List<Dish> getAllByMenuId(int menuId);
 
-    Optional<Dish> getByMenuIdAndName(long menuId, String name);
+    Optional<Dish> getByMenuIdAndName(int menuId, String name);
 
     @Transactional
     default Dish prepareAndSave(Dish dish) {

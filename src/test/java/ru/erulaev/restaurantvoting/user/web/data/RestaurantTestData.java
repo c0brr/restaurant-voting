@@ -17,11 +17,11 @@ public class RestaurantTestData {
             MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class, "created");
     public static final RestaurantMapper MAPPER = Mappers.getMapper(RestaurantMapper.class);
 
-    public static final long RESTAURANT_1_ID = 1L;
-    public static final long RESTAURANT_2_ID = 2L;
-    public static final long RESTAURANT_3_ID = 3L;
-    public static final long RESTAURANT_4_ID = 4L;
-    public static final long NOT_FOUND = 100L;
+    public static final int RESTAURANT_1_ID = 1;
+    public static final int RESTAURANT_2_ID = 2;
+    public static final int RESTAURANT_3_ID = 3;
+    public static final int RESTAURANT_4_ID = 4;
+    public static final int NOT_FOUND = 100;
     public static final String RESTAURANT_1_NAME = "First_restaurant";
     public static final String RESTAURANT_2_NAME = "Second_restaurant";
     public static final String RESTAURANT_3_NAME = "Third_restaurant";

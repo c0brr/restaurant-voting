@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantName;
 import ru.erulaev.restaurantvoting.user.web.response.CommonRegularApiResponses;
 import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
 
@@ -37,10 +37,10 @@ public class VoteController {
 
     @GetMapping
     @Operation(summary = "To get all votes by user",
-            description = "Returns votes' data (vote's ID, voting date, user's ID, restaurant's ID) by authenticated user " +
+            description = "Returns votes' data (vote's ID, voting date, user's ID, restaurant's name) by authenticated user " +
                     "except votes for deleted restaurants, order by date desc.")
     @ApiResponse(responseCode = "200", description = "Request successful")
-    public List<ResponseVoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
+    public List<ResponseVoteToWithRestaurantName> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("getAll by user {}", authUser);
         return voteService.getAllByUser(authUser.id());
     }

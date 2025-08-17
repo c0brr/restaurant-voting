@@ -57,7 +57,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @Operation(summary = "To get restaurant (by ID)",
             description = "Returns restaurant's data (ID, name, created date) by its ID")
     @SearchResultApiResponses
-    public Restaurant get(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
+    public Restaurant get(@Parameter(description = "Restaurant's ID") @PathVariable int id) {
         return super.get(id);
     }
 
@@ -80,7 +80,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
     @ApiResponse(responseCode = "204", description = "Restaurant is deleted")
     @ApiResponse(responseCode = "404", description = "Restaurant is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public void delete(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
+    public void delete(@Parameter(description = "Restaurant's ID") @PathVariable int id) {
         super.delete(id);
     }
 
@@ -93,7 +93,7 @@ public class AdminRestaurantController extends AbstractCoreEntityController<Rest
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @BodyAndDataApiResponses
     public void update(@Parameter(description = "Restaurant's data (name)") @Valid @RequestBody Restaurant restaurant,
-                       @Parameter(description = "Restaurant's ID") @PathVariable long id) {
+                       @Parameter(description = "Restaurant's ID") @PathVariable int id) {
         super.doUpdate(restaurant, id);
     }
 

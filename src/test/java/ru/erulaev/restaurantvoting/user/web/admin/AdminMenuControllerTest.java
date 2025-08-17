@@ -116,7 +116,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated());
 
         AdminMenuTo created = ADMIN_MENU_TO_MATCHER.readFromJson(action);
-        long newId = created.id();
+        int newId = created.id();
         newMenu.setId(newId);
         newMenu.setParentEntity(restaurantRepository.getReferenceById(created.getRestaurantId()));
         AdminMenuTo newMenuTo = getAdminTo(newMenu);

@@ -45,12 +45,12 @@ public class Dish extends NamedEntity {
         this(dish.id, dish.name, dish.price);
     }
 
-    public Dish(Long id, String name, int price, Menu parentEntity) {
+    public Dish(Integer id, String name, int price, Menu parentEntity) {
         this(id, name, price);
         this.parentEntity = parentEntity;
     }
 
-    public Dish(Long id, String name, int price) {
+    public Dish(Integer id, String name, int price) {
         this(name, price);
         this.id = id;
     }
@@ -61,7 +61,7 @@ public class Dish extends NamedEntity {
     }
 
     @Schema(hidden = true)
-    public Long getMenuId() {
+    public Integer getMenuId() {
         return parentEntity.getId();
     }
 }

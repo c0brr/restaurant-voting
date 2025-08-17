@@ -4,7 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 @MappedSuperclass
@@ -19,7 +22,7 @@ public abstract class NamedEntity extends BaseEntity {
     @NoHtml   // https://stackoverflow.com/questions/17480809
     protected String name;
 
-    public NamedEntity(Long id, String name) {
+    public NamedEntity(Integer id, String name) {
         super(id);
         this.name = name;
     }

@@ -77,11 +77,11 @@ public class User extends NamedEntity implements HasIdAndEmail {
         this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
-    public User(Long id, String name, String email, String password, Role... roles) {
+    public User(Integer id, String name, String email, String password, Role... roles) {
         this(id, name, email, password, true, Instant.now(), Arrays.asList(roles));
     }
 
-    public User(Long id, String name, String email, String password,
+    public User(Integer id, String name, String email, String password,
                 boolean enabled, Instant registered, @NonNull Collection<Role> roles) {
         super(id, name);
         this.email = email;

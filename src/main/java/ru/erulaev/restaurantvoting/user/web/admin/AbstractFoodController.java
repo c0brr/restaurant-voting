@@ -23,17 +23,17 @@ public abstract class AbstractFoodController<E extends HasId, T extends HasId> {
 
     protected final FoodService<E, T> service;
 
-    protected List<T> getAll(long parentId) {
+    protected List<T> getAll(int parentId) {
         log.info("getAll for parent entity {}", parentId);
         return service.getAll(parentId);
     }
 
-    protected T get(long id, long parentId) {
+    protected T get(int id, int parentId) {
         log.info("get {} from parent entity {}", id, parentId);
         return service.get(id, parentId);
     }
 
-    protected ResponseEntity<T> createWithLocation(E entity, long parentId, String url) {
+    protected ResponseEntity<T> createWithLocation(E entity, int parentId, String url) {
         log.info("create {} for parent entity {}", entity, parentId);
         checkNew(entity);
         T entityTo = service.save(entity, parentId);
@@ -43,7 +43,7 @@ public abstract class AbstractFoodController<E extends HasId, T extends HasId> {
         return ResponseEntity.created(uriOfNewResource).body(entityTo);
     }
 
-    protected void delete(long id, long parentId) {
+    protected void delete(int id, int parentId) {
         log.info("delete {} from parent entity {}", id, parentId);
         service.delete(id, parentId);
     }

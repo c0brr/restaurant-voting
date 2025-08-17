@@ -41,7 +41,7 @@ public class MenuController {
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @ApiResponse(responseCode = "404", description = "Restaurant is not found, or no available menu for requested date",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public ResponseEntity<RegularMenuTo> getByDate(@Parameter(description = "Restaurant's ID") @PathVariable long restaurantId,
+    public ResponseEntity<RegularMenuTo> getByDate(@Parameter(description = "Restaurant's ID") @PathVariable int restaurantId,
                                                    @Parameter(description = "Date, format - yyyy-MM-dd") @RequestParam(required = false)
                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         date = dateService.processDate(date);

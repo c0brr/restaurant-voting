@@ -60,7 +60,7 @@ class ProfileControllerTest extends AbstractUserControllerTest {
                 .andExpect(status().isCreated());
 
         User created = USER_MATCHER.readFromJson(action);
-        long newId = created.id();
+        int newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
         USER_MATCHER.assertMatch(userRepository.findById(newId)

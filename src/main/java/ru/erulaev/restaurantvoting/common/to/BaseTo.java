@@ -13,7 +13,7 @@ import ru.erulaev.restaurantvoting.common.HasId;
 public abstract class BaseTo implements HasId {
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    protected Long id;
+    protected Integer id;
 
     @Override
     public String toString() {

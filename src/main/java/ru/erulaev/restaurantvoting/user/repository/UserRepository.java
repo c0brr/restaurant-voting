@@ -36,7 +36,7 @@ public interface UserRepository extends CoreEntityBaseRepository<User> {
     }
 
     @Override
-    default User getExisted(long id) {
+    default User getExisted(int id) {
         return findById(id).orElseThrow(() -> new NotFoundException("User with id=" + id + " not found"));
     }
 }

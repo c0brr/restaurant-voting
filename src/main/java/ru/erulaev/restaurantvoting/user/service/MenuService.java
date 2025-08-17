@@ -27,7 +27,7 @@ public class MenuService implements FoodService<Menu, AdminMenuTo> {
 
     @Override
     @Transactional
-    public List<AdminMenuTo> getAll(long restaurantId) {
+    public List<AdminMenuTo> getAll(int restaurantId) {
         List<Menu> menus = menuRepository.getAllByRestaurantId(restaurantId);
         if (menus.isEmpty() && !restaurantRepository.existsById(restaurantId)) {
             throw new NotFoundException("Restaurant with id " + restaurantId + " not found");
@@ -38,25 +38,25 @@ public class MenuService implements FoodService<Menu, AdminMenuTo> {
     }
 
     @Override
-    public AdminMenuTo get(long id, long restaurantId) {
+    public AdminMenuTo get(int id, int restaurantId) {
         return menuMapper.createTo(menuRepository.getExisted(id, restaurantId));
     }
 
     @Override
     @Transactional
-    public AdminMenuTo save(Menu menu, long restaurantId) {
+    public AdminMenuTo save(Menu menu, int restaurantId) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         menu.setParentEntity(restaurant);
         return menuMapper.createTo(menuRepository.save(menu));
     }
 
     @Override
-    public void delete(long id, long restaurantId) {
+    public void delete(int id, int restaurantId) {
         menuRepository.deleteExisted(id, restaurantId);
     }
 
     @Transactional
-    public Optional<RegularMenuTo> getByDate(long restaurantId, LocalDate date) {
+    public Optional<RegularMenuTo> getByDate(int restaurantId, LocalDate date) {
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         if (!RestaurantUtil.isRestaurantExistedAtDate(restaurant, date)) {
             throw new NotFoundException("No data available for date " + date);

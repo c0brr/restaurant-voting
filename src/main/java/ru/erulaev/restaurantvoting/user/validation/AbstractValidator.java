@@ -21,7 +21,7 @@ public abstract class AbstractValidator implements org.springframework.validatio
 
     protected void processEntity(HasId requestEntity, HasId dbEntity, Errors errors, String msg, String filed) {
         if (request.getMethod().equals("PUT")) { // UPDATE
-            long dbId = dbEntity.id();
+            int dbId = dbEntity.id();
 
             // it is ok, if update by ourselves
             if (requestEntity.getId() != null && dbId == requestEntity.id()) {

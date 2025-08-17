@@ -121,7 +121,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated());
 
         DishTo created = DISH_TO_MATCHER.readFromJson(action);
-        long newId = created.id();
+        int newId = created.id();
         newDish.setId(newId);
         newDish.setParentEntity(menuRepository.getReferenceById(created.getMenuId()));
         newDish.setName(NameUtil.getCorrectName(newDish.getName()));

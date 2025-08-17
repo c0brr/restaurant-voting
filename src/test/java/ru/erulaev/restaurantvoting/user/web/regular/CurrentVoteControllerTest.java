@@ -13,7 +13,7 @@ import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
 import ru.erulaev.restaurantvoting.user.service.DateService;
 import ru.erulaev.restaurantvoting.user.service.TimeService;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantId;
 import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 import ru.erulaev.restaurantvoting.user.web.data.RestaurantTestData;
 
@@ -48,11 +48,11 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void get() throws Exception {
-        when(dateService.getCurrentDate()).thenReturn(responseVoteTo5.getDate());
+        when(dateService.getCurrentDate()).thenReturn(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESPONSE_VOTE_TO_MATCHER.contentJson(responseVoteTo5));
+                .andExpect(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_MATCHER.contentJson(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5));
     }
 
     @Test
@@ -78,12 +78,12 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
                 .content(writeValue(newRequestTo)))
                 .andExpect(status().isCreated());
 
-        ResponseVoteTo createdResponseTo = RESPONSE_VOTE_TO_MATCHER.readFromJson(action);
-        long newId = createdResponseTo.id();
+        ResponseVoteToWithRestaurantId createdResponseTo = RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_MATCHER.readFromJson(action);
+        int newId = createdResponseTo.id();
         newRequestTo.setId(newId);
 
         matchVotes(createdResponseTo, newRequestTo, USER_2_ID);
-        createdResponseTo = getResponseTo(voteRepository.findById(newId).orElseThrow(() ->
+        createdResponseTo = getResponseToWithRestaurantId(voteRepository.findById(newId).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + newId + " not found")));
         matchVotes(createdResponseTo, newRequestTo, USER_2_ID);
     }
@@ -91,8 +91,8 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void createDuplicate() throws Exception {
-        processMockServices(responseVoteTo5.getDate());
-        RequestVoteTo expected = new RequestVoteTo(RESTAURANT_4_ID, responseVoteTo5.getDate());
+        processMockServices(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
+        RequestVoteTo expected = new RequestVoteTo(RESTAURANT_4_ID, RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(expected)))
@@ -137,7 +137,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void delete() throws Exception {
-        processMockServices(responseVoteTo5.getDate());
+        processMockServices(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
         assertFalse(voteRepository.findById(VOTE_5_ID).isPresent());
@@ -154,7 +154,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void deleteWhenDeadLinePassed() throws Exception {
-        processMockServicesWhenDeadlinePassed(responseVoteTo5.getDate());
+        processMockServicesWhenDeadlinePassed(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isConflict());
     }
@@ -162,14 +162,14 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void changeChoice() throws Exception {
-        processMockServices(responseVoteTo5.getDate());
+        processMockServices(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.patch(REST_URL)
                 .param("restaurantId", "2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        Long voteId = responseVoteTo5.getId();
+        Integer voteId = RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getId();
         assertEquals(RESTAURANT_2_ID, voteRepository.findById(voteId).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + voteId + " not found")).getRestaurantId());
     }
@@ -177,7 +177,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void changeChoiceForNotFoundRestaurant() throws Exception {
-        processMockServices(responseVoteTo5.getDate());
+        processMockServices(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.patch(REST_URL)
                 .param("restaurantId", "100")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -188,7 +188,7 @@ class CurrentVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_2_MAIL)
     void changeChoiceWhenDeadLinePassed() throws Exception {
-        processMockServicesWhenDeadlinePassed(responseVoteTo5.getDate());
+        processMockServicesWhenDeadlinePassed(RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5.getDate());
         perform(MockMvcRequestBuilders.patch(REST_URL)
                 .param("restaurantId", "3")
                 .contentType(MediaType.APPLICATION_JSON))

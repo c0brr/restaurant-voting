@@ -24,7 +24,7 @@ public class DishService implements FoodService<Dish, DishTo> {
 
     @Override
     @Transactional
-    public List<DishTo> getAll(long menuId) {
+    public List<DishTo> getAll(int menuId) {
         List<Dish> dishes = dishRepository.getAllByMenuId(menuId);
         if (dishes.isEmpty() && !menuRepository.existsById(menuId)) {
             throw new NotFoundException("Menu with id=" + menuId + " not found");
@@ -35,13 +35,13 @@ public class DishService implements FoodService<Dish, DishTo> {
     }
 
     @Override
-    public DishTo get(long id, long menuId) {
+    public DishTo get(int id, int menuId) {
         return dishMapper.createTo(dishRepository.getExisted(id, menuId));
     }
 
     @Override
     @Transactional
-    public DishTo save(Dish dish, long menuId) {
+    public DishTo save(Dish dish, int menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new NotFoundException("Menu with id=" + menuId + " not found"));
         dish.setParentEntity(menu);
@@ -49,13 +49,13 @@ public class DishService implements FoodService<Dish, DishTo> {
     }
 
     @Override
-    public void delete(long id, long menuId) {
+    public void delete(int id, int menuId) {
         dishRepository.deleteExisted(id, menuId);
     }
 
     @Override
     @Transactional
-    public void update(Dish newDish, long id, long menuId) {
+    public void update(Dish newDish, int id, int menuId) {
         Dish oldDish = dishRepository.getExisted(id, menuId);
         oldDish.setPrice(newDish.getPrice());
         oldDish.setName(NameUtil.getCorrectName(newDish.getName()));

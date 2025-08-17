@@ -33,7 +33,7 @@ public interface RestaurantRepository extends CoreEntityBaseRepository<Restauran
 
     @Override
     @Cacheable("restaurants")
-    default Restaurant getExisted(long id) {
+    default Restaurant getExisted(int id) {
         return findById(id).orElseThrow(() -> new NotFoundException("Restaurant with id=" + id + " not found"));
     }
 }

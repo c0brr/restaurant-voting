@@ -25,7 +25,7 @@ public class UniqueDateMenuValidator implements org.springframework.validation.V
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         Menu menu = (Menu) target;
-        long restaurantId = Long.parseLong(request.getRequestURI().split("/")[4]);
+        int restaurantId = Integer.parseInt(request.getRequestURI().split("/")[4]);
         menuRepository.getByRestaurantIdAndDate(restaurantId, menu.getDate())
                 .ifPresent(dbMenu -> errors.rejectValue("date", "", EXCEPTION_DUPLICATE_MENU));
     }

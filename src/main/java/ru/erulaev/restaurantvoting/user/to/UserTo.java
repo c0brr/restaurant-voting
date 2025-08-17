@@ -3,7 +3,9 @@ package ru.erulaev.restaurantvoting.user.to;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
 import ru.erulaev.restaurantvoting.common.to.NamedTo;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
@@ -23,7 +25,7 @@ public class UserTo extends NamedTo implements HasIdAndEmail {
     @Size(max = 128)
     String password;
 
-    public UserTo(Long id, String name, String email, String password) {
+    public UserTo(Integer id, String name, String email, String password) {
         super(id, name);
         this.email = email;
         this.password = password;

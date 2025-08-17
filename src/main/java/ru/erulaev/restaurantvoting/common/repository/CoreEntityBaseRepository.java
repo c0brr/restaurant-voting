@@ -12,13 +12,13 @@ import java.util.List;
 
 // https://stackoverflow.com/questions/42781264/multiple-base-repositories-in-spring-data-jpa
 @NoRepositoryBean
-public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Long> {
+public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Integer> {
 
     List<T> getAll();
 
     T prepareAndSave(T entity);
 
-    T getExisted(long id);
+    T getExisted(int id);
 
     List<T> findByNameContainingIgnoreCase(String name, Sort sort);
 
@@ -26,11 +26,11 @@ public interface CoreEntityBaseRepository<T> extends JpaRepository<T, Long> {
     @Transactional
     @Modifying
     @Query("DELETE FROM #{#entityName} e WHERE e.id = :id")
-    int delete(long id);
+    int delete(int id);
 
     //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)
     @SuppressWarnings("SpringTransactionalMethodCallsInspection") // transaction invoked
-    default void deleteExisted(long id) {
+    default void deleteExisted(int id) {
         if (delete(id) == 0) {
             throw new NotFoundException("Entity with id=" + id + " not found");
         }

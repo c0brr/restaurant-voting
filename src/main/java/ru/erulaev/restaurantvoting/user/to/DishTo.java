@@ -12,7 +12,7 @@ public class DishTo extends NamedTo {
 
     private int price;
 
-    private long menuId;
+    private int menuId;
 
     @Override
     public String toString() {

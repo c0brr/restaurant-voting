@@ -5,16 +5,16 @@ import org.springframework.util.Assert;
 
 public interface HasId {
 
-    Long getId();
+    Integer getId();
 
-    void setId(Long id);
+    void setId(Integer id);
 
     @Schema(hidden = true)
     default boolean isNew() {
         return getId() == null;
     }
 
-    default long id() {
+    default int id() {
         Assert.notNull(getId(), "Entity must have id");
         return getId();
     }

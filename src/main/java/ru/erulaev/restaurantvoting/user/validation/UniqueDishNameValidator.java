@@ -24,7 +24,7 @@ public class UniqueDishNameValidator extends AbstractValidator {
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         NamedEntity dish = (NamedEntity) target;
-        long menuId = Long.parseLong(request.getRequestURI().split("/")[4]);
+        int menuId = Integer.parseInt(request.getRequestURI().split("/")[4]);
         if (StringUtils.hasText(dish.getName())) {
             dishRepository.getByMenuIdAndName(menuId, NameUtil.getCorrectName(dish.getName()))
                     .ifPresent(dbDish -> processEntity(dish, dbDish, errors, EXCEPTION_DUPLICATE_NAME, "name"));

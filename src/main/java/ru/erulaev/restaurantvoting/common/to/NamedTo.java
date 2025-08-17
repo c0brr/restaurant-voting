@@ -18,7 +18,7 @@ public class NamedTo extends BaseTo {
     @NoHtml
     protected String name;
 
-    public NamedTo(Long id, String name) {
+    public NamedTo(Integer id, String name) {
         super(id);
         this.name = name;
     }

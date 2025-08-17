@@ -48,7 +48,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @Operation(summary = "To get user (by ID)",
             description = "Returns user's data (ID, name, email, enable status, registration moment, roles) by his ID")
     @SearchResultApiResponses
-    public User get(@Parameter(description = "User's ID") @PathVariable long id) {
+    public User get(@Parameter(description = "User's ID") @PathVariable int id) {
         return super.get(id);
     }
 
@@ -71,7 +71,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @ApiResponse(responseCode = "204", description = "User is deleted")
     @ApiResponse(responseCode = "404", description = "User is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public void delete(@Parameter(description = "User's ID") @PathVariable long id) {
+    public void delete(@Parameter(description = "User's ID") @PathVariable int id) {
         super.delete(id);
     }
 
@@ -85,7 +85,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @BodyAndDataApiResponses
     public void update(@Parameter(description = "User's data (name, email, password, enable status, roles)")
                        @Valid @RequestBody User user,
-                       @Parameter(description = "User's ID") @PathVariable long id) {
+                       @Parameter(description = "User's ID") @PathVariable int id) {
         super.doUpdate(user, id);
     }
 
@@ -115,7 +115,7 @@ public class AdminUserController extends AbstractCoreEntityController<User, User
     @ApiResponse(responseCode = "204", description = "User is disabled/enabled")
     @ApiResponse(responseCode = "404", description = "User is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public void enable(@Parameter(description = "User's ID") @PathVariable long id,
+    public void enable(@Parameter(description = "User's ID") @PathVariable int id,
                        @Parameter(description = "Boolean value") @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
         User user = repository.getExisted(id);

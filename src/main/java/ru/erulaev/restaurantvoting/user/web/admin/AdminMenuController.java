@@ -48,7 +48,7 @@ public class AdminMenuController extends AbstractFoodController<Menu, AdminMenuT
     @ApiResponse(responseCode = "200", description = "Request successful")
     @ApiResponse(responseCode = "404", description = "Restaurant is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public List<AdminMenuTo> getAll(@Parameter(description = "Restaurant's ID") @PathVariable long restaurantId) {
+    public List<AdminMenuTo> getAll(@Parameter(description = "Restaurant's ID") @PathVariable int restaurantId) {
         return super.getAll(restaurantId);
     }
 
@@ -57,8 +57,8 @@ public class AdminMenuController extends AbstractFoodController<Menu, AdminMenuT
     @Operation(summary = "To get menu",
             description = "Returns menu's data (menu's ID, created date, restaurant's ID) by its ID and restaurant's ID")
     @SearchResultApiResponses
-    public AdminMenuTo get(@Parameter(description = "Menu's ID") @PathVariable long id,
-                           @Parameter(description = "Restaurant's ID") @PathVariable long restaurantId) {
+    public AdminMenuTo get(@Parameter(description = "Menu's ID") @PathVariable int id,
+                           @Parameter(description = "Restaurant's ID") @PathVariable int restaurantId) {
         return super.get(id, restaurantId);
     }
 
@@ -69,7 +69,7 @@ public class AdminMenuController extends AbstractFoodController<Menu, AdminMenuT
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @BodyAndDataApiResponses
     public ResponseEntity<AdminMenuTo> createWithLocation(@Parameter(description = "Menu's data") @Valid @RequestBody Menu menu,
-                                                          @Parameter(description = "Restaurant's ID") @PathVariable long restaurantId) {
+                                                          @Parameter(description = "Restaurant's ID") @PathVariable int restaurantId) {
         return super.createWithLocation(menu, restaurantId, REST_URL);
     }
 
@@ -81,8 +81,8 @@ public class AdminMenuController extends AbstractFoodController<Menu, AdminMenuT
     @ApiResponse(responseCode = "204", description = "Menu is deleted")
     @ApiResponse(responseCode = "404", description = "Menu is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public void delete(@Parameter(description = "Menu's ID") @PathVariable long id,
-                       @Parameter(description = "Restaurant's ID") @PathVariable long restaurantId) {
+    public void delete(@Parameter(description = "Menu's ID") @PathVariable int id,
+                       @Parameter(description = "Restaurant's ID") @PathVariable int restaurantId) {
         super.delete(id, restaurantId);
     }
 }

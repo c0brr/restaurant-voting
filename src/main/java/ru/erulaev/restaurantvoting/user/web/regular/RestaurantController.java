@@ -56,7 +56,7 @@ public class RestaurantController {
     @Operation(summary = "To get restaurant (by ID)",
             description = "Returns restaurant's data (ID, name, created date, vote count for today) by its ID")
     @SearchResultApiResponses
-    public RestaurantTo get(@Parameter(description = "Restaurant's ID") @PathVariable long id) {
+    public RestaurantTo get(@Parameter(description = "Restaurant's ID") @PathVariable int id) {
         log.info("get {}", id);
         return restaurantService.get(id);
     }

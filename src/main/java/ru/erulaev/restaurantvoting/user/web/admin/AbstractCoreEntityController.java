@@ -32,7 +32,7 @@ public abstract class AbstractCoreEntityController<E extends HasId, R extends Co
         return repository.getAll();
     }
 
-    protected E get(long id) {
+    protected E get(int id) {
         log.info("get {}", id);
         return repository.getExisted(id);
     }
@@ -47,13 +47,13 @@ public abstract class AbstractCoreEntityController<E extends HasId, R extends Co
         return ResponseEntity.created(uriOfNewResource).body(entity);
     }
 
-    protected void delete(long id) {
+    protected void delete(int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);
     }
 
     @Transactional
-    protected void doUpdate(E entity, long id) {
+    protected void doUpdate(E entity, int id) {
         log.info("update {} with id={}", entity, id);
         assureIdConsistent(entity, id);
         if (!repository.existsById(id)) {

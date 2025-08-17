@@ -102,7 +102,7 @@ public class ProfileController {
     public void update(@Parameter(description = "User's data (ID (not required), name, email, password)")
                        @Valid @RequestBody UserTo userTo,
                        @AuthenticationPrincipal AuthUser authUser) {
-        long id = authUser.id();
+        int id = authUser.id();
         log.info("update {} with id={}", userTo, id);
         assureIdConsistent(userTo, id);
         if (!userRepository.existsById(id)) {

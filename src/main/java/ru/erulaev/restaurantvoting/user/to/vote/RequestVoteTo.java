@@ -23,14 +23,14 @@ public class RequestVoteTo extends BaseTo {
     private LocalDate date = LocalDate.now(Clock.systemUTC());
 
     @Min(1)
-    private long restaurantId;
+    private int restaurantId;
 
-    public RequestVoteTo(long restaurantId, LocalDate date) {
+    public RequestVoteTo(int restaurantId, LocalDate date) {
         this(restaurantId);
         this.date = date;
     }
 
-    public RequestVoteTo(long restaurantId) {
+    public RequestVoteTo(int restaurantId) {
         this.restaurantId = restaurantId;
     }
 

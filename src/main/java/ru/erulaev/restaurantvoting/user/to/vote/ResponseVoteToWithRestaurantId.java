@@ -10,16 +10,16 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class ResponseVoteTo extends BaseTo {
+public class ResponseVoteToWithRestaurantId extends BaseTo {
 
     private LocalDate date;
 
-    private long restaurantId;
+    private int restaurantId;
 
-    private long userId;
+    private int userId;
 
     @Override
     public String toString() {
-        return "ResponseVoteTo:" + id;
+        return "ResponseVoteToWithRestaurantId:" + id;
     }
 }

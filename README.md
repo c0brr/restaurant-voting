@@ -1,7 +1,5 @@
 # Restaurant Voting REST API
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d97bb4004fa14341829685c0f080dc4f)](https://app.codacy.com/gh/c0brr/restaurant-voting/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.5-green)
 

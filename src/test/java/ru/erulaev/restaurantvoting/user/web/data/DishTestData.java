@@ -14,12 +14,12 @@ public class DishTestData {
     public static final MatcherFactory.Matcher<DishTo> DISH_TO_MATCHER = MatcherFactory.usingEqualsComparator(DishTo.class);
     public static final DishMapper MAPPER = Mappers.getMapper(DishMapper.class);
 
-    public static final long DISH_1_ID = 1L;
-    public static final long DISH_2_ID = 2L;
-    public static final long DISH_3_ID = 3L;
-    public static final long DISH_4_ID = 4L;
-    public static final long DISH_5_ID = 5L;
-    public static final long NOT_FOUND = 100L;
+    public static final int DISH_1_ID = 1;
+    public static final int DISH_2_ID = 2;
+    public static final int DISH_3_ID = 3;
+    public static final int DISH_4_ID = 4;
+    public static final int DISH_5_ID = 5;
+    public static final int NOT_FOUND = 100;
     public static final String DISH_1_NAME = "Soup";
     public static final String DISH_2_NAME = "Salad";
     public static final String DISH_3_NAME = "Fries";
