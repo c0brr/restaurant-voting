@@ -3,20 +3,20 @@ package ru.erulaev.restaurantvoting.user.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.mapper.DishMapper;
-import ru.erulaev.restaurantvoting.user.model.Dish;
-import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.entity.Dish;
+import ru.erulaev.restaurantvoting.user.entity.Menu;
 import ru.erulaev.restaurantvoting.user.repository.DishRepository;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
-import ru.erulaev.restaurantvoting.user.to.dish.DishToWithMenuId;
-import ru.erulaev.restaurantvoting.user.util.NameUtil;
+import ru.erulaev.restaurantvoting.user.to.dish.DishWithMenuIdTo;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class DishService implements FoodService<Dish, DishToWithMenuId> {
+public class DishService implements FoodService<Dish, DishWithMenuIdTo> {
 
     private final DishRepository dishRepository;
     private final MenuRepository menuRepository;
@@ -24,28 +24,28 @@ public class DishService implements FoodService<Dish, DishToWithMenuId> {
 
     @Override
     @Transactional
-    public List<DishToWithMenuId> getAll(int menuId) {
+    public List<DishWithMenuIdTo> getAll(int menuId) {
         List<Dish> dishes = dishRepository.getAllByMenuId(menuId);
         if (dishes.isEmpty() && !menuRepository.existsById(menuId)) {
             throw new NotFoundException("Menu with id=" + menuId + " not found");
         }
         return dishes.stream()
-                .map(dishMapper::createToWithMenuId)
+                .map(dishMapper::createWithMenuIdTo)
                 .toList();
     }
 
     @Override
-    public DishToWithMenuId get(int id, int menuId) {
-        return dishMapper.createToWithMenuId(dishRepository.getExisted(id, menuId));
+    public DishWithMenuIdTo get(int id, int menuId) {
+        return dishMapper.createWithMenuIdTo(dishRepository.getExisted(id, menuId));
     }
 
     @Override
     @Transactional
-    public DishToWithMenuId save(Dish dish, int menuId) {
+    public DishWithMenuIdTo save(Dish dish, int menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new NotFoundException("Menu with id=" + menuId + " not found"));
         dish.setParentEntity(menu);
-        return dishMapper.createToWithMenuId(dishRepository.prepareAndSave(dish));
+        return dishMapper.createWithMenuIdTo(dishRepository.prepareAndSave(dish));
     }
 
     @Override
@@ -58,6 +58,6 @@ public class DishService implements FoodService<Dish, DishToWithMenuId> {
     public void update(Dish newDish, int id, int menuId) {
         Dish oldDish = dishRepository.getExisted(id, menuId);
         oldDish.setPrice(newDish.getPrice());
-        oldDish.setName(NameUtil.getCorrectName(newDish.getName()));
+        oldDish.setName(StringUtils.capitalize(newDish.getName()));
     }
 }

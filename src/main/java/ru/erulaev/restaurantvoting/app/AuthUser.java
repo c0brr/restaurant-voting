@@ -2,7 +2,7 @@ package ru.erulaev.restaurantvoting.app;
 
 import lombok.Getter;
 import org.springframework.lang.NonNull;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.User;
 
 @Getter
 public class AuthUser extends org.springframework.security.core.userdetails.User {

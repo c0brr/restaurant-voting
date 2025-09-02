@@ -6,10 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.StringUtils;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
-import ru.erulaev.restaurantvoting.user.util.NameUtil;
 import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 
 import static org.hamcrest.Matchers.containsString;
@@ -141,7 +141,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         updated = getUpdated();
-        updated.setName(NameUtil.getCorrectName(updated.getName()));
+        updated.setName(StringUtils.capitalize(updated.getName()));
         RESTAURANT_MATCHER.assertMatch(restaurantRepository.findById(RESTAURANT_1_ID).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + RESTAURANT_1_ID + " not found")), updated);
     }

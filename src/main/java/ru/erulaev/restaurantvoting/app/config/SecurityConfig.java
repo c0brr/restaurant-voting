@@ -17,8 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.app.error.CustomAccessDeniedHandler;
 import ru.erulaev.restaurantvoting.app.error.CustomAuthenticationEntryPoint;
-import ru.erulaev.restaurantvoting.user.model.Role;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.Role;
+import ru.erulaev.restaurantvoting.user.entity.User;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
 
 import java.util.Optional;

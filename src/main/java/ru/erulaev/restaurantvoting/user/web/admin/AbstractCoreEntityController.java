@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.repository.CoreEntityBaseRepository;
-import ru.erulaev.restaurantvoting.user.web.response.CommonAdminApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.CommonAdminApiResponses;
 
 import java.net.URI;
 import java.util.List;

@@ -3,7 +3,7 @@ package ru.erulaev.restaurantvoting.user.web.data;
 import org.mapstruct.factory.Mappers;
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.user.mapper.RestaurantMapper;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
 import ru.erulaev.restaurantvoting.user.to.RestaurantTo;
 
 import java.time.Instant;
@@ -37,14 +37,14 @@ public class RestaurantTestData {
     public static final Restaurant restaurant2 = new Restaurant(RESTAURANT_2_ID, RESTAURANT_2_NAME);
     public static final Restaurant restaurant3 = new Restaurant(RESTAURANT_3_ID, RESTAURANT_3_NAME);
     public static final Restaurant restaurant4 = new Restaurant(RESTAURANT_4_ID, RESTAURANT_4_NAME);
-    public static final RestaurantTo restaurantTo1CurrentDate = getTo(restaurant1, 0);
-    public static final RestaurantTo restaurantTo2CurrentDate = getTo(restaurant2, 0);
-    public static final RestaurantTo restaurantTo3CurrentDate = getTo(restaurant3, 1);
-    public static final RestaurantTo restaurantTo4CurrentDate = getTo(restaurant4, 0);
-    public static final RestaurantTo restaurantTo1OtherDate = getTo(restaurant1, 2);
-    public static final RestaurantTo restaurantTo2OtherDate = getTo(restaurant2, 1);
-    public static final RestaurantTo restaurantTo3OtherDate = getTo(restaurant3, 0);
-    public static final RestaurantTo restaurantTo4OtherDate = getTo(restaurant4, 0);
+    public static final RestaurantTo restaurantForCurrentDateTo1 = getTo(restaurant1, 0);
+    public static final RestaurantTo restaurantForCurrentDateTo2 = getTo(restaurant2, 0);
+    public static final RestaurantTo restaurantForCurrentDateTo3 = getTo(restaurant3, 1);
+    public static final RestaurantTo restaurantForCurrentDateTo4 = getTo(restaurant4, 0);
+    public static final RestaurantTo restaurantForOtherDateTo1 = getTo(restaurant1, 2);
+    public static final RestaurantTo restaurantForOtherDateTo2 = getTo(restaurant2, 1);
+    public static final RestaurantTo restaurantForOtherDateTo3 = getTo(restaurant3, 0);
+    public static final RestaurantTo restaurantForOtherDateTo4 = getTo(restaurant4, 0);
 
     public static Restaurant getNew() {
         return new Restaurant(null, "New", Instant.now());

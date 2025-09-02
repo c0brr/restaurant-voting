@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.mapper.RestaurantMapper;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
-import ru.erulaev.restaurantvoting.user.model.Vote;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
+import ru.erulaev.restaurantvoting.user.entity.Vote;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
 import ru.erulaev.restaurantvoting.user.to.RestaurantTo;
@@ -31,7 +31,7 @@ public class RestaurantService {
 
     @Transactional
     public List<RestaurantTo> getAllByDate(LocalDate date) {
-        Map<Integer, Integer> votesByRestaurant = voteRepository.findAllByDate(date)
+        Map<Integer, Integer> votesByRestaurant = voteRepository.findAllByCreationDate(date)
                 .stream()
                 .collect(Collectors.toMap(Vote::getRestaurantId, vote -> ONE_VOTE, Integer::sum));
 
@@ -50,13 +50,13 @@ public class RestaurantService {
     public RestaurantTo get(int id) {
         Restaurant restaurant = restaurantRepository.getExisted(id);
         return restaurantMapper.createTo(restaurant,
-                voteRepository.getCountByDateAndRestaurantId(dateService.getCurrentDate(), id));
+                voteRepository.getCountByCreationDateAndRestaurantId(dateService.getCurrentDate(), id));
     }
 
     @Transactional
     public RestaurantTo getByName(String name) {
         Restaurant restaurant = restaurantRepository.getExistedByName(name);
         return restaurantMapper.createTo(restaurant,
-                voteRepository.getCountByDateAndRestaurantId(dateService.getCurrentDate(), restaurant.getId()));
+                voteRepository.getCountByCreationDateAndRestaurantId(dateService.getCurrentDate(), restaurant.getId()));
     }
 }

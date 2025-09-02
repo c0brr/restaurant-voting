@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
-import ru.erulaev.restaurantvoting.common.model.BaseEntity;
-import ru.erulaev.restaurantvoting.common.model.NamedEntity;
+import ru.erulaev.restaurantvoting.common.entity.BaseEntity;
+import ru.erulaev.restaurantvoting.common.entity.NamedEntity;
 import ru.erulaev.restaurantvoting.user.mapper.VoteMapper;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
-import ru.erulaev.restaurantvoting.user.model.User;
-import ru.erulaev.restaurantvoting.user.model.Vote;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
+import ru.erulaev.restaurantvoting.user.entity.User;
+import ru.erulaev.restaurantvoting.user.entity.Vote;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.repository.VoteRepository;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantId;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantName;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteWithRestaurantIdTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteWithRestaurantNameTo;
 
 import java.util.List;
 import java.util.Map;
@@ -32,23 +32,24 @@ public class VoteService {
     private final DateService dateService;
 
     @Transactional
-    public List<ResponseVoteToWithRestaurantName> getAllByUser(int userId) {
-        Map<Integer, String> restaurantNamesById = restaurantRepository.getAll().stream().collect(Collectors.toMap(BaseEntity::getId, NamedEntity::getName));
+    public List<ResponseVoteWithRestaurantNameTo> getAllByUser(int userId) {
+        Map<Integer, String> restaurantNamesById = restaurantRepository.getAll().stream()
+                .collect(Collectors.toMap(BaseEntity::getId, NamedEntity::getName));
         return voteRepository.getAllByUserId(userId).stream()
-                .map(vote -> voteMapper.createResponseToWithRestaurantName(vote, restaurantNamesById.get(vote.getRestaurantId())))
+                .map(vote -> voteMapper.createResponseWithRestaurantNameTo(vote, restaurantNamesById.get(vote.getRestaurantId())))
                 .toList();
     }
 
-    public Optional<ResponseVoteToWithRestaurantId> getCurrent(int userId) {
-        return voteRepository.getByUserIdAndDate(userId, dateService.getCurrentDate()).map(voteMapper::createResponseToWithRestaurantId);
+    public Optional<ResponseVoteWithRestaurantIdTo> getCurrent(int userId) {
+        return voteRepository.getByUserIdAndCreationDate(userId, dateService.getCurrentDate()).map(voteMapper::createResponseWithRestaurantIdTo);
     }
 
     @Transactional
-    public ResponseVoteToWithRestaurantId save(RequestVoteTo requestVoteTo, User user) {
+    public ResponseVoteWithRestaurantIdTo save(RequestVoteTo requestVoteTo, User user) {
         timeService.checkDeadLine();
         Restaurant restaurant = restaurantRepository.getExisted(requestVoteTo.getRestaurantId());
         Vote vote = voteRepository.save(voteMapper.createNewFromRequestTo(requestVoteTo, user, restaurant));
-        return voteMapper.createResponseToWithRestaurantId(vote);
+        return voteMapper.createResponseWithRestaurantIdTo(vote);
     }
 
     @Transactional
@@ -60,7 +61,7 @@ public class VoteService {
     @Transactional
     public void changeChoice(int restaurantId, int userId) {
         timeService.checkDeadLine();
-        Vote vote = voteRepository.getByUserIdAndDate(userId, dateService.getCurrentDate()).orElseThrow(
+        Vote vote = voteRepository.getByUserIdAndCreationDate(userId, dateService.getCurrentDate()).orElseThrow(
                 () -> new NotFoundException("Vote from user with id=" + userId + " not found for today"));
         Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
         vote.setRestaurant(restaurant);

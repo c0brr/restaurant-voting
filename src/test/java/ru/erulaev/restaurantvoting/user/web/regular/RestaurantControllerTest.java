@@ -30,8 +30,8 @@ class RestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantTo1CurrentDate, restaurantTo4CurrentDate,
-                        restaurantTo2CurrentDate, restaurantTo3CurrentDate));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantForCurrentDateTo1, restaurantForCurrentDateTo4,
+                        restaurantForCurrentDateTo2, restaurantForCurrentDateTo3));
     }
 
     @Test
@@ -42,8 +42,8 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .param("date", dateService.getDateAsString(OTHER_DATE)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantTo1OtherDate, restaurantTo4OtherDate,
-                        restaurantTo2OtherDate, restaurantTo3OtherDate));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantForOtherDateTo1, restaurantForOtherDateTo4,
+                        restaurantForOtherDateTo2, restaurantForOtherDateTo3));
     }
 
     @Test
@@ -86,7 +86,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantTo1CurrentDate));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantForCurrentDateTo1));
     }
 
     @Test
@@ -105,7 +105,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "/by-name?name=" + RESTAURANT_1_NAME.toLowerCase()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantTo1CurrentDate));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantForCurrentDateTo1));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.model;
+package ru.erulaev.restaurantvoting.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.lang.NonNull;
 import ru.erulaev.restaurantvoting.common.HasIdAndEmail;
-import ru.erulaev.restaurantvoting.common.model.NamedEntity;
+import ru.erulaev.restaurantvoting.common.entity.NamedEntity;
 import ru.erulaev.restaurantvoting.common.validation.NoHtml;
 
 import java.time.Instant;

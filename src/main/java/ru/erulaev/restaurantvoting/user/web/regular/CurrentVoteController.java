@@ -20,12 +20,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.app.AuthUser;
 import ru.erulaev.restaurantvoting.user.service.VoteService;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantId;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteWithRestaurantIdTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueUserVoteValidator;
-import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.CommonRegularApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.swagger.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.schema.ProblemDetailSchema;
 
 import java.net.URI;
 
@@ -55,7 +55,7 @@ public class CurrentVoteController {
     @Operation(summary = "To get vote",
             description = "Returns user current vote's data (vote's ID, voting date, user's ID, restaurant's ID) by his authentication")
     @SearchResultApiResponses
-    public ResponseEntity<ResponseVoteToWithRestaurantId> get(@AuthenticationPrincipal AuthUser authUser) {
+    public ResponseEntity<ResponseVoteWithRestaurantIdTo> get(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get for user {} for today", authUser);
         return ResponseEntity.of(voteService.getCurrent(authUser.id()));
     }
@@ -68,15 +68,15 @@ public class CurrentVoteController {
     @ApiResponse(responseCode = "409", description = "Voting deadline passed",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @BodyAndDataApiResponses
-    public ResponseEntity<ResponseVoteToWithRestaurantId> createWithLocation(@Parameter(description = "Vote's data (restaurant's ID)")
+    public ResponseEntity<ResponseVoteWithRestaurantIdTo> createWithLocation(@Parameter(description = "Vote's data (restaurant's ID)")
                                                                              @Valid @RequestBody RequestVoteTo requestVoteTo,
                                                                              @AuthenticationPrincipal AuthUser authUser) {
         log.info("create {} from user {}", requestVoteTo, authUser);
         checkNew(requestVoteTo);
-        ResponseVoteToWithRestaurantId responseVoteToWithRestaurantId = voteService.save(requestVoteTo, authUser.getUser());
+        ResponseVoteWithRestaurantIdTo responseVoteWithRestaurantIdTo = voteService.save(requestVoteTo, authUser.getUser());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
-        return ResponseEntity.created(uriOfNewResource).body(responseVoteToWithRestaurantId);
+        return ResponseEntity.created(uriOfNewResource).body(responseVoteWithRestaurantIdTo);
     }
 
     @DeleteMapping

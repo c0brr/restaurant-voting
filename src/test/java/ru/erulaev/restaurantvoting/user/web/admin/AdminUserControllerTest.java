@@ -6,8 +6,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
-import ru.erulaev.restaurantvoting.user.model.Role;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.Role;
+import ru.erulaev.restaurantvoting.user.entity.User;
 import ru.erulaev.restaurantvoting.user.web.AbstractUserControllerTest;
 
 import static org.hamcrest.Matchers.containsString;

@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.model;
+package ru.erulaev.restaurantvoting.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.erulaev.restaurantvoting.common.model.NamedEntity;
+import ru.erulaev.restaurantvoting.common.entity.NamedEntity;
 
 import java.time.Instant;
 

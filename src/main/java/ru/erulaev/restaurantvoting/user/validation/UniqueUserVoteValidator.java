@@ -24,8 +24,8 @@ public class UniqueUserVoteValidator implements org.springframework.validation.V
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         RequestVoteTo vote = (RequestVoteTo) target;
-        if (voteRepository.existsByUserIdAndDate(AuthUtil.get().id(), vote.getDate())) {
-            errors.rejectValue("date", "", EXCEPTION_DUPLICATE_VOTE);
+        if (voteRepository.existsByUserIdAndCreationDate(AuthUtil.get().id(), vote.getCreationDate())) {
+            errors.rejectValue("creationDate", "", EXCEPTION_DUPLICATE_VOTE);
         }
     }
 }

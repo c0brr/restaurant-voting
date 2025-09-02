@@ -18,7 +18,7 @@ VALUES ('First_restaurant', '2024-01-01'),
        ('Third_restaurant', '2025-06-06'),
        ('Fourth_restaurant', '2024-06-06');
 
-INSERT INTO VOTE (USER_ID, RESTAURANT_ID, DATE)
+INSERT INTO VOTE (USER_ID, RESTAURANT_ID, CREATION_DATE)
 VALUES (1, 2, '2025-07-07'),
        (1, 2, '2025-07-28'),
        (1, 1, '2025-07-29'),
@@ -26,7 +26,7 @@ VALUES (1, 2, '2025-07-07'),
        (2, 1, '2025-07-07'),
        (3, 1, '2025-07-07');
 
-INSERT INTO MENU (RESTAURANT_ID, DATE)
+INSERT INTO MENU (RESTAURANT_ID, CREATION_DATE)
 VALUES (1, '2024-05-06'),
        (1, '2024-06-06'),
        (1, '2024-06-07'),

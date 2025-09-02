@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
 import ru.erulaev.restaurantvoting.user.mapper.UserMapper;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueMailValidator;
 import ru.erulaev.restaurantvoting.user.web.AbstractUserControllerTest;

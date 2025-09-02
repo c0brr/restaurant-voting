@@ -1,9 +1,9 @@
 package ru.erulaev.restaurantvoting.user.repository;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.erulaev.restaurantvoting.common.repository.FoodBaseRepository;
-import ru.erulaev.restaurantvoting.user.model.Dish;
-import ru.erulaev.restaurantvoting.user.util.NameUtil;
+import ru.erulaev.restaurantvoting.user.entity.Dish;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ public interface DishRepository extends FoodBaseRepository<Dish> {
 
     @Transactional
     default Dish prepareAndSave(Dish dish) {
-        dish.setName(NameUtil.getCorrectName(dish.getName()));
+        dish.setName(StringUtils.capitalize(dish.getName()));
         return save(dish);
     }
 }

@@ -50,8 +50,8 @@ A voting system for deciding where to have lunch.
 
 ## 🛠 Installation and launch
 
-### 1. Clone repository
-
 ```bash
 git clone https://github.com/c0brr/restaurant-voting.git
 cd restaurant-voting
+mvn package -DskipTests
+java -jar target/restaurant-voting-1.0.0.jar

@@ -12,13 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ru.erulaev.restaurantvoting.user.model.Dish;
+import ru.erulaev.restaurantvoting.user.entity.Dish;
 import ru.erulaev.restaurantvoting.user.service.DishService;
-import ru.erulaev.restaurantvoting.user.to.dish.DishToWithMenuId;
+import ru.erulaev.restaurantvoting.user.to.dish.DishWithMenuIdTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueDishNameValidator;
-import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.swagger.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.schema.ProblemDetailSchema;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import static ru.erulaev.restaurantvoting.common.validation.ValidationUtil.assur
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Admin dish controller", description = "Dish management")
-public class AdminDishController extends AbstractFoodController<Dish, DishToWithMenuId> {
+public class AdminDishController extends AbstractFoodController<Dish, DishWithMenuIdTo> {
 
     static final String REST_URL = "/api/admin/menus/{menuId}/dishes";
 
@@ -50,7 +50,7 @@ public class AdminDishController extends AbstractFoodController<Dish, DishToWith
     @ApiResponse(responseCode = "200", description = "Request successful")
     @ApiResponse(responseCode = "404", description = "Menu is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
-    public List<DishToWithMenuId> getAll(@Parameter(description = "Menu's ID") @PathVariable int menuId) {
+    public List<DishWithMenuIdTo> getAll(@Parameter(description = "Menu's ID") @PathVariable int menuId) {
         return super.getAll(menuId);
     }
 
@@ -59,7 +59,7 @@ public class AdminDishController extends AbstractFoodController<Dish, DishToWith
     @Operation(summary = "To get dish",
             description = "Returns dish's data (dish's ID, name, price, menu's ID) by its ID and menu's ID")
     @SearchResultApiResponses
-    public DishToWithMenuId get(@Parameter(description = "Dish's ID") @PathVariable int id,
+    public DishWithMenuIdTo get(@Parameter(description = "Dish's ID") @PathVariable int id,
                                 @Parameter(description = "Menu's ID") @PathVariable int menuId) {
         return super.get(id, menuId);
     }
@@ -70,7 +70,7 @@ public class AdminDishController extends AbstractFoodController<Dish, DishToWith
     @ApiResponse(responseCode = "404", description = "Menu is not found",
             content = @Content(schema = @Schema(implementation = ProblemDetailSchema.class)))
     @BodyAndDataApiResponses
-    public ResponseEntity<DishToWithMenuId> createWithLocation(@Parameter(description = "Dish's data (name, price)")
+    public ResponseEntity<DishWithMenuIdTo> createWithLocation(@Parameter(description = "Dish's data (name, price)")
                                                                @Valid @RequestBody Dish dish,
                                                                @Parameter(description = "Menu's ID") @PathVariable int menuId) {
         return super.createWithLocation(dish, menuId, REST_URL);

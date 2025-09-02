@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.erulaev.restaurantvoting.user.service.DateService;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
 import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
-import ru.erulaev.restaurantvoting.user.web.response.CommonRegularApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.swagger.CommonRegularApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.schema.ProblemDetailSchema;
 
 import java.time.LocalDate;
 

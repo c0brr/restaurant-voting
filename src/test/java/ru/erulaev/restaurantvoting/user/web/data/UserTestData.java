@@ -2,8 +2,8 @@ package ru.erulaev.restaurantvoting.user.web.data;
 
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.common.util.JsonUtil;
-import ru.erulaev.restaurantvoting.user.model.Role;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.Role;
+import ru.erulaev.restaurantvoting.user.entity.User;
 
 import java.time.Instant;
 import java.util.Collections;

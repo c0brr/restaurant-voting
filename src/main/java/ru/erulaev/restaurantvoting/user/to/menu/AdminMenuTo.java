@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class AdminMenuTo extends BaseTo {
 
-    protected LocalDate date;
+    protected LocalDate creationDate;
 
     protected int restaurantId;
 

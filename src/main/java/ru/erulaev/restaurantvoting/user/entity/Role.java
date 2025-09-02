@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.model;
+package ru.erulaev.restaurantvoting.user.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 

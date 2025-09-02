@@ -3,17 +3,17 @@ package ru.erulaev.restaurantvoting.user.web.data;
 import org.mapstruct.factory.Mappers;
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.user.mapper.DishMapper;
-import ru.erulaev.restaurantvoting.user.model.Dish;
+import ru.erulaev.restaurantvoting.user.entity.Dish;
 import ru.erulaev.restaurantvoting.user.to.dish.DishTo;
-import ru.erulaev.restaurantvoting.user.to.dish.DishToWithMenuId;
+import ru.erulaev.restaurantvoting.user.to.dish.DishWithMenuIdTo;
 
 import static ru.erulaev.restaurantvoting.user.web.data.MenuTestData.menu1;
 import static ru.erulaev.restaurantvoting.user.web.data.MenuTestData.menu2;
 
 public class DishTestData {
 
-    public static final MatcherFactory.Matcher<DishToWithMenuId> DISH_TO_WITH_MENU_ID_MATCHER =
-            MatcherFactory.usingEqualsComparator(DishToWithMenuId.class);
+    public static final MatcherFactory.Matcher<DishWithMenuIdTo> DISH_WITH_MENU_ID_TO_MATCHER =
+            MatcherFactory.usingEqualsComparator(DishWithMenuIdTo.class);
     public static final DishMapper MAPPER = Mappers.getMapper(DishMapper.class);
 
     public static final int DISH_1_ID = 1;
@@ -34,11 +34,11 @@ public class DishTestData {
     public static final Dish dish4 = new Dish(DISH_4_ID, DISH_4_NAME, 150, menu1);
     public static final Dish dish5 = new Dish(DISH_5_ID, DISH_5_NAME, 50, menu2);
 
-    public static final DishToWithMenuId dishToWithMenuId1 = MAPPER.createToWithMenuId(dish1);
-    public static final DishToWithMenuId dishToWithMenuId2 = MAPPER.createToWithMenuId(dish2);
-    public static final DishToWithMenuId dishToWithMenuId3 = MAPPER.createToWithMenuId(dish3);
-    public static final DishToWithMenuId dishToWithMenuId4 = MAPPER.createToWithMenuId(dish4);
-    public static final DishToWithMenuId dishToWithMenuId5 = MAPPER.createToWithMenuId(dish5);
+    public static final DishWithMenuIdTo dishWithMenuIdTo1 = MAPPER.createWithMenuIdTo(dish1);
+    public static final DishWithMenuIdTo dishWithMenuIdTo2 = MAPPER.createWithMenuIdTo(dish2);
+    public static final DishWithMenuIdTo dishWithMenuIdTo3 = MAPPER.createWithMenuIdTo(dish3);
+    public static final DishWithMenuIdTo dishWithMenuIdTo4 = MAPPER.createWithMenuIdTo(dish4);
+    public static final DishWithMenuIdTo dishWithMenuIdTo5 = MAPPER.createWithMenuIdTo(dish5);
 
     public static final DishTo dishTo1 = MAPPER.createTo(dish1);
     public static final DishTo dishTo2 = MAPPER.createTo(dish2);
@@ -54,7 +54,7 @@ public class DishTestData {
         return new Dish(DISH_5_ID, "UpdatedName", 888);
     }
 
-    public static DishToWithMenuId getToWithMenuId(Dish dish) {
-        return MAPPER.createToWithMenuId(dish);
+    public static DishWithMenuIdTo getWithMenuIdTo(Dish dish) {
+        return MAPPER.createWithMenuIdTo(dish);
     }
 }

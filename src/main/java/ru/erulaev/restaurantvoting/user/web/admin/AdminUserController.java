@@ -14,11 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.User;
 import ru.erulaev.restaurantvoting.user.repository.UserRepository;
-import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.swagger.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.schema.ProblemDetailSchema;
 
 import java.util.List;
 

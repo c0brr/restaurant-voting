@@ -26,7 +26,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_1_MAIL)
     void getByDate() throws Exception {
-        when(dateService.getCurrentDate()).thenReturn(regularMenuTo1.getDate());
+        when(dateService.getCurrentDate()).thenReturn(regularMenuTo1.getCreationDate());
         perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -36,9 +36,9 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_1_MAIL)
     void getByOtherDate() throws Exception {
-        when(dateService.getCurrentDate()).thenReturn(regularMenuTo2.getDate());
+        when(dateService.getCurrentDate()).thenReturn(regularMenuTo2.getCreationDate());
         perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL)
-                .param("date", dateService.getDateAsString(regularMenuTo1.getDate())))
+                .param("date", dateService.getDateAsString(regularMenuTo1.getCreationDate())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(REGULAR_MENU_TO_MATCHER.contentJson(regularMenuTo1));
@@ -47,7 +47,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_1_MAIL)
     void getByNotFoundDate() throws Exception {
-        when(dateService.getCurrentDate()).thenReturn(regularMenuTo1.getDate());
+        when(dateService.getCurrentDate()).thenReturn(regularMenuTo1.getCreationDate());
         perform(MockMvcRequestBuilders.get(RESTAURANT_1_REST_URL)
                 .param("date", dateService.getDateAsString(DATE_NOT_FOUND)))
                 .andExpect(status().isNotFound());

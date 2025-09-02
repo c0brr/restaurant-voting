@@ -22,7 +22,7 @@ class VoteControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_MATCHER
+                .andExpect(RESPONSE_VOTE_WITH_RESTAURANT_NAME_TO_MATCHER
                         .contentJson(RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_4,
                                 RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_3,
                                 RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_2,

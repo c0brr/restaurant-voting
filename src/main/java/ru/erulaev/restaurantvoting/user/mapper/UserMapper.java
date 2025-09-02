@@ -1,8 +1,8 @@
 package ru.erulaev.restaurantvoting.user.mapper;
 
 import org.mapstruct.*;
-import ru.erulaev.restaurantvoting.user.model.Role;
-import ru.erulaev.restaurantvoting.user.model.User;
+import ru.erulaev.restaurantvoting.user.entity.Role;
+import ru.erulaev.restaurantvoting.user.entity.User;
 import ru.erulaev.restaurantvoting.user.to.UserTo;
 
 import java.time.Instant;

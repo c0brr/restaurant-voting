@@ -1,7 +1,7 @@
 package ru.erulaev.restaurantvoting.user.util;
 
 import lombok.experimental.UtilityClass;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

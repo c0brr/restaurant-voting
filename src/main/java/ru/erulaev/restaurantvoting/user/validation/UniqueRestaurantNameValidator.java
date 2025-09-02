@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import ru.erulaev.restaurantvoting.common.model.NamedEntity;
+import ru.erulaev.restaurantvoting.common.entity.NamedEntity;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 
 @Component

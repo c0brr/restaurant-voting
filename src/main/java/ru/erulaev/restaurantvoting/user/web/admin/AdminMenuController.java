@@ -12,13 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.entity.Menu;
 import ru.erulaev.restaurantvoting.user.service.MenuService;
 import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
 import ru.erulaev.restaurantvoting.user.validation.UniqueDateMenuValidator;
-import ru.erulaev.restaurantvoting.user.web.response.BodyAndDataApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.SearchResultApiResponses;
-import ru.erulaev.restaurantvoting.user.web.response.schema.ProblemDetailSchema;
+import ru.erulaev.restaurantvoting.user.web.swagger.BodyAndDataApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.SearchResultApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.schema.ProblemDetailSchema;
 
 import java.util.List;
 

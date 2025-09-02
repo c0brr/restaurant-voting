@@ -5,9 +5,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import ru.erulaev.restaurantvoting.common.model.NamedEntity;
+import ru.erulaev.restaurantvoting.common.entity.NamedEntity;
 import ru.erulaev.restaurantvoting.user.repository.DishRepository;
-import ru.erulaev.restaurantvoting.user.util.NameUtil;
 
 @Component
 public class UniqueDishNameValidator extends AbstractValidator {
@@ -26,7 +25,7 @@ public class UniqueDishNameValidator extends AbstractValidator {
         NamedEntity dish = (NamedEntity) target;
         int menuId = Integer.parseInt(request.getRequestURI().split("/")[4]);
         if (StringUtils.hasText(dish.getName())) {
-            dishRepository.getByMenuIdAndName(menuId, NameUtil.getCorrectName(dish.getName()))
+            dishRepository.getByMenuIdAndName(menuId, StringUtils.capitalize(dish.getName()))
                     .ifPresent(dbDish -> processEntity(dish, dbDish, errors, EXCEPTION_DUPLICATE_NAME, "name"));
         }
     }

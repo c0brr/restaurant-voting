@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.entity.Menu;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 
 @Component
@@ -26,7 +26,7 @@ public class UniqueDateMenuValidator implements org.springframework.validation.V
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         Menu menu = (Menu) target;
         int restaurantId = Integer.parseInt(request.getRequestURI().split("/")[4]);
-        menuRepository.getByRestaurantIdAndDate(restaurantId, menu.getDate())
-                .ifPresent(dbMenu -> errors.rejectValue("date", "", EXCEPTION_DUPLICATE_MENU));
+        menuRepository.getByRestaurantIdAndCreationDate(restaurantId, menu.getCreationDate())
+                .ifPresent(dbMenu -> errors.rejectValue("creationDate", "", EXCEPTION_DUPLICATE_MENU));
     }
 }

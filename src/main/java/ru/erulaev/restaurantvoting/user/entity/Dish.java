@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.user.model;
+package ru.erulaev.restaurantvoting.user.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -10,7 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
-import ru.erulaev.restaurantvoting.common.model.NamedEntity;
+import ru.erulaev.restaurantvoting.common.entity.NamedEntity;
 
 @NamedQueries({
         @NamedQuery(name = Dish.GET_ALL_BY_MENU, query =

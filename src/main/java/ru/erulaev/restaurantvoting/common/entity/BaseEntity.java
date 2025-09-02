@@ -1,4 +1,4 @@
-package ru.erulaev.restaurantvoting.common.model;
+package ru.erulaev.restaurantvoting.common.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;

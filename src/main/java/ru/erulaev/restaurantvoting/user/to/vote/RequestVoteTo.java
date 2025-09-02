@@ -20,14 +20,14 @@ public class RequestVoteTo extends BaseTo {
 
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate date = LocalDate.now(Clock.systemUTC());
+    private LocalDate creationDate = LocalDate.now(Clock.systemUTC());
 
     @Min(1)
     private int restaurantId;
 
-    public RequestVoteTo(int restaurantId, LocalDate date) {
+    public RequestVoteTo(int restaurantId, LocalDate creationDate) {
         this(restaurantId);
-        this.date = date;
+        this.creationDate = creationDate;
     }
 
     public RequestVoteTo(int restaurantId) {

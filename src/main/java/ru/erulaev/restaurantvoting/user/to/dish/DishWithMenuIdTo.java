@@ -7,12 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class DishToWithMenuId extends DishTo {
+public class DishWithMenuIdTo extends DishTo {
 
     private int menuId;
 
     @Override
     public String toString() {
-        return "DishToWithMenuId:" + id + '[' + name + ']';
+        return "DishWithMenuIdTo:" + id + '[' + name + ']';
     }
 }

@@ -6,12 +6,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.StringUtils;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
-import ru.erulaev.restaurantvoting.user.model.Dish;
+import ru.erulaev.restaurantvoting.user.entity.Dish;
 import ru.erulaev.restaurantvoting.user.repository.DishRepository;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
-import ru.erulaev.restaurantvoting.user.to.dish.DishToWithMenuId;
-import ru.erulaev.restaurantvoting.user.util.NameUtil;
+import ru.erulaev.restaurantvoting.user.to.dish.DishWithMenuIdTo;
 import ru.erulaev.restaurantvoting.user.web.AbstractControllerTest;
 import ru.erulaev.restaurantvoting.user.web.data.DishTestData;
 
@@ -51,7 +51,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(MENU_1_REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_TO_WITH_MENU_ID_MATCHER.contentJson(dishToWithMenuId4, dishToWithMenuId3, dishToWithMenuId2, dishToWithMenuId1));
+                .andExpect(DISH_WITH_MENU_ID_TO_MATCHER.contentJson(dishWithMenuIdTo4, dishWithMenuIdTo3, dishWithMenuIdTo2, dishWithMenuIdTo1));
     }
 
     @Test
@@ -68,7 +68,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(MENU_4_REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_TO_WITH_MENU_ID_MATCHER.contentJson());
+                .andExpect(DISH_WITH_MENU_ID_TO_MATCHER.contentJson());
     }
 
     @Test
@@ -78,7 +78,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_TO_WITH_MENU_ID_MATCHER.contentJson(dishToWithMenuId5));
+                .andExpect(DISH_WITH_MENU_ID_TO_MATCHER.contentJson(dishWithMenuIdTo5));
     }
 
     @Test
@@ -120,16 +120,17 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .content(writeValue(newDish)))
                 .andExpect(status().isCreated());
 
-        DishToWithMenuId created = DISH_TO_WITH_MENU_ID_MATCHER.readFromJson(action);
+        DishWithMenuIdTo created = DISH_WITH_MENU_ID_TO_MATCHER.readFromJson(action);
         int newId = created.id();
         newDish.setId(newId);
         newDish.setParentEntity(menuRepository.getReferenceById(created.getMenuId()));
-        newDish.setName(NameUtil.getCorrectName(newDish.getName()));
-        DishToWithMenuId newDishToWithMenuId = getToWithMenuId(newDish);
-        DISH_TO_WITH_MENU_ID_MATCHER.assertMatch(created, newDishToWithMenuId);
-        created = getToWithMenuId(dishRepository.findById(newId).orElseThrow(() ->
+//        newDish.setName(NameUtil.getCorrectName(newDish.getName()));
+        newDish.setName(StringUtils.capitalize(newDish.getName()));
+        DishWithMenuIdTo newDishWithMenuIdTo = getWithMenuIdTo(newDish);
+        DISH_WITH_MENU_ID_TO_MATCHER.assertMatch(created, newDishWithMenuIdTo);
+        created = getWithMenuIdTo(dishRepository.findById(newId).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + newId + " not found")));
-        DISH_TO_WITH_MENU_ID_MATCHER.assertMatch(created, newDishToWithMenuId);
+        DISH_WITH_MENU_ID_TO_MATCHER.assertMatch(created, newDishWithMenuIdTo);
     }
 
     @Test
@@ -209,10 +210,10 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         updated = DishTestData.getUpdated();
-        updated.setName(NameUtil.getCorrectName(updated.getName()));
+        updated.setName(StringUtils.capitalize(updated.getName()));
         updated.setParentEntity(menuRepository.getReferenceById(MENU_2_ID));
-        DishToWithMenuId updatedTo = getToWithMenuId(updated);
-        DISH_TO_WITH_MENU_ID_MATCHER.assertMatch(getToWithMenuId(dishRepository.findById(DISH_5_ID).orElseThrow(() ->
+        DishWithMenuIdTo updatedTo = getWithMenuIdTo(updated);
+        DISH_WITH_MENU_ID_TO_MATCHER.assertMatch(getWithMenuIdTo(dishRepository.findById(DISH_5_ID).orElseThrow(() ->
                 new NotFoundException("Entity with id=" + DISH_5_ID + " not found"))), updatedTo);
     }
 

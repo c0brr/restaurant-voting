@@ -11,7 +11,7 @@
 
     <groupId>ru.erulaev</groupId>
     <artifactId>restaurant-voting</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <name>restaurant-voting</name>
     <description>Spring Boot application for restaurant voting system</description>
 
@@ -143,7 +143,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

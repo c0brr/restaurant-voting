@@ -2,10 +2,10 @@ package ru.erulaev.restaurantvoting.user.repository;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.common.repository.CoreEntityBaseRepository;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
-import ru.erulaev.restaurantvoting.user.util.NameUtil;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public interface RestaurantRepository extends CoreEntityBaseRepository<Restauran
     @Override
     @Transactional
     default Restaurant prepareAndSave(Restaurant restaurant) {
-        restaurant.setName(NameUtil.getCorrectName(restaurant.getName()));
+        restaurant.setName(StringUtils.capitalize(restaurant.getName()));
         return save(restaurant);
     }
 

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.erulaev.restaurantvoting.common.HasId;
 import ru.erulaev.restaurantvoting.user.service.FoodService;
-import ru.erulaev.restaurantvoting.user.web.response.CommonAdminApiResponses;
+import ru.erulaev.restaurantvoting.user.web.swagger.CommonAdminApiResponses;
 
 import java.net.URI;
 import java.util.List;

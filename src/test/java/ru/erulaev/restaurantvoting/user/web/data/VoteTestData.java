@@ -4,10 +4,10 @@ import org.mapstruct.factory.Mappers;
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.common.to.BaseTo;
 import ru.erulaev.restaurantvoting.user.mapper.VoteMapper;
-import ru.erulaev.restaurantvoting.user.model.Vote;
+import ru.erulaev.restaurantvoting.user.entity.Vote;
 import ru.erulaev.restaurantvoting.user.to.vote.RequestVoteTo;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantId;
-import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteToWithRestaurantName;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteWithRestaurantIdTo;
+import ru.erulaev.restaurantvoting.user.to.vote.ResponseVoteWithRestaurantNameTo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,10 +20,10 @@ import static ru.erulaev.restaurantvoting.user.web.data.UserTestData.user2;
 
 public class VoteTestData {
 
-    public static final MatcherFactory.Matcher<ResponseVoteToWithRestaurantId> RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(ResponseVoteToWithRestaurantId.class);
-    public static final MatcherFactory.Matcher<ResponseVoteToWithRestaurantName> RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(ResponseVoteToWithRestaurantName.class);
+    public static final MatcherFactory.Matcher<ResponseVoteWithRestaurantIdTo> RESPONSE_VOTE_WITH_RESTAURANT_ID_TO_MATCHER =
+            MatcherFactory.usingIgnoringFieldsComparator(ResponseVoteWithRestaurantIdTo.class);
+    public static final MatcherFactory.Matcher<ResponseVoteWithRestaurantNameTo> RESPONSE_VOTE_WITH_RESTAURANT_NAME_TO_MATCHER =
+            MatcherFactory.usingIgnoringFieldsComparator(ResponseVoteWithRestaurantNameTo.class);
     public static final VoteMapper MAPPER = Mappers.getMapper(VoteMapper.class);
 
     public static final int VOTE_1_ID = 1;
@@ -36,33 +36,33 @@ public class VoteTestData {
     public static final LocalDate CORRECT_DATE = LocalDate.of(2025, 2, 2);
     public static final LocalTime PASSED_DEADLINE_TIME = LocalTime.of(13, 0);
 
-    public static final ResponseVoteToWithRestaurantName RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_1 =
-            getResponseToWithRestaurantName(new Vote(VOTE_1_ID, LocalDate.of(2025, 7, 7), user1, restaurant2), RESTAURANT_2_NAME);
-    public static final ResponseVoteToWithRestaurantName RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_2 =
-            getResponseToWithRestaurantName(new Vote(VOTE_2_ID, LocalDate.of(2025, 7, 28), user1, restaurant2), RESTAURANT_2_NAME);
-    public static final ResponseVoteToWithRestaurantName RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_3 =
-            getResponseToWithRestaurantName(new Vote(VOTE_3_ID, LocalDate.of(2025, 7, 29), user1, restaurant1), RESTAURANT_1_NAME);
-    public static final ResponseVoteToWithRestaurantName RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_4 =
-            getResponseToWithRestaurantName(new Vote(VOTE_4_ID, LocalDate.of(2025, 7, 30), user1, restaurant3), RESTAURANT_3_NAME);
+    public static final ResponseVoteWithRestaurantNameTo RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_1 =
+            getResponseWithRestaurantNameTo(new Vote(VOTE_1_ID, LocalDate.of(2025, 7, 7), user1, restaurant2), RESTAURANT_2_NAME);
+    public static final ResponseVoteWithRestaurantNameTo RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_2 =
+            getResponseWithRestaurantNameTo(new Vote(VOTE_2_ID, LocalDate.of(2025, 7, 28), user1, restaurant2), RESTAURANT_2_NAME);
+    public static final ResponseVoteWithRestaurantNameTo RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_3 =
+            getResponseWithRestaurantNameTo(new Vote(VOTE_3_ID, LocalDate.of(2025, 7, 29), user1, restaurant1), RESTAURANT_1_NAME);
+    public static final ResponseVoteWithRestaurantNameTo RESPONSE_VOTE_TO_WITH_RESTAURANT_NAME_4 =
+            getResponseWithRestaurantNameTo(new Vote(VOTE_4_ID, LocalDate.of(2025, 7, 30), user1, restaurant3), RESTAURANT_3_NAME);
 
-    public static final ResponseVoteToWithRestaurantId RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5 =
-            getResponseToWithRestaurantId(new Vote(VOTE_5_ID, LocalDate.of(2025, 7, 7), user2, restaurant1));
+    public static final ResponseVoteWithRestaurantIdTo RESPONSE_VOTE_TO_WITH_RESTAURANT_ID_5 =
+            getResponseWithRestaurantIdTo(new Vote(VOTE_5_ID, LocalDate.of(2025, 7, 7), user2, restaurant1));
 
-    public static ResponseVoteToWithRestaurantId getResponseToWithRestaurantId(Vote vote) {
-        return MAPPER.createResponseToWithRestaurantId(vote);
+    public static ResponseVoteWithRestaurantIdTo getResponseWithRestaurantIdTo(Vote vote) {
+        return MAPPER.createResponseWithRestaurantIdTo(vote);
     }
 
-    public static ResponseVoteToWithRestaurantName getResponseToWithRestaurantName(Vote vote, String restaurantName) {
-        return MAPPER.createResponseToWithRestaurantName(vote, restaurantName);
+    public static ResponseVoteWithRestaurantNameTo getResponseWithRestaurantNameTo(Vote vote, String restaurantName) {
+        return MAPPER.createResponseWithRestaurantNameTo(vote, restaurantName);
     }
 
-    public static void matchVotes(ResponseVoteToWithRestaurantId responseVoteToWithRestaurantId, RequestVoteTo requestVoteTo, int userId) {
-        assertThat(responseVoteToWithRestaurantId).extracting(BaseTo::getId,
-                        ResponseVoteToWithRestaurantId::getDate,
-                        ResponseVoteToWithRestaurantId::getRestaurantId)
+    public static void matchVotes(ResponseVoteWithRestaurantIdTo responseVoteWithRestaurantIdTo, RequestVoteTo requestVoteTo, int userId) {
+        assertThat(responseVoteWithRestaurantIdTo).extracting(BaseTo::getId,
+                        ResponseVoteWithRestaurantIdTo::getCreationDate,
+                        ResponseVoteWithRestaurantIdTo::getRestaurantId)
                 .containsExactly(requestVoteTo.getId(),
-                        requestVoteTo.getDate(),
+                        requestVoteTo.getCreationDate(),
                         requestVoteTo.getRestaurantId());
-        assertEquals(userId, responseVoteToWithRestaurantId.getUserId());
+        assertEquals(userId, responseVoteWithRestaurantIdTo.getUserId());
     }
 }

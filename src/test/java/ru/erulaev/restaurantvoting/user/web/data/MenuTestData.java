@@ -3,7 +3,7 @@ package ru.erulaev.restaurantvoting.user.web.data;
 import org.mapstruct.factory.Mappers;
 import ru.erulaev.restaurantvoting.MatcherFactory;
 import ru.erulaev.restaurantvoting.user.mapper.MenuMapper;
-import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.entity.Menu;
 import ru.erulaev.restaurantvoting.user.to.dish.DishTo;
 import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
 import ru.erulaev.restaurantvoting.user.to.menu.RegularMenuTo;
@@ -49,7 +49,7 @@ public class MenuTestData {
     }
 
     public static RegularMenuTo getRegularTo(Menu menu, DishTo... dishTos) {
-        RegularMenuTo regularMenuTo = MAPPER.createToWithDishes(menu);
+        RegularMenuTo regularMenuTo = MAPPER.createWithDishesTo(menu);
         regularMenuTo.setDishTos(Arrays.asList(dishTos));
         return regularMenuTo;
     }

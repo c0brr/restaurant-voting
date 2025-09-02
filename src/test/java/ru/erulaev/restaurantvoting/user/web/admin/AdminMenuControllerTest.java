@@ -7,7 +7,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
-import ru.erulaev.restaurantvoting.user.model.Menu;
+import ru.erulaev.restaurantvoting.user.entity.Menu;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
@@ -138,7 +138,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        Menu expected = new Menu(null, adminMenuTo6.getDate());
+        Menu expected = new Menu(null, adminMenuTo6.getCreationDate());
         perform(MockMvcRequestBuilders.post(RESTAURANT_2_REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(expected)))

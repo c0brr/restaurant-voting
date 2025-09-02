@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.erulaev.restaurantvoting.common.error.NotFoundException;
 import ru.erulaev.restaurantvoting.user.mapper.MenuMapper;
-import ru.erulaev.restaurantvoting.user.model.Menu;
-import ru.erulaev.restaurantvoting.user.model.Restaurant;
+import ru.erulaev.restaurantvoting.user.entity.Menu;
+import ru.erulaev.restaurantvoting.user.entity.Restaurant;
 import ru.erulaev.restaurantvoting.user.repository.MenuRepository;
 import ru.erulaev.restaurantvoting.user.repository.RestaurantRepository;
 import ru.erulaev.restaurantvoting.user.to.menu.AdminMenuTo;
@@ -61,6 +61,6 @@ public class MenuService implements FoodService<Menu, AdminMenuTo> {
         if (!RestaurantUtil.isRestaurantExistedAtDate(restaurant, date)) {
             throw new NotFoundException("No data available for date " + date);
         }
-        return menuRepository.getWithDishesByDate(restaurantId, date).map(menuMapper::createToWithDishes);
+        return menuRepository.getWithDishesByCreationDate(restaurantId, date).map(menuMapper::createWithDishesTo);
     }
 }
